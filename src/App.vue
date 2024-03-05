@@ -1,13 +1,21 @@
 <script>
+import Header from './components/Header.vue';
+import Main from './components/Main.vue';
+import Footer from './components/Footer.vue';
+export default {
+  name: 'App',
+  components: {
+    Header,
+    Main,
+    Footer,
+  }
+}
 </script>
 
 <template>
-  <div>
-    <h1 class="text-danger">ciao</h1>
-    <font-awesome-icon icon="fa-solid fa-house" />
-
-    <h2>Hello world!</h2>
-  </div>
+  <Header />
+  <Main />
+  <Footer />
 </template>
 
-<style></style>
+<style scoped lang="scss"></style>
