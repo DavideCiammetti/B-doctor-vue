@@ -8,4 +8,6 @@ export default {
     footer
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+    @use'../style/partials/palette.scss' as *;
+</style>
