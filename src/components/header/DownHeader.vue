@@ -15,8 +15,8 @@ export default {
             <div class="col">
                 <NavBarSm />
                 <div class="mt-5">
-                    <h1>Cerchi un appuntamento</h1>
-                    <p class="text-secondary">Per un medico</p>
+                    <h1 class="text-cstm">Cerchi un appuntamento</h1>
+                    <p class="text-cstm"><strong>per un medico</strong></p>
                 </div>
             </div>
             <!-- Colonna destra -->
@@ -35,6 +35,31 @@ export default {
 .container-cstm {
     width: 95%;
     margin: auto;
+
+    h1.text-cstm {
+        font-size: 1.375rem;
+
+        @media (min-width: 768px) {
+            font-size: 2rem;
+        }
+
+        @media (min-width: 992px) {
+            font-size: 3.125rem;
+        }
+    }
+
+    p.text-cstm {
+        color: $green-200;
+        font-size: 1.125rem;
+
+        @media (min-width: 768px) {
+            font-size: 1.5rem;
+        }
+
+        @media (min-width: 992px) {
+            font-size: 1.875rem;
+        }
+    }
 
     @media (min-width: 768px) {
         width: 90%;
@@ -62,13 +87,13 @@ export default {
 
     @media (min-width: 768px) {
         .img-fluid {
-            max-width: 200px;
+            max-width: 12.5rem;
         }
     }
 
     @media (min-width: 992px) {
         .img-fluid {
-            max-width: 300px;
+            max-width: 18.75rem;
         }
     }
 

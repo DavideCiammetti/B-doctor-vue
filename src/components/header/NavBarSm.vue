@@ -24,26 +24,26 @@ export default {
 
 .nav-cstm {
     background-color: white;
-    height: 60px;
-    border-top-right-radius: 25px;
-    border-bottom-right-radius: 25px;
+    height: 3.75rem;
+    border-top-right-radius: 1.5625rem;
+    border-bottom-right-radius: 1.5625rem;
 
     > :first-child {
         height: 100%;
-        border-top-right-radius: 25px;
-        border-bottom-right-radius: 25px;
+        border-top-right-radius: 1.5625rem;
+        border-bottom-right-radius: 1.5625rem;
     }
 
     .custom-search-bar {
         position: relative;
         width: 100%;
-        height: 60px;
+        height: 3.75rem;
         background: white;
         border: .125rem solid white;
-        border-radius: 25px;
+        border-radius: 1.5625rem;
         display: flex;
         align-items: center;
-        padding: 0 15px;
+        padding: 0 .9375rem;
 
         .search-icon {
             background-color: white;
@@ -56,12 +56,11 @@ export default {
 
         .search-input {
             border: none;
-            outline: none;
             flex-grow: 1;
             padding: .5rem;
             background-color: white;
             color: black;
-            margin-left: 10px;
+            margin-left: .625rem;
         }
 
         .search-button {
@@ -70,23 +69,23 @@ export default {
             background-color: #00264C;
             color: white;
             border-color: #00264C;
-            border-top-right-radius: 25px;
-            border-bottom-right-radius: 25px;
-            padding: 4px 15px;
-            font-size: 12px;
+            border-top-right-radius: 1.5625rem;
+            border-bottom-right-radius: 1.5625rem;
+            padding: .25rem .9375rem;
+            font-size: .75rem;
 
             @media (min-width: 768px) {
                 width: 50%;
-                padding-top: 15px; // Padding in alto
-                padding-bottom: 15px; // Padding in basso
-                margin-right: 4px;
+                padding-top: .9375rem;
+                padding-bottom: .9375rem;
+                margin-right: .25rem;
             }
 
             @media (min-width: 992px) {
                 width: 20%;
-                padding-top: 15px; // Padding in alto
-                padding-bottom: 15px; // Padding in basso
-                margin-right: 4px;
+                padding-top: .9375rem;
+                padding-bottom: .9375rem;
+                margin-right: .25rem;
             }
         }
     }

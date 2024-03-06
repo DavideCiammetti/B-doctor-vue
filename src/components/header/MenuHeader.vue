@@ -22,10 +22,17 @@ export default {
 
     <!-- Menu schermi grandi -->
     <div class="menu-items d-none d-lg-block d-flex my-auto">
-        <ul class="d-flex gap-3 list-unstyled my-auto">
+        <ul class="d-flex gap-3 list-unstyled my-auto align-items-center">
             <li class="btn btn-sm btn-white btn-hover-none">Visualizza elenco Dottori</li>
+            <li><font-awesome-icon icon="fa-regular fa-circle-question" /></li>
             <li>Centro Assistenza</li>
-            <li>Accedi</li>
+            <li><font-awesome-icon icon="fa-regular fa-user" /></li>
+            <li>
+                <div class="d-flex flex-column align-items-start">
+                    <span>Accedi</span>
+                    <span>Gestisci appuntamenti</span>
+                </div>
+            </li>
         </ul>
     </div>
 </template>
@@ -35,6 +42,17 @@ export default {
 
 .hamburger-menu {
     font-size: 1.875rem;
+}
+
+div.d-flex {
+    span:first-child {
+        font-size: .75rem;
+    }
+
+    span:last-child {
+        font-size: .625rem;
+        color: gainsboro;
+    }
 }
 
 .btn-white {
@@ -52,6 +70,6 @@ export default {
 }
 
 .btn.dropdown-toggle::after {
-    content: none; // Nasconde l'icona generata
+    content: none;
 }
 </style>

@@ -13,7 +13,6 @@ export default {
         <div class="logo">
             <h1>BDoctors</h1>
         </div>
-
         <MenuHeader />
     </div>
 </template>
