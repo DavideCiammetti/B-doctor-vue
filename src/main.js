@@ -13,7 +13,7 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 // importazione libreria fontawesome
 import { library } from "@fortawesome/fontawesome-svg-core";
 // icone
-import { faHouse, faBars } from "@fortawesome/free-solid-svg-icons";
-library.add(faHouse, faBars)
+import { faHouse, faBars, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+library.add(faHouse, faBars, faMagnifyingGlass)
 
 createApp(App).component("font-awesome-icon", FontAwesomeIcon).use(router).mount('#app')

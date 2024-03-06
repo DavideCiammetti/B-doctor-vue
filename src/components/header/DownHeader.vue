@@ -1,35 +1,28 @@
 <script>
+import NavBarSm from './NavBarSm.vue';
 export default {
     name: 'DownHeader',
+    components: {
+        NavBarSm,
+    }
 }
 </script>
 
 <template>
     <div class="container-cstm">
-        <div class="row">
+        <div class="row mt-5">
             <!-- Colonna sinistra -->
             <div class="col">
-
-                <nav class="navbar navbar-light bg-light rounded-pill">
-                    <div class="container-fluid">
-                        <form class="d-flex">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
-                                style="width: 200px; height: 30px;">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
-                        </form>
-                    </div>
-                </nav>
-
-                <div class="mt-3">
+                <NavBarSm />
+                <div class="mt-5">
                     <h1>Cerchi un appuntamento</h1>
                     <p class="text-secondary">Per un medico</p>
                 </div>
             </div>
             <!-- Colonna destra -->
-            <div class="col">
-                <div class="image-container">
-                    <!-- Immagine -->
-                    <img src="../../assets/img/image 1.svg" alt="Immagine dottore" class="img-fluid">
+            <div class="col d-flex justify-content-end align-items-end">
+                <div class="image-container d-flex align-items-end">
+                    <img src="../../assets/img/image_1.svg" alt="Immagine dottore" class="img-fluid">
                 </div>
             </div>
         </div>
@@ -47,10 +40,13 @@ export default {
         width: 90%;
     }
 
-
     @media (min-width: 992px) {
         width: 80%;
-        ;
+    }
+
+    .row {
+        display: flex;
+        flex-wrap: wrap-reverse;
     }
 
     .image-container {
@@ -59,11 +55,28 @@ export default {
     }
 
     .img-fluid {
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        width: 100px;
-        height: 100px;
+        width: 100%;
+        max-width: 100px;
+        height: auto;
     }
+
+    @media (min-width: 768px) {
+        .img-fluid {
+            max-width: 200px;
+        }
+    }
+
+    @media (min-width: 992px) {
+        .img-fluid {
+            max-width: 300px;
+        }
+    }
+
+    @media (max-width: 767px) {
+        .img-fluid {
+            max-width: 80%;
+        }
+    }
+
 }
 </style>

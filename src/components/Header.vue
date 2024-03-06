@@ -25,5 +25,6 @@ export default {
     border-bottom-left-radius: 1.875rem;
     border-bottom-right-radius: 1.875rem;
     color: white;
+    box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.4);
 }
 </style>

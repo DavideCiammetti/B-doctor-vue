@@ -6,8 +6,8 @@ export default {
 
 <template>
     <!-- Hamburger mobile -->
-    <div class="hamburger-menu d-block d-lg-none">
-        <div class="dropdown">
+    <div class="hamburger-menu d-block d-lg-none align-items-center">
+        <div class="dropdown d-flex align-items-center">
             <button class="btn btn-sm btn-green dropdown-toggle" type="button" id="dropdownMenuButton"
                 data-bs-toggle="dropdown" aria-expanded="false">
                 <font-awesome-icon icon="fa-solid fa-bars" />
@@ -49,5 +49,9 @@ export default {
 .btn-hover-none:hover {
     color: black !important;
     background-color: white !important;
+}
+
+.btn.dropdown-toggle::after {
+    content: none; // Nasconde l'icona generata
 }
 </style>
