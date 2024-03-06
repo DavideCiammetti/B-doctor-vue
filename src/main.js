@@ -6,7 +6,7 @@ import * as bootstrap from 'bootstrap'
 // axios
 import axios from 'axios'
 // router
-import {router} from './router'
+import { router } from './router'
 import App from './App.vue'
 // importazione icon components
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -14,9 +14,11 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 
 // icone
-import {fas} from '@fortawesome/free-solid-svg-icons'
-import {far} from '@fortawesome/free-regular-svg-icons'
-import {fab} from '@fortawesome/free-brands-svg-icons'
-library.add(fas, far, fab)
+// regular 
+import { faCircleQuestion, faUser } from "@fortawesome/free-regular-svg-icons";
+// solid 
+import { faHouse, faBars, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+
+library.add(faHouse, faBars, faMagnifyingGlass, faCircleQuestion, faUser)
 
 createApp(App).component("font-awesome-icon", FontAwesomeIcon).use(router).mount('#app')
