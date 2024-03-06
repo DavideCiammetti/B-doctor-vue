@@ -13,9 +13,9 @@ export default {
 </script>
 
 <template>
-  <Header />
+  <!-- <Header /> -->
   <Main />
-  <Footer />
+  <!-- <Footer /> -->
 </template>
 
 <style scoped lang="scss"></style>
