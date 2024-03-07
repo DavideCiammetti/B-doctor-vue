@@ -16,13 +16,13 @@ export default {
                     <input class="form-control me-1 p-0 with-border" type="search" placeholder="Ricerca..."
                         aria-label="Search">
                 </div>
+                <!-- /ricerca  -->
+
                 <!-- specializzazione  -->
                 <div class="flex-grow-1 d-flex gap-1 align-items-center align-content-center">
                     <span class="input-group-text bg-white p-0" id="basic-addon2">
                         <font-awesome-icon icon="fa-solid fa-stethoscope" />
                     </span>
-                    <!-- <input class="form-control me-1 p-0 with-border" type="search" placeholder="Specializzazioni"
-                        aria-label="Search"> -->
                     <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
@@ -50,13 +50,13 @@ export default {
                         </ul>
                     </div>
                 </div>
+                <!-- /specializzazione  -->
+
                 <!-- recensione  -->
                 <div class="flex-grow-1 d-flex gap-1 align-items-center">
                     <span class="input-group-text bg-white p-0" id="basic-addon3">
                         <font-awesome-icon icon="fa-regular fa-star" />
                     </span>
-                    <!-- <input class="form-control me-1 p-0 with-border" type="search" placeholder="Recensioni"
-                        aria-label="Search"> -->
                     <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
@@ -96,6 +96,8 @@ export default {
                         </ul>
                     </div>
                 </div>
+                <!-- /recensione  -->
+
                 <!-- dove  -->
                 <div class="flex-grow-1 d-flex gap-1">
                     <span class="input-group-text rounded-pill rounded-end bg-white p-0" id="basic-addon4">
@@ -103,10 +105,13 @@ export default {
                     </span>
                     <input class="form-control me-1 p-0 with-border" type="search" placeholder="Dove?" aria-label="Search">
                 </div>
+                <!-- /dove  -->
+
                 <!-- bottone cerca  -->
                 <div class="col-1 d-flex justify-content-end">
                     <button class="btn btn-outline-success flex-grow-1 search-button" type="submit">Cerca ></button>
                 </div>
+                <!-- /bottone cerca  -->
 
             </form>
         </div>
