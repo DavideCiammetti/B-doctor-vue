@@ -1,8 +1,8 @@
 <script>
-import InfoHome from './MainComponents/InfoHome.vue';
-import SponsorshipHome from './MainComponents/SponsorshipHome.vue'
+import InfoHome from './../components/MainComponents/InfoHome.vue';
+import SponsorshipHome from './../components/MainComponents/SponsorshipHome.vue';
 export default {
-    name: 'Main',
+    name: 'HomePage',
     components:{
         InfoHome,
         SponsorshipHome,

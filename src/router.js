@@ -1,33 +1,26 @@
-import {createRouter, createWebHistory} from 'vue-router'
-
-// import Home from '../components/Home.vue'
-// import Login from '../components/Login.vue'
-// import Register from '../components/Register.vue'
+import {createRouter, createWebHistory} from 'vue-router';
+import HomePage from './pages/HomePage.vue';
+import AdvancedSearchPage from './pages/AdvancedSearchPage.vue';
+import SearchNotFound from '../src/components/advancedSearchComponents/SearchNotFound.vue';
 
 const router = createRouter({
     history: createWebHistory(),
     routes: [
-        // {
-        //     path: '/',
-        //     name: 'home',
-        //     component: () => import('../components/Home.vue'),
-        // },
-        // {
-        //     path: '/login',
-        //     name: 'login',
-        //     component: () => import('../components/Login.vue'),
-        // },
-        // {
-        //     path: '/register',
-        //     name: 'register',
-        //     component: () => import('../components/Register.vue'
-        //     ),
-        // },
-        // { 
-        //     path: '/:pathMatch(.*)*',
-        //     name: 'NotFound', 
-        //     component: NotFound 
-        // },
+        {
+            path: '/',
+            name: 'home',
+            component: HomePage,
+        },
+        {
+            path: '/ricerca-avanzata',
+            name: 'AdvancedSearch',
+            component: AdvancedSearchPage,
+        },
+        { 
+            path: '/notFound',
+            name: 'NotFound', 
+            component: SearchNotFound,
+        },
     ]
 });
 export {router};
