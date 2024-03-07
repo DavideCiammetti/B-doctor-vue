@@ -17,8 +17,8 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 // regular 
 import { faCircleQuestion, faUser } from "@fortawesome/free-regular-svg-icons";
 // solid 
-import { faHouse, faBars, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { faHouse, faBars, faMagnifyingGlass, faStar, faLocationDot} from "@fortawesome/free-solid-svg-icons";
 
-library.add(faHouse, faBars, faMagnifyingGlass, faCircleQuestion, faUser)
+library.add(faHouse, faBars, faMagnifyingGlass, faCircleQuestion, faUser, faStar, faLocationDot)
 
 createApp(App).component("font-awesome-icon", FontAwesomeIcon).use(router).mount('#app')

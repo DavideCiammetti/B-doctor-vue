@@ -4,7 +4,7 @@ export default {
     name: 'DownHeader',
     components: {
         NavBarSm,
-    }
+    },
 }
 </script>
 
@@ -13,7 +13,7 @@ export default {
         <div class="row mt-5">
             <!-- Colonna sinistra -->
             <div class="col">
-                <NavBarSm />
+                <NavBarSm/>
                 <div class="mt-5">
                     <h1 class="text-cstm">Cerchi un appuntamento</h1>
                     <p class="text-cstm"><strong>per un medico</strong></p>

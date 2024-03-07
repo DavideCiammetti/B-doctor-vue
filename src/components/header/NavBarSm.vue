@@ -1,20 +1,82 @@
 <script>
+import {store} from '../../store.js'
+import axios from 'axios';
 export default {
     name: 'DownHeader',
+    data(){
+        return{
+            store,
+        }
+    },
+    methods:{
+    // chiamata axios per ricerca base dottori con validazioni
+    getDoctors(){
+        const validRegex = /^[a-zA-Z\s]+$/;
+        const maxThree = document.querySelector(".max-three");
+        const onlyLetters = document.querySelector(".only-letters");
+
+        // valido campo ricerca base che abbia più di 3 caratteri
+       if(this.store.doctors.searchKey.trim().length < 3){
+
+            this.store.doctor = {};
+            maxThree.classList.remove("d-none");
+            console.log('la ricerca deve avere più di 3 caratteri');
+
+        //valido campo ricerca base che non contenga numeri o caratteri speciali 
+       }else if(!validRegex.test(this.store.doctors.searchKey)){
+        
+            this.store.doctor = {};
+            onlyLetters.classList.remove("d-none");
+            console.log('la ricerca deve contenere solo lettere');
+
+            // chiamata axios ricerca base dottori per specializzazione
+       }else{
+            onlyLetters.classList.add("d-none");
+            maxThree.classList.add("d-none");
+            axios.get(this.store.api.baseUrl + this.store.apiUrls.doctors, {
+            params:{
+                key: this.store.doctors.searchKey,
+            },
+        }).then((response)=>{
+            this.store.doctor = response.data.results;
+            console.log(this.store.doctor);
+            // ricerca che non produce risultati
+            if( this.store.doctor.length === 0){
+                this.store.searchNotFound = true;
+                this.$router.push('/notFound');
+            }else{
+                this.store.searchNotFound = false;
+                this.store.doctors.searchKey = '';
+                this.$router.push('/ricerca-avanzata');
+            }
+            }).catch((error)=>{
+                console.log(error);
+                this.store.doctor.results = [];
+            });
+        }
+        },
+    },
+    created(){
+       
+    },
 }
 </script>
 
 <template>
     <nav class="navbar navbar-light rounded-pill nav-cstm p-0">
         <div class="container-fluid pe-0">
-            <form class="d-flex align-items-center p-0 custom-search-bar">
+            <form class="d-flex align-items-center p-0 custom-search-bar" @submit.prevent="getDoctors">
                 <div class="search-icon">
                     <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
                 </div>
                 <input class="form-control me-2 search-input" type="search"
-                    placeholder="Cerca dottore, specializzazione, ..." aria-label="Search">
-                <button class="btn btn-outline-success search-button" type="submit">Cerca ></button>
+                    placeholder="Cerca dottore, specializzazione, ..." aria-label="Search" v-model="this.store.doctors.searchKey">
+                <button class="btn btn-outline-success search-button" type="submit">Cerca</button>
             </form>
+        </div>
+        <div>
+            <p class="m-0 text-warning ms-4 pt-1 max-three d-none">la ricerca deve contenere almeno 3 caratteri</p>
+            <p class="m-0 text-warning ms-4 only-letters d-none">la ricerca non può contenere numeri o caratteri speciali</p>
         </div>
     </nav>
 </template>
@@ -62,7 +124,6 @@ export default {
             color: black;
             margin-left: .625rem;
         }
-
         .search-button {
             width: 70%;
             height: 100%;
