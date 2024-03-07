@@ -91,6 +91,10 @@ export default {
             @media (min-width: 992px) and (max-width: 1243px) {
                 width: 35%;
             }
+
+            @media (min-width: 1244px) and (max-width: 1340px) {
+                width: 37%;
+            }
         }
     }
 }
