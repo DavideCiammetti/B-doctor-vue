@@ -65,7 +65,7 @@ export default {
 
         .search-button {
             width: 70%;
-            height: 100%;
+            height: 90%;
             background-color: #00264C;
             color: white;
             border-color: #00264C;
@@ -87,13 +87,23 @@ export default {
                 padding-bottom: .9375rem;
                 margin-right: .25rem;
             }
+
+            @media (min-width: 992px) and (max-width: 1243px) {
+                width: 35%;
+            }
         }
     }
+}
 
-    @media (min-width: 768px) {
-        .custom-search-bar {
-            height: auto;
-        }
+@media (min-width: 768px) {
+    .custom-search-bar {
+        height: auto;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1243px) {
+    .custom-search-bar {
+        height: 100%;
     }
 }
 </style>
