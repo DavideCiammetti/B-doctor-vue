@@ -1,18 +1,21 @@
 <script>
 import ContentDHeader from './ContentDHeader.vue';
 import NavBarSm from './NavBarSm.vue';
+import NavBarLg from './NavBarLg.vue';
 export default {
     name: 'DownHeader',
     components: {
         NavBarSm,
         ContentDHeader,
+        NavBarLg,
     }
 }
 </script>
 
 <template>
     <div class="container-cstm">
-        <ContentDHeader />
+        <!-- <ContentDHeader /> -->
+        <NavBarLg />
     </div>
 </template>
 
@@ -22,6 +25,5 @@ export default {
 .container-cstm {
     width: 95%;
     margin: auto;
-
 }
 </style>
