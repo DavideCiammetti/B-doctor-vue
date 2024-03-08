@@ -69,8 +69,24 @@ export default {
                 <div class="search-icon">
                     <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
                 </div>
-                <input class="form-control me-2 search-input" type="search"
+                <datalist id="searchSpecial">
+                    <option value="Logopedista"></option>
+                    <option value="Anestetista"></option>
+                    <option value="Ostetrica"></option>
+                    <option value="Osteopata"></option>
+                    <option value="cardiologo"></option>
+                    <option value="Dentista"></option>
+                    <option value="Nutrizionista"></option>
+                    <option value="Ginecologo"></option>
+                    <option value="Oculista"></option>
+                    <option value="Psicologo"></option>
+                    <option value="Dermatologo"></option>
+                    <option value="ortopedico"></option>
+                </datalist>
+                
+                <input list="searchSpecial" class="form-control me-2 search-input" type="search"
                     placeholder="Cerca dottore, specializzazione, ..." aria-label="Search" v-model="this.store.doctors.searchKey">
+            
                 <button class="btn btn-outline-success search-button" type="submit">Cerca</button>
             </form>
         </div>
