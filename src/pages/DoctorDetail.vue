@@ -45,7 +45,7 @@ export default {
         });
     },
     stars() {
-      if (this.doctor.votes) {
+      if (this.doctor.votes && this.doctor.votes.length > 0) {
         const votes = this.doctor.votes;
         let somma = 0;
         // scorro l'array
@@ -54,6 +54,8 @@ export default {
         });
         const numStelleRimanenti = Math.floor(somma / this.doctor.votes.length); // divido la somma per la lunghezza dell'array
         return numStelleRimanenti; // restituisco il numero di stelle mancanti
+      } else {
+        return 5; // Se non ci sono voti, restituisci 5
       }
     },
     formatDate(data) {
@@ -78,6 +80,7 @@ export default {
             <div class="top d-flex flex-column flex-md-row gap-4">
               <div class="img">
                 <img
+                  v-if="doctor.doctor_img"
                   :src="'http://127.0.0.1:8000/storage/' + doctor.doctor_img"
                   alt="doctor image"
                   class="rounded-4"
@@ -92,7 +95,7 @@ export default {
                 <h6 v-for="specialization in doctor.specializations">
                   {{ specialization.title }}
                 </h6>
-                <div class="d-flex gap-1">
+                <div class="d-flex gap-1" v-if="doctor.phone_number !== null">
                   <span>Telefono:</span>
                   <a :href="'tel:' + doctor.phone_number">{{
                     doctor.phone_number
@@ -102,13 +105,13 @@ export default {
                 <div
                   class="cont d-flex flex-column flex-md-row align-items-center gap-2 mt-2"
                 >
-                  <div class="stelle d-flex gap-1">
+                  <div class="stelle d-flex gap-1" v-if="doctor.votes !== []">
                     <font-awesome-icon
                       v-for="star in 5 - stars()"
                       :icon="['fas', 'star']"
                     />
                   </div>
-                  <span>{{ doctor.reviews?.length }} Recensioni</span>
+                  <span>{{ doctor.reviews.length }} Recensioni</span>
                 </div>
                 <button class="btn btn-primary mt-2">Contatta il Medico</button>
               </div>
@@ -143,7 +146,7 @@ export default {
               <div
                 class="cont d-flex justify-content-between align-items-center"
               >
-                <h4>{{ doctor.reviews?.length }} Recensioni</h4>
+                <h4>{{ doctor.reviews.length }} Recensioni</h4>
                 <button class="btn border border-2">Aggiungi recensione</button>
               </div>
               <!-- /top -->
@@ -175,7 +178,10 @@ export default {
               <!-- lista recensioni -->
               <div class="cont">
                 <h4 class="mt-4">Lista recensioni</h4>
-                <ul class="cont px-5">
+                <ul
+                  class="cont px-5"
+                  v-if="doctor.reviews && doctor.reviews.length > 0"
+                >
                   <li
                     v-for="review in doctor.reviews"
                     class="cont d-flex flex-column gap-2 mt-5"
@@ -192,6 +198,9 @@ export default {
                     </p>
                   </li>
                 </ul>
+                <div v-else>
+                  <p>Non sono presenti recensioni</p>
+                </div>
               </div>
               <!-- /lista recensioni -->
 
@@ -212,7 +221,12 @@ export default {
             >
               <h4>Prestazioni</h4>
               <div class="p-0 mt-4">
-                <p class="p-2">{{ doctor.services }}</p>
+                <p class="p-2" v-if="doctor.services !== null">
+                  {{ doctor.services }}
+                </p>
+                <p v-else>
+                  Il dottore non ha ancora inserito le sue prestazioni
+                </p>
               </div>
             </div>
             <!-- /prestazioni -->

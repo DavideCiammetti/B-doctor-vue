@@ -33,6 +33,7 @@ export default {
         <!-- immagine -->
         <div class="img-container">
           <img
+            v-if="new_doctor.doctor_img"
             :src="this.store.imgUrl + new_doctor.doctor_img"
             class="card-img"
             alt=""
@@ -44,7 +45,7 @@ export default {
             <h4 class="text-dark">
               {{ new_doctor.user.name }} {{ new_doctor.user.surname }}
             </h4>
-            <div class="sponsor-img-cont">
+            <div class="sponsor-img-cont" v-if="new_doctor.sponsorships !== []">
               <div
                 class="sponsor-img"
                 v-for="sponsorship in new_doctor.sponsorships"
