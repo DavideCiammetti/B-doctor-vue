@@ -25,6 +25,8 @@ import {
   faShieldHalved,
   faLocationDot,
   faCircleInfo,
+  faArrowRightToBracket,
+  faAddressCard,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -36,7 +38,9 @@ library.add(
   faStar,
   faShieldHalved,
   faLocationDot,
-  faCircleInfo
+  faCircleInfo,
+  faArrowRightToBracket,
+  faAddressCard,
 );
 
 createApp(App)

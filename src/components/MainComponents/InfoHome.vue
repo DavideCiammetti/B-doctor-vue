@@ -5,7 +5,7 @@ export default {
 </script>
 
 <template>
-    <section class="d-flex flex-column align-items-center mb-4">
+    <section class="d-flex flex-column align-items-center mb-4 mt-5">
         <!-- titolo e paragrafo -->
         <div class="title-paragraph-container text-center">
            <div>

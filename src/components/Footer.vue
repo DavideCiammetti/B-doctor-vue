@@ -11,8 +11,10 @@ export default {
 </script>
 
 <template>
-    <UpFooter />
-    <DownFooter />
+   <footer class="py-5">
+        <UpFooter />
+        <DownFooter />
+   </footer>
 </template>
 
 <style lang="scss">

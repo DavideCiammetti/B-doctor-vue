@@ -9,9 +9,9 @@ export default {
 </script>
 
 <template>
-    <div class="up-header d-flex justify-content-between align-items-center px-2 py-2">
+    <div class="up-header d-flex justify-content-between align-items-center px-4 py-2">
         <div class="logo">
-            <h1>BDoctors</h1>
+            <router-link class="text-white text-decoration-none" :to="{name: 'home'}"><h1>BDoctors</h1></router-link>
         </div>
         <MenuHeader />
     </div>
@@ -25,7 +25,7 @@ export default {
 
     .logo {
         h1 {
-            font-size: 2rem;
+            font-size: 3rem;
         }
     }
 

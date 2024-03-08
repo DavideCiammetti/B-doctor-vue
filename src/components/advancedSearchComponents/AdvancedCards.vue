@@ -23,7 +23,7 @@ export default {
 </script>
 
 <template>
-  <main class="main" v-show="!this.store.searchNotFound">
+  <main class="main py-5" v-show="!this.store.searchNotFound">
     <!-- contenitore cards -->
     <div
       class="card-container d-flex justify-content-center flex-wrap justify-content-md-around p-3 gap-5"
@@ -70,9 +70,9 @@ export default {
               </div>
             </div>
           </div>
-          <div class="d-flex flex-wrap">
-            <p v-for="specialization in new_doctor.specializations" class="m-0">
-              {{ specialization.title }} ,
+          <div class="d-flex flex-wrap mb-2">
+            <p v-for="(specialization, key) in new_doctor.specializations" class="m-0 pe-2">
+              <span v-if="key !== 0"> - </span>{{ specialization.title }}
             </p>
           </div>
           <!-- <div class="col-stars d-flex">-------voti feature
@@ -84,9 +84,6 @@ export default {
             {{ new_doctor.address }}
           </p>
           <p @click="showClick(index)" class="col-grey dettaglio">Dettaglio</p>
-        </div>
-        <div class="position-absolute bottom-0 end-0 butt-home">
-          <button @click="homeClick">Home</button>
         </div>
       </div>
     </div>

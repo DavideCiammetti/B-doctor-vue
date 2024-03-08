@@ -11,7 +11,7 @@ export default {
 </script>
 
 <template>
-  <main class="mt-3 d-flex align-items-center flex-column">
+  <main class="mt-3 d-flex align-items-center flex-column py-5">
     <InfoHome />
     <SponsorshipHome />
   </main>

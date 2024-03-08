@@ -15,7 +15,8 @@ export default {
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <li><a class="dropdown-item" href="#">Visualizza Dottori</a></li>
                 <li><a class="dropdown-item" href="#">Centro Assistenza</a></li>
-                <li><a class="dropdown-item" href="#">Accedi</a></li>
+                <li><a class="dropdown-item" href="http://127.0.0.1:8000/register">registrati</a></li>
+                <li><a class="dropdown-item" href="http://127.0.0.1:8000/login">Accedi</a></li>
             </ul>
         </div>
     </div>
@@ -26,11 +27,16 @@ export default {
             <li class="btn btn-sm btn-white btn-hover-none">Visualizza elenco Dottori</li>
             <li><font-awesome-icon icon="fa-regular fa-circle-question" /></li>
             <li>Centro Assistenza</li>
-            <li><font-awesome-icon icon="fa-regular fa-user" /></li>
             <li>
-                <div class="d-flex flex-column align-items-start">
-                    <span>Accedi</span>
-                    <span>Gestisci appuntamenti</span>
+                <div class="d-flex justify-content-center">
+                    <div class="d-flex align-items-center me-2">
+                        <font-awesome-icon icon="fa-solid fa-arrow-right-to-bracket" class="pe-2" />
+                        <a class="dropdown-item" href="http://127.0.0.1:8000/login" target="_blank">Accedi</a>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <font-awesome-icon icon="fa-solid fa-address-card" class="pe-2" />
+                        <a class="dropdown-item" href="http://127.0.0.1:8000/register" target="_blank">Registrati</a>
+                    </div>
                 </div>
             </li>
         </ul>
