@@ -9,9 +9,6 @@ export default {
     };
   },
   methods: {
-    homeClick() {
-      this.$router.push("/");
-    },
     showClick(index) {
       this.$router.push({
         name: "doctor-detail",
@@ -71,7 +68,10 @@ export default {
             </div>
           </div>
           <div class="d-flex flex-wrap mb-2">
-            <p v-for="(specialization, key) in new_doctor.specializations" class="m-0 pe-2">
+            <p
+              v-for="(specialization, key) in new_doctor.specializations"
+              class="m-0 pe-2"
+            >
               <span v-if="key !== 0"> - </span>{{ specialization.title }}
             </p>
           </div>
