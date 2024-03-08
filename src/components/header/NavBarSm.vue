@@ -40,6 +40,7 @@ export default {
         }).then((response)=>{
             this.store.doctor = response.data.results;
             console.log(this.store.doctor);
+            this.showSearchbar();
             // ricerca che non produce risultati
             if( this.store.doctor.length === 0){
                 this.store.searchNotFound = true;
@@ -55,6 +56,10 @@ export default {
             });
         }
         },
+        // mostra searchbar
+        showSearchbar(){
+            this.store.changedSearchbar = true; 
+        }
     },
     created(){
        
@@ -83,11 +88,11 @@ export default {
                     <option value="Dermatologo"></option>
                     <option value="ortopedico"></option>
                 </datalist>
-                
+
                 <input list="searchSpecial" class="form-control me-2 search-input" type="search"
                     placeholder="Cerca dottore, specializzazione, ..." aria-label="Search" v-model="this.store.doctors.searchKey">
             
-                <button class="btn btn-outline-success search-button" type="submit">Cerca</button>
+                <button class="btn btn-outline-success search-button" type="submit" >Cerca</button>
             </form>
         </div>
         <div>

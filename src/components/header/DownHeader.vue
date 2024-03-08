@@ -2,19 +2,27 @@
 import ContentDHeader from './ContentDHeader.vue';
 import NavBarSm from './NavBarSm.vue';
 import NavBarLg from './NavBarLg.vue';
+import {store} from '../../store.js'
 export default {
     name: 'DownHeader',
     components: {
         NavBarSm,
         ContentDHeader,
         NavBarLg,
+    },
+    data(){
+        return{
+            store,
+        }
     }
 }
 </script>
 
 <template>
-    <div class="container-cstm">
-        <!-- <ContentDHeader /> -->
+    <div v-show="!this.store.changedSearchbar" class="container-cstm">
+        <ContentDHeader />
+    </div>
+    <div v-show="this.store.changedSearchbar" class="container-cstm mt-4">
         <NavBarLg />
     </div>
 </template>

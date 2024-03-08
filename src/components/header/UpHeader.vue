@@ -1,9 +1,21 @@
 <script>
 import MenuHeader from './MenuHeader.vue';
+import {store} from '../../store.js';
 export default {
     name: 'UpHeader',
     components: {
         MenuHeader,
+    },
+    data(){
+        return{
+            store,
+        }
+    },
+    methods:{
+         // mostra searchbar
+         showSearchbar(){
+            this.store.changedSearchbar = false; 
+        }
     }
 }
 </script>
@@ -11,7 +23,7 @@ export default {
 <template>
     <div class="up-header d-flex justify-content-between align-items-center px-4 py-2">
         <div class="logo">
-            <router-link class="text-white text-decoration-none" :to="{name: 'home'}"><h1>BDoctors</h1></router-link>
+            <router-link class="text-white text-decoration-none" :to="{name: 'home'}"><h1 @click="showSearchbar">BDoctors</h1></router-link>
         </div>
         <MenuHeader />
     </div>

@@ -20,5 +20,7 @@ export const store = reactive({
 
     // errore nella ricerca elemento non trovato
     searchNotFound: false,
+    // variabile searchbar 
+    changedSearchbar: false,
 
 });

@@ -158,7 +158,6 @@ export default {
             </form>
         </div>
     </nav>
-    <div><br></div>
 </template>
 
 
