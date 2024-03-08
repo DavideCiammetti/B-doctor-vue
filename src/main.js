@@ -14,17 +14,43 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 
 // icone
-// regular 
-import { faCircleQuestion, faUser, faStar, faFileLines } from "@fortawesome/free-regular-svg-icons";
-// solid 
+// different style
+import { faStar as farFaStar } from "@fortawesome/free-regular-svg-icons";
+// regular
 import {
-  faHouse, faBars, faMagnifyingGlass, faShieldHalved, faCircleInfo, faLocationDot, faStethoscope, faArrowRightToBracket,
-  faAddressCard,
-} from "@fortawesome/free-solid-svg-icons";
-library.add(faHouse, faBars, faMagnifyingGlass, faCircleQuestion, faUser, faCircleInfo, faLocationDot, faStethoscope, faStar, faFileLines,
+  faCircleQuestion,
+  faUser,
+  faFileLines,
+} from "@fortawesome/free-regular-svg-icons";
+// solid
+import {
+  faHouse,
+  faBars,
+  faMagnifyingGlass,
+  faShieldHalved,
+  faCircleInfo,
+  faLocationDot,
+  faStethoscope,
   faArrowRightToBracket,
-  faAddressCard, faShieldHalved)
-
+  faAddressCard,
+  faStar,
+} from "@fortawesome/free-solid-svg-icons";
+library.add(
+  faHouse,
+  faBars,
+  faMagnifyingGlass,
+  faCircleQuestion,
+  faUser,
+  faCircleInfo,
+  faLocationDot,
+  faStethoscope,
+  faStar,
+  farFaStar,
+  faFileLines,
+  faArrowRightToBracket,
+  faAddressCard,
+  faShieldHalved
+);
 
 createApp(App)
   .component("font-awesome-icon", FontAwesomeIcon)
