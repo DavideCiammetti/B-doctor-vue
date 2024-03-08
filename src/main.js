@@ -14,34 +14,17 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 
 // icone
-// regular
-import { faCircleQuestion, faUser } from "@fortawesome/free-regular-svg-icons";
-// solid
+// regular 
+import { faCircleQuestion, faUser, faStar, faFileLines } from "@fortawesome/free-regular-svg-icons";
+// solid 
 import {
-  faHouse,
-  faBars,
-  faMagnifyingGlass,
-  faStar,
-  faShieldHalved,
-  faLocationDot,
-  faCircleInfo,
-  faArrowRightToBracket,
+  faHouse, faBars, faMagnifyingGlass, faShieldHalved, faCircleInfo, faLocationDot, faStethoscope, faArrowRightToBracket,
   faAddressCard,
 } from "@fortawesome/free-solid-svg-icons";
-
-library.add(
-  faCircleQuestion,
-  faUser,
-  faHouse,
-  faBars,
-  faMagnifyingGlass,
-  faStar,
-  faShieldHalved,
-  faLocationDot,
-  faCircleInfo,
+library.add(faHouse, faBars, faMagnifyingGlass, faCircleQuestion, faUser, faCircleInfo, faLocationDot, faStethoscope, faStar, faFileLines,
   faArrowRightToBracket,
-  faAddressCard,
-);
+  faAddressCard, faShieldHalved)
+
 
 createApp(App)
   .component("font-awesome-icon", FontAwesomeIcon)
