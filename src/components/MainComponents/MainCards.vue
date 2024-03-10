@@ -55,6 +55,7 @@ export default {
 }
 </script>
 
+
 <template>
     <div class="d-md-flex gap-5 mt-5 flex-wrap justify-content-center">
         <div v-for="(doctor, index) in sponsoredDoctors" :key="index" class="doctor-container position-relative">
