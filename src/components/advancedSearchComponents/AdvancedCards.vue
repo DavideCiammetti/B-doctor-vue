@@ -22,21 +22,12 @@ export default {
 <template>
   <main class="main py-5" v-show="!this.store.searchNotFound">
     <!-- contenitore cards -->
-    <div
-      class="card-container d-flex justify-content-center flex-wrap justify-content-md-around p-3 gap-5"
-    >
+    <div class="card-container d-flex justify-content-center flex-wrap justify-content-md-around p-3 gap-5">
       <!-- card -->
-      <div
-        class="d-flex card-item col-12 col-md-5 position-relative"
-        v-for="(new_doctor, index) in this.store.doctor"
-      >
+      <div class="d-flex card-item col-12 col-md-5 position-relative" v-for="(new_doctor, index) in this.store.doctor">
         <!-- immagine -->
         <div class="img-container">
-          <img
-            :src="this.store.imgUrl + new_doctor.doctor_img"
-            class="card-img"
-            alt=""
-          />
+          <img :src="this.store.imgUrl + new_doctor.doctor_img" class="card-img" alt="" />
         </div>
         <!-- informazioni -->
         <div class="w-63 mt-4">
@@ -45,33 +36,18 @@ export default {
               {{ new_doctor.user.name }} {{ new_doctor.user.surname }}
             </h4>
             <div class="sponsor-img-cont">
-              <div
-                class="sponsor-img"
-                v-for="sponsorship in new_doctor.sponsorships"
-              >
-                <img
-                  v-if="sponsorship.price == 9.99"
-                  src="../../../public/advancedSearch-img/Ellipse-gold.png"
-                  alt="gold"
-                />
-                <img
-                  v-if="sponsorship.price == 5.99"
-                  src="../../../public/advancedSearch-img/Ellipse-silver.png"
-                  alt="gold"
-                />
-                <img
-                  v-if="sponsorship.price == 2.99"
-                  src="../../../public/advancedSearch-img/Ellipse-bronze.png"
-                  alt="gold"
-                />
+              <div class="sponsor-img" v-for="sponsorship in new_doctor.sponsorships">
+                <img v-if="sponsorship.price == 9.99" src="../../../public/advancedSearch-img/Ellipse-gold.png"
+                  alt="gold" />
+                <img v-if="sponsorship.price == 5.99" src="../../../public/advancedSearch-img/Ellipse-silver.png"
+                  alt="gold" />
+                <img v-if="sponsorship.price == 2.99" src="../../../public/advancedSearch-img/Ellipse-bronze.png"
+                  alt="gold" />
               </div>
             </div>
           </div>
           <div class="d-flex flex-wrap mb-2">
-            <p
-              v-for="(specialization, key) in new_doctor.specializations"
-              class="m-0 pe-2"
-            >
+            <p v-for="(specialization, key) in new_doctor.specializations" class="m-0 pe-2">
               <span v-if="key !== 0"> - </span>{{ specialization.title }}
             </p>
           </div>
@@ -96,18 +72,22 @@ export default {
 .main {
   background-color: $grey-100;
 }
+
 // card
 .card-item {
   background-color: white;
   border-radius: 25px;
   box-shadow: 0px 4px 0px rgb(189, 175, 175, 0.5);
+
   .w-63 {
     width: 63%;
   }
+
   .col-stars {
     color: $green-w-400;
   }
 }
+
 .butt-home {
   button {
     border: none;
@@ -118,11 +98,13 @@ export default {
     padding: 3px;
   }
 }
+
 // immagine card
 .img-container {
   width: 250px;
   height: 300px;
   margin-right: 30px;
+
   .card-img {
     width: 100%;
     height: 100%;
@@ -130,16 +112,20 @@ export default {
     object-fit: cover;
   }
 }
+
 // immagine sponsor cerchi
 .sponsor-img-cont {
   margin-right: 20px;
+
   .sponsor-img {
     width: 35px;
+
     img {
       width: 100%;
     }
   }
 }
+
 // tag a colore
 .col-grey {
   color: rgb(169, 169, 169);

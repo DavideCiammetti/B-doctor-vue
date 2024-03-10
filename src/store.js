@@ -1,22 +1,25 @@
-import {reactive} from 'vue';
+import { reactive } from 'vue';
 
 export const store = reactive({
     // url base
-    api:{
+    api: {
         baseUrl: 'http://127.0.0.1:8000',
     },
     // api per ricerca dottori
-    apiUrls:{
+    apiUrls: {
         doctors: '/api/doctors',
     },
     // chiave per ricerca dottori in ricerca base
-    doctors:{
+    doctors: {
         searchKey: '',
     },
     // oggetto vuoto per ricerca base
-    doctor:{},
+    doctor: {},
     // url immagini
     imgUrl: 'http://127.0.0.1:8000/storage/',
+
+    //dottori sponsorizzati
+    sponsoredDoctors: [],
 
     // errore nella ricerca elemento non trovato
     searchNotFound: false,
