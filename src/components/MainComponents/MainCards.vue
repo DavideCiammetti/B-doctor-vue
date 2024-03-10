@@ -45,6 +45,9 @@ export default {
                     return 'default-border';
             }
         },
+        redirectToDoctorDetail(slug) {
+            this.$router.push({ name: "doctor-detail", params: { slug: slug } });
+        },
     },
     created() {
         this.getSponsoredDoctors();
@@ -54,14 +57,20 @@ export default {
 
 <template>
     <div class="d-md-flex gap-5 mt-5 flex-wrap justify-content-center">
-        <div v-for="(doctor, index) in sponsoredDoctors" :key="index" class="doctor-container mb-3">
+        <div v-for="(doctor, index) in sponsoredDoctors" :key="index" class="doctor-container position-relative">
+            <!-- Badge -->
+            <div class="position-absolute top-0 start-0 ms-2 mt-1">
+                <span v-if="doctor.sponsorship_id === 1" class="badge badge-bg-base">Base</span>
+                <span v-else-if="doctor.sponsorship_id === 2" class="badge badge-bg-standard">Standard</span>
+                <span v-else-if="doctor.sponsorship_id === 3" class="badge badge-bg-premium">Premium</span>
+            </div>
             <div class="img-container">
                 <!-- immagine -->
                 <!-- <img :src="'http://127.0.0.1:8000/storage/' + doctor.doctor_img" alt="doctor image" class="round-img"> -->
                 <img :src="`${imgUrl}/${doctor.doctor_img}`" :alt="`${doctor.user.name} ${doctor.user.surname} image`"
                     class="round-img">
             </div>
-            <div class="position-relative info-doctor-container d-flex justify-content-center px-2">
+            <div class="position-absolute info-doctor-container d-flex justify-content-center align-items-center p-0">
                 <div class="info-doctor text-start width-80" :class="sponsorshipBorderColor(doctor.sponsorship_id)">
                     <!-- Nome e cognome del dottore -->
                     <p class="m-0 text-white font-s-15 fw-medium md-1">{{ doctor.user.name }} {{ doctor.user.surname
@@ -78,7 +87,9 @@ export default {
                         {{ doctor.address }}</p>
                     <!-- recensioni -->
                     <p class="m-0 text-white font-s-13 md-1">{{ doctor.reviews.length }} Recensioni</p>
-                    <!-- <p @click="showClick(new_doctor)" class="col-grey dettaglio">Dettaglio</p> -->
+                    <!-- dettaglio  -->
+                    <p @click="redirectToDoctorDetail(doctor.slug)" class="col-grey dettaglio m-0 font-s-13 md-1">
+                        Dettaglio</p>
                 </div>
             </div>
         </div>
@@ -89,8 +100,26 @@ export default {
 @use'../../style/partials/palette.scss' as *;
 
 .doctor-container {
-    width: 200px;
-    height: 200px;
+    width: 250px;
+    height: 250px;
+    margin-bottom: 30px;
+    transition: transform 0.3s ease-in-out;
+
+    &:hover {
+        transform: scale(1.05);
+    }
+
+    .badge.badge-bg-premium {
+        background-color: $spons-premium;
+    }
+
+    .badge.badge-bg-standard {
+        background-color: $spons-standard;
+    }
+
+    .badge.badge-bg-base {
+        background-color: $spons-base;
+    }
 
     .img-container {
         width: 100%;
@@ -106,8 +135,10 @@ export default {
 }
 
 .info-doctor-container {
-    top: -90px;
-    padding: 20px;
+    bottom: 5px;
+    left: 5px;
+    right: 5px;
+    // padding: 20px;
 
     .info-doctor {
         background-color: rgba(13, 148, 129, 0.8);
@@ -140,6 +171,15 @@ export default {
         .font-s-15 {
             font-size: 15px;
         }
+
+        // tag a colore
+        .col-grey {
+            color: rgb(169, 169, 169);
+        }
+
+        .dettaglio {
+            cursor: pointer;
+        }
     }
 }
 
@@ -160,11 +200,13 @@ export default {
     .doctor-container {
         width: 300px;
         height: 300px;
+        margin-bottom: 0;
     }
 
     .info-doctor-container {
-        top: -130px;
-        padding: 20px;
+        bottom: 10px;
+        left: 30px;
+        right: 30px;
 
         .info-doctor {
             background-color: rgba(13, 148, 129, 0.8);
@@ -184,8 +226,8 @@ export default {
         }
     }
 
-    .width-80 {
-        width: 80%;
-    }
+    // .width-80 {
+    //     width: 80%;
+    // }
 }
 </style>
