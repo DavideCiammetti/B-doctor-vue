@@ -1,6 +1,7 @@
 <script>
 import { store } from "../../store.js";
 import axios from 'axios';
+import { DOMDirectiveTransforms } from "@vue/compiler-dom";
 
 export default {
     name: 'MainCards',
@@ -8,6 +9,7 @@ export default {
         return {
             store,
             currentPage: 1,
+            totalSponsoredDoctors: 0,
         };
     },
     computed: {
@@ -19,13 +21,15 @@ export default {
         }
     },
     methods: {
-        getSponsoredDoctors(page) {
+        getSponsoredDoctors() {
             axios
                 .get(
-                    `${store.api.baseUrl}/api/sponsor?page=${page}`
+                    store.api.baseUrl + "/api/sponsor", { params: { page: this.currentPage } }
                 )
                 .then((response) => {
-                    store.sponsoredDoctors = response.data.results;
+                    store.sponsoredDoctors = response.data.results.data;
+                    store.next = response.data.results.next_page_url;
+                    this.totalSponsoredDoctors = response.data.results.total;
                 })
                 .catch((error) => {
                     console.log(error);
@@ -46,30 +50,25 @@ export default {
         },
     },
     created() {
-        this.getSponsoredDoctors(this.currentPage);
+        this.getSponsoredDoctors();
     },
 }
 </script>
 
 
 <template>
+    <div class="mb-5">
+        <h2 class="title-col fw-bolder">Medici Sponsorizzati {{ totalSponsoredDoctors }}</h2>
+    </div>
     <div class="d-md-flex gap-5 mt-5 flex-wrap justify-content-center">
         <div v-for="(doctor, index) in sponsoredDoctors" :key="index" class="doctor-container position-relative">
-            <!-- Badge -->
-            <!-- <div class="position-absolute top-0 start-0 ms-2 mt-1">
-                <span v-if="doctor.sponsorship_id === 1" class="badge badge-bg-base">Base</span>
-                <span v-else-if="doctor.sponsorship_id === 2" class="badge badge-bg-standard">Standard</span>
-                <span v-else-if="doctor.sponsorship_id === 3" class="badge badge-bg-premium">Premium</span>
-            </div> -->
             <div class="img-container">
                 <!-- immagine -->
-                <!-- <img :src="'http://127.0.0.1:8000/storage/' + doctor.doctor_img" alt="doctor image" class="round-img"> -->
                 <img :src="`${imgUrl}/${doctor.doctor_img}`" :alt="`${doctor.user.name} ${doctor.user.surname} image`"
                     class="round-img">
             </div>
             <div class="position-absolute info-doctor-container d-flex justify-content-center align-items-center p-0">
                 <div class="info-doctor text-start width-80">
-                    <!-- :class="sponsorshipBorderColor(doctor.sponsorship_id)" -->
                     <!-- Nome e cognome del dottore -->
                     <p class="m-0 text-white font-s-15 fw-medium md-1">{{ doctor.user.name }} {{ doctor.user.surname
                     }}</p>
@@ -91,11 +90,13 @@ export default {
                 </div>
             </div>
         </div>
-        <div class="pagination-container mt-3 d-flex justify-content-center">
-            <button @click="prevPage" :disabled="data.prev_page_url === null">Previous</button>
-            <span>{{ currentPage }}</span>
-            <button @click="nextPage" :disabled="data.next_page_url === null">Next</button>
-        </div>
+
+    </div>
+
+    <div class="pagination-container mt-5 d-flex justify-content-center align-items-center">
+        <button @click="prevPage" :disabled="currentPage === 1" class="btn btn-cstm text-white">Precedente</button>
+        <span class="mx-2">{{ currentPage }}</span>
+        <button @click="nextPage" :disabled="store.next === null" class="btn btn-cstm text-white">Successiva</button>
     </div>
 </template>
 
@@ -111,18 +112,6 @@ export default {
     &:hover {
         transform: scale(1.05);
     }
-
-    // .badge.badge-bg-premium {
-    //     background-color: $spons-premium;
-    // }
-
-    // .badge.badge-bg-standard {
-    //     background-color: $spons-standard;
-    // }
-
-    // .badge.badge-bg-base {
-    //     background-color: $spons-base;
-    // }
 
     .img-container {
         width: 100%;
@@ -141,7 +130,6 @@ export default {
     bottom: 5px;
     left: 5px;
     right: 5px;
-    // padding: 20px;
 
     .info-doctor {
         background-color: rgba(13, 148, 129, 0.8);
@@ -151,22 +139,6 @@ export default {
         border-width: 4px;
         border-style: solid;
         padding-left: 10px;
-
-        // &.bronze-border {
-        //     border-color: $spons-base; // Bronzo
-        // }
-
-        // &.silver-border {
-        //     border-color: $spons-standard; // Argento
-        // }
-
-        // &.gold-border {
-        //     border-color: $spons-premium; // Oro
-        // }
-
-        // &.default-border {
-        //     border-color: #0d9482; // Colore predefinito
-        // }
 
         .font-s-13 {
             font-size: 13px;
@@ -186,6 +158,13 @@ export default {
         }
     }
 }
+
+.pagination-container.mt-5.d-flex.justify-content-center {
+    .btn-cstm {
+        background-color: #0d9482;
+    }
+}
+
 
 /*
         UTILITY
@@ -230,9 +209,5 @@ export default {
             }
         }
     }
-
-    // .width-80 {
-    //     width: 80%;
-    // }
 }
 </style>
