@@ -3,53 +3,76 @@ import { store } from "../../store.js";
 import axios from 'axios';
 
 export default {
+    name: 'MainCards',
     data() {
         return {
-            sponsoredDoctors: {}, // Risultati della ricerca paginati
+            store,
+            currentPage: 1,
         };
     },
     computed: {
-        // Ottieni la lista dei dottori per la pagina corrente
-        paginatedDoctors() {
-            return sponsoredDoctors.data || [];
+        sponsoredDoctors() {
+            return store.sponsoredDoctors;
         },
+        imgUrl() {
+            return store.imgUrl;
+        }
     },
     methods: {
-        // Ottieni i dottori sponsorizzati per la pagina corrente
-        getPaginatedDoctors(page) {
+        getSponsoredDoctors(page) {
             axios
-                .get(store.state.api.baseUrl + "/api/sponsor?page=" + page)
+                .get(
+                    `${store.api.baseUrl}/api/sponsor?page=${page}`
+                )
                 .then((response) => {
-                    this.sponsoredDoctors = response.data.results;
+                    store.sponsoredDoctors = response.data.results;
                 })
                 .catch((error) => {
                     console.log(error);
                 });
         },
-        // Reindirizza alla pagina di dettaglio del dottore
+        nextPage() {
+            this.currentPage++;
+            this.getSponsoredDoctors(this.currentPage);
+        },
+        prevPage() {
+            if (this.currentPage > 1) {
+                this.currentPage--;
+                this.getSponsoredDoctors(this.currentPage);
+            }
+        },
         redirectToDoctorDetail(slug) {
             this.$router.push({ name: "doctor-detail", params: { slug: slug } });
         },
     },
     created() {
-        this.getPaginatedDoctors(1); // Carica i risultati della prima pagina all'avvio del componente
+        this.getSponsoredDoctors(this.currentPage);
     },
-};
+}
 </script>
+
 
 <template>
     <div class="d-md-flex gap-5 mt-5 flex-wrap justify-content-center">
-        <div v-for="(doctor, index) in paginatedDoctors" :key="index" class="doctor-container position-relative">
-            <!-- Contenuto della card -->
+        <div v-for="(doctor, index) in sponsoredDoctors" :key="index" class="doctor-container position-relative">
+            <!-- Badge -->
+            <!-- <div class="position-absolute top-0 start-0 ms-2 mt-1">
+                <span v-if="doctor.sponsorship_id === 1" class="badge badge-bg-base">Base</span>
+                <span v-else-if="doctor.sponsorship_id === 2" class="badge badge-bg-standard">Standard</span>
+                <span v-else-if="doctor.sponsorship_id === 3" class="badge badge-bg-premium">Premium</span>
+            </div> -->
             <div class="img-container">
-                <!-- Immagine -->
+                <!-- immagine -->
+                <!-- <img :src="'http://127.0.0.1:8000/storage/' + doctor.doctor_img" alt="doctor image" class="round-img"> -->
                 <img :src="`${imgUrl}/${doctor.doctor_img}`" :alt="`${doctor.user.name} ${doctor.user.surname} image`"
                     class="round-img">
             </div>
             <div class="position-absolute info-doctor-container d-flex justify-content-center align-items-center p-0">
                 <div class="info-doctor text-start width-80">
+                    <!-- :class="sponsorshipBorderColor(doctor.sponsorship_id)" -->
                     <!-- Nome e cognome del dottore -->
-                    <p class="m-0 text-white font-s-15 fw-medium md-1">{{ doctor.user.name }} {{ doctor.user.surname }}</p>
+                    <p class="m-0 text-white font-s-15 fw-medium md-1">{{ doctor.user.name }} {{ doctor.user.surname
+                    }}</p>
                     <!-- Specializzazioni del dottore -->
                     <p class="m-0 text-white font-s-13 md-1">
                         <span v-for="(specialization, index) in doctor.specializations" :key="index">
@@ -57,35 +80,28 @@ export default {
                             <span v-if="index < doctor.specializations.length - 1">, </span>
                         </span>
                     </p>
-                    <!-- Indirizzo -->
-                    <p class="m-0 text-white font-s-13 md-1">
-                        <font-awesome-icon icon="fa-solid fa-location-dot" />
-                        {{ doctor.address }}
-                    </p>
-                    <!-- Recensioni -->
+                    <!-- indirizzo -->
+                    <p class="m-0 text-white font-s-13 md-1"><font-awesome-icon icon="fa-solid fa-location-dot" />
+                        {{ doctor.address }}</p>
+                    <!-- recensioni -->
                     <p class="m-0 text-white font-s-13 md-1">{{ doctor.reviews.length }} Recensioni</p>
-                    <!-- Dettaglio -->
-                    <p @click="redirectToDoctorDetail(doctor.slug)" class="col-grey dettaglio m-0 font-s-13 md-1">Dettaglio
-                    </p>
+                    <!-- dettaglio  -->
+                    <p @click="redirectToDoctorDetail(doctor.slug)" class="col-grey dettaglio m-0 font-s-13 md-1">
+                        Dettaglio</p>
                 </div>
             </div>
         </div>
+        <div class="pagination-container mt-3 d-flex justify-content-center">
+            <button @click="prevPage" :disabled="data.prev_page_url === null">Previous</button>
+            <span>{{ currentPage }}</span>
+            <button @click="nextPage" :disabled="data.next_page_url === null">Next</button>
+        </div>
     </div>
-    <!-- Paginazione -->
-    <nav aria-label="Pagination" v-if="sponsoredDoctors.last_page > 1">
-        <ul class="pagination justify-content-center mt-3">
-            <li class="page-item" :class="{ disabled: sponsoredDoctors.current_page === 1 }">
-                <button class="page-link" @click="getPaginatedDoctors(sponsoredDoctors.current_page - 1)">Previous</button>
-            </li>
-            <li class="page-item" :class="{ disabled: sponsoredDoctors.current_page === sponsoredDoctors.last_page }">
-                <button class="page-link" @click="getPaginatedDoctors(sponsoredDoctors.current_page + 1)">Next</button>
-            </li>
-        </ul>
-    </nav>
 </template>
 
 <style scoped lang="scss">
-/* Stili per le card dei dottori */
+@use'../../style/partials/palette.scss' as *;
+
 .doctor-container {
     width: 250px;
     height: 250px;
@@ -95,6 +111,18 @@ export default {
     &:hover {
         transform: scale(1.05);
     }
+
+    // .badge.badge-bg-premium {
+    //     background-color: $spons-premium;
+    // }
+
+    // .badge.badge-bg-standard {
+    //     background-color: $spons-standard;
+    // }
+
+    // .badge.badge-bg-base {
+    //     background-color: $spons-base;
+    // }
 
     .img-container {
         width: 100%;
@@ -113,6 +141,7 @@ export default {
     bottom: 5px;
     left: 5px;
     right: 5px;
+    // padding: 20px;
 
     .info-doctor {
         background-color: rgba(13, 148, 129, 0.8);
@@ -123,6 +152,22 @@ export default {
         border-style: solid;
         padding-left: 10px;
 
+        // &.bronze-border {
+        //     border-color: $spons-base; // Bronzo
+        // }
+
+        // &.silver-border {
+        //     border-color: $spons-standard; // Argento
+        // }
+
+        // &.gold-border {
+        //     border-color: $spons-premium; // Oro
+        // }
+
+        // &.default-border {
+        //     border-color: #0d9482; // Colore predefinito
+        // }
+
         .font-s-13 {
             font-size: 13px;
         }
@@ -131,6 +176,7 @@ export default {
             font-size: 15px;
         }
 
+        // tag a colore
         .col-grey {
             color: rgb(169, 169, 169);
         }
@@ -141,43 +187,52 @@ export default {
     }
 }
 
-/* Stili per la paginazione */
-.pagination {
-    display: flex;
-    justify-content: center;
-    list-style: none;
+/*
+        UTILITY
+    */
+.width-80 {
+    width: 100%;
 }
 
-.page-item {
-    margin: 0 2px;
-}
+/*
+        RESPONSIVITA'
+    */
 
-.page-link {
-    cursor: pointer;
-    background-color: #007bff;
-    border: 1px solid #007bff;
-    color: #fff;
-}
+@media screen and (min-width: 768px) {
 
-.page-link:hover {
-    background-color: #0056b3;
-}
+    // contenitore immagini
+    .doctor-container {
+        width: 300px;
+        height: 300px;
+        margin-bottom: 0;
+    }
 
-.page-link:focus {
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5);
-}
+    .info-doctor-container {
+        bottom: 10px;
+        left: 30px;
+        right: 30px;
 
-.page-item.disabled .page-link {
-    pointer-events: none;
-    background-color: #6c757d;
-    border-color: #6c757d;
-}
+        .info-doctor {
+            background-color: rgba(13, 148, 129, 0.8);
+            border-radius: 20px;
+            border-color: #0d9482;
+            padding-left: 10px;
+            border-width: 4px;
+            border-style: solid;
+            padding-left: 10px;
 
-.page-item.disabled .page-link:hover {
-    background-color: #6c757d;
-}
+            .font-s-13 {
+                font-size: 13px;
+            }
 
-.page-item.disabled .page-link:focus {
-    box-shadow: none;
+            .font-s-15 {
+                font-size: 15px;
+            }
+        }
+    }
+
+    // .width-80 {
+    //     width: 80%;
+    // }
 }
 </style>
