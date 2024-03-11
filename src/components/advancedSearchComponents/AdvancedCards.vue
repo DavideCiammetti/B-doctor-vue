@@ -42,25 +42,24 @@ export default {
         <div class="w-63 mt-4">
           <div class="d-flex justify-content-between w-100">
             <h4 class="text-dark">
-              {{ new_doctor.user.name }} {{ new_doctor.user.surname }}
+              {{ new_doctor.name }} {{ new_doctor.surname }}
             </h4>
             <div class="sponsor-img-cont">
               <div
                 class="sponsor-img"
-                v-for="sponsorship in new_doctor.sponsorships"
               >
                 <img
-                  v-if="sponsorship.price == 9.99"
+                  v-if="new_doctor.price == 9.99"
                   src="../../../public/advancedSearch-img/Ellipse-gold.png"
                   alt="gold"
                 />
                 <img
-                  v-if="sponsorship.price == 5.99"
+                  v-if="new_doctor.price == 5.99"
                   src="../../../public/advancedSearch-img/Ellipse-silver.png"
                   alt="gold"
                 />
                 <img
-                  v-if="sponsorship.price == 2.99"
+                  v-if="new_doctor.price == 2.99"
                   src="../../../public/advancedSearch-img/Ellipse-bronze.png"
                   alt="gold"
                 />
@@ -69,16 +68,16 @@ export default {
           </div>
           <div class="d-flex flex-wrap mb-2">
             <p
-              v-for="(specialization, key) in new_doctor.specializations"
+            v-for="specializations in new_doctor.specializations"
               class="m-0 pe-2"
             >
-              <span v-if="key !== 0"> - </span>{{ specialization.title }}
+              {{specializations}}
             </p>
           </div>
           <!-- <div class="col-stars d-flex">-------voti feature
                         <font-awesome-icon v-for="star in 5 - this.store.numStelleRimanenti" :icon="['fas', 'star']"/>
                     </div> -->
-          <p>{{ new_doctor.reviews.length }} Recensioni</p>
+          <!-- <p>{{ new_doctor.reviews.length }} Recensioni</p> -->
           <p>
             <font-awesome-icon icon="fa-solid fa-location-dot" />
             {{ new_doctor.address }}
