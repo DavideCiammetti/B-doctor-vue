@@ -6,9 +6,8 @@ export default {
     name: 'MainCards',
     data() {
         return {
-            sponsBaseColor: '#CD7F32', // Bronzo
-            sponsStandardColor: '#C0C0C0', // Argento
-            sponsPremiumColor: '#FFD700', // Oro
+            activeIndex: 0, // Indice del dottore attualmente attivo nel carosello
+            numVisibleCards: 1, // Numero di card visibili in base alla larghezza dello schermo
         };
     },
     computed: {
@@ -17,6 +16,17 @@ export default {
         },
         imgUrl() {
             return store.imgUrl;
+        },
+        activeDoctors() {
+            let startIdx = this.activeIndex;
+            let endIdx = (startIdx + this.numVisibleCards) % this.sponsoredDoctors.length;
+
+            // Se l'endIdx è 0, abbiamo raggiunto l'ultimo elemento dell'array, quindi mostriamo gli ultimi elementi prima di ricominciare dall'inizio
+            if (endIdx === this.sponsoredDoctors.length - 1) {
+                endIdx = this.sponsoredDoctors.length;
+            }
+
+            return this.sponsoredDoctors.slice(startIdx, endIdx);
         }
     },
     methods: {
@@ -33,66 +43,68 @@ export default {
                     console.log(error);
                 });
         },
-        sponsorshipBorderColor(sponsorshipId) {
-            switch (sponsorshipId) {
-                case 1:
-                    return 'bronze-border'; // bronzo
-                case 2:
-                    return 'silver-border'; // argento
-                case 3:
-                    return 'gold-border'; // oro
-                default:
-                    return 'default-border';
-            }
+        setActiveIndex(index) {
+            this.activeIndex = index;
+        },
+        next() {
+            this.activeIndex = (this.activeIndex + 1) % this.sponsoredDoctors.length;
+        },
+        prev() {
+            this.activeIndex = (this.activeIndex - 1 + this.sponsoredDoctors.length) % this.sponsoredDoctors.length;
         },
         redirectToDoctorDetail(slug) {
             this.$router.push({ name: "doctor-detail", params: { slug: slug } });
         },
+        updateVisibleCards() {
+            if (window.innerWidth < 768) {
+                this.numVisibleCards = 1; // Mobile: una card visibile
+            } else if (window.innerWidth < 992) {
+                this.numVisibleCards = 3; // Tablet: tre card visibili
+            } else {
+                this.numVisibleCards = 5; // Desktop: cinque card visibili
+            }
+        }
     },
     created() {
         this.getSponsoredDoctors();
+        this.updateVisibleCards(); // Aggiorna il numero di card visibili al caricamento della pagina
+        window.addEventListener('resize', this.updateVisibleCards); // Aggiorna il numero di card visibili quando si ridimensiona la finestra
     },
+    beforeDestroy() {
+        window.removeEventListener('resize', this.updateVisibleCards); // Rimuove l'ascoltatore degli eventi prima di distruggere il componente
+    }
 }
 </script>
 
-
 <template>
     <div class="d-md-flex gap-5 mt-5 flex-wrap justify-content-center">
-        <div v-for="(doctor, index) in sponsoredDoctors" :key="index" class="doctor-container position-relative">
-            <!-- Badge -->
-            <div class="position-absolute top-0 start-0 ms-2 mt-1">
-                <span v-if="doctor.sponsorship_id === 1" class="badge badge-bg-base">Base</span>
-                <span v-else-if="doctor.sponsorship_id === 2" class="badge badge-bg-standard">Standard</span>
-                <span v-else-if="doctor.sponsorship_id === 3" class="badge badge-bg-premium">Premium</span>
-            </div>
+        <div v-for="(doctor, index) in activeDoctors" :key="index" class="doctor-container position-relative">
+            <!-- Rimuovi il div info-doctor-container e inserisci direttamente il contenuto -->
             <div class="img-container">
-                <!-- immagine -->
-                <!-- <img :src="'http://127.0.0.1:8000/storage/' + doctor.doctor_img" alt="doctor image" class="round-img"> -->
                 <img :src="`${imgUrl}/${doctor.doctor_img}`" :alt="`${doctor.user.name} ${doctor.user.surname} image`"
                     class="round-img">
             </div>
             <div class="position-absolute info-doctor-container d-flex justify-content-center align-items-center p-0">
-                <div class="info-doctor text-start width-80" :class="sponsorshipBorderColor(doctor.sponsorship_id)">
-                    <!-- Nome e cognome del dottore -->
-                    <p class="m-0 text-white font-s-15 fw-medium md-1">{{ doctor.user.name }} {{ doctor.user.surname
-                    }}</p>
-                    <!-- Specializzazioni del dottore -->
+                <div class="info-doctor text-start width-80">
+                    <p class="m-0 text-white font-s-15 fw-medium md-1">{{ doctor.user.name }} {{ doctor.user.surname }}</p>
                     <p class="m-0 text-white font-s-13 md-1">
                         <span v-for="(specialization, index) in doctor.specializations" :key="index">
                             {{ specialization.title }}
                             <span v-if="index < doctor.specializations.length - 1">, </span>
                         </span>
                     </p>
-                    <!-- indirizzo -->
-                    <p class="m-0 text-white font-s-13 md-1"><font-awesome-icon icon="fa-solid fa-location-dot" />
-                        {{ doctor.address }}</p>
-                    <!-- recensioni -->
+                    <p class="m-0 text-white font-s-13 md-1"><font-awesome-icon icon="fa-solid fa-location-dot" /> {{
+                        doctor.address }}</p>
                     <p class="m-0 text-white font-s-13 md-1">{{ doctor.reviews.length }} Recensioni</p>
-                    <!-- dettaglio  -->
-                    <p @click="redirectToDoctorDetail(doctor.slug)" class="col-grey dettaglio m-0 font-s-13 md-1">
-                        Dettaglio</p>
+                    <p @click="redirectToDoctorDetail(doctor.slug)" class="col-grey dettaglio m-0 font-s-13 md-1">Dettaglio
+                    </p>
                 </div>
             </div>
+        </div>
+        <!-- Pulsanti per navigare nel carosello -->
+        <div class="d-flex justify-content-between mt-3" v-if="sponsoredDoctors.length > numVisibleCards">
+            <button @click="prev">Indietro</button>
+            <button @click="next">Avanti</button>
         </div>
     </div>
 </template>
@@ -108,18 +120,6 @@ export default {
 
     &:hover {
         transform: scale(1.05);
-    }
-
-    .badge.badge-bg-premium {
-        background-color: $spons-premium;
-    }
-
-    .badge.badge-bg-standard {
-        background-color: $spons-standard;
-    }
-
-    .badge.badge-bg-base {
-        background-color: $spons-base;
     }
 
     .img-container {
@@ -139,31 +139,15 @@ export default {
     bottom: 5px;
     left: 5px;
     right: 5px;
-    // padding: 20px;
 
     .info-doctor {
         background-color: rgba(13, 148, 129, 0.8);
         border-radius: 20px;
+        border-color: #0d9482;
         padding-left: 10px;
         border-width: 4px;
         border-style: solid;
         padding-left: 10px;
-
-        &.bronze-border {
-            border-color: $spons-base; // Bronzo
-        }
-
-        &.silver-border {
-            border-color: $spons-standard; // Argento
-        }
-
-        &.gold-border {
-            border-color: $spons-premium; // Oro
-        }
-
-        &.default-border {
-            border-color: #0d9482; // Colore predefinito
-        }
 
         .font-s-13 {
             font-size: 13px;
@@ -173,7 +157,6 @@ export default {
             font-size: 15px;
         }
 
-        // tag a colore
         .col-grey {
             color: rgb(169, 169, 169);
         }
@@ -184,51 +167,25 @@ export default {
     }
 }
 
-/*
-        UTILITY
-    */
 .width-80 {
     width: 100%;
 }
 
-/*
-        RESPONSIVITA'
-    */
-
-@media screen and (min-width: 768px) {
-
-    // contenitore immagini
+@media screen and (max-width: 767px) {
     .doctor-container {
-        width: 300px;
-        height: 300px;
-        margin-bottom: 0;
+        width: 100%;
     }
+}
 
-    .info-doctor-container {
-        bottom: 10px;
-        left: 30px;
-        right: 30px;
-
-        .info-doctor {
-            background-color: rgba(13, 148, 129, 0.8);
-            border-radius: 20px;
-            padding-left: 10px;
-            border-width: 4px;
-            border-style: solid;
-            padding-left: 10px;
-
-            .font-s-13 {
-                font-size: 13px;
-            }
-
-            .font-s-15 {
-                font-size: 15px;
-            }
-        }
+@media screen and (min-width: 768px) and (max-width: 991px) {
+    .doctor-container {
+        width: calc(100% / 3);
     }
+}
 
-    // .width-80 {
-    //     width: 80%;
-    // }
+@media screen and (min-width: 992px) {
+    .doctor-container {
+        width: calc(100% / 5);
+    }
 }
 </style>
