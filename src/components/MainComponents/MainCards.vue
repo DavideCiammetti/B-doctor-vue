@@ -1,58 +1,38 @@
 <script>
+import { store } from "../../store.js";
 import axios from 'axios';
 
 export default {
-    name: 'MainCards',
     data() {
         return {
-            currentPage: 1,
-            perPage: 6, // Numero di card per pagina
-            sponsoredDoctors: [], // Array per memorizzare i dottori sponsorizzati correnti
+            sponsoredDoctors: {}, // Risultati della ricerca paginati
         };
     },
     computed: {
         // Ottieni la lista dei dottori per la pagina corrente
         paginatedDoctors() {
-            const start = (this.currentPage - 1) * this.perPage;
-            const end = start + this.perPage;
-            return this.sponsoredDoctors.slice(start, end);
-        },
-        // Numero totale di dottori
-        totalDoctors() {
-            return this.sponsoredDoctors.length;
+            return sponsoredDoctors.data || [];
         },
     },
     methods: {
-        // Ottieni i dati dei dottori sponsorizzati
-        getSponsoredDoctors() {
+        // Ottieni i dottori sponsorizzati per la pagina corrente
+        getPaginatedDoctors(page) {
             axios
-                .get(this.$store.state.api.baseUrl + "/api/sponsor")
+                .get(store.state.api.baseUrl + "/api/sponsor?page=" + page)
                 .then((response) => {
-                    this.sponsoredDoctors = response.data.results.data; // Assegna i dottori sponsorizzati all'array locale
+                    this.sponsoredDoctors = response.data.results;
                 })
                 .catch((error) => {
                     console.log(error);
                 });
         },
-        // Metodo per navigare alla pagina successiva
-        nextPage() {
-            if (this.currentPage * this.perPage < this.totalDoctors) {
-                this.currentPage++;
-            }
-        },
-        // Metodo per navigare alla pagina precedente
-        prevPage() {
-            if (this.currentPage > 1) {
-                this.currentPage--;
-            }
-        },
-        // Metodo per reindirizzare alla pagina di dettaglio del dottore
+        // Reindirizza alla pagina di dettaglio del dottore
         redirectToDoctorDetail(slug) {
             this.$router.push({ name: "doctor-detail", params: { slug: slug } });
         },
     },
     created() {
-        this.getSponsoredDoctors();
+        this.getPaginatedDoctors(1); // Carica i risultati della prima pagina all'avvio del componente
     },
 };
 </script>
@@ -60,15 +40,10 @@ export default {
 <template>
     <div class="d-md-flex gap-5 mt-5 flex-wrap justify-content-center">
         <div v-for="(doctor, index) in paginatedDoctors" :key="index" class="doctor-container position-relative">
-            <!-- Badge -->
-            <!-- <div class="position-absolute top-0 start-0 ms-2 mt-1">
-                <span v-if="doctor.sponsorship_id === 1" class="badge badge-bg-base">Base</span>
-                <span v-else-if="doctor.sponsorship_id === 2" class="badge badge-bg-standard">Standard</span>
-                <span v-else-if="doctor.sponsorship_id === 3" class="badge badge-bg-premium">Premium</span>
-            </div> -->
+            <!-- Contenuto della card -->
             <div class="img-container">
-                <!-- immagine -->
-                <img :src="`${store.imgUrl}/${doctor.doctor_img}`" :alt="`${doctor.user.name} ${doctor.user.surname} image`"
+                <!-- Immagine -->
+                <img :src="`${imgUrl}/${doctor.doctor_img}`" :alt="`${doctor.user.name} ${doctor.user.surname} image`"
                     class="round-img">
             </div>
             <div class="position-absolute info-doctor-container d-flex justify-content-center align-items-center p-0">
@@ -82,30 +57,31 @@ export default {
                             <span v-if="index < doctor.specializations.length - 1">, </span>
                         </span>
                     </p>
-                    <!-- indirizzo -->
-                    <p class="m-0 text-white font-s-13 md-1"><font-awesome-icon icon="fa-solid fa-location-dot" />
-                        {{ doctor.address }}</p>
-                    <!-- recensioni -->
+                    <!-- Indirizzo -->
+                    <p class="m-0 text-white font-s-13 md-1">
+                        <font-awesome-icon icon="fa-solid fa-location-dot" />
+                        {{ doctor.address }}
+                    </p>
+                    <!-- Recensioni -->
                     <p class="m-0 text-white font-s-13 md-1">{{ doctor.reviews.length }} Recensioni</p>
-                    <!-- dettaglio  -->
+                    <!-- Dettaglio -->
                     <p @click="redirectToDoctorDetail(doctor.slug)" class="col-grey dettaglio m-0 font-s-13 md-1">Dettaglio
                     </p>
                 </div>
             </div>
         </div>
-        <!-- Paginazione -->
-        <nav aria-label="Pagination">
-            <ul class="pagination justify-content-center mt-3">
-                <li class="page-item" :class="{ disabled: currentPage === 1 }">
-                    <button class="page-link" @click="prevPage" :disabled="currentPage === 1">Previous</button>
-                </li>
-                <li class="page-item" :class="{ disabled: currentPage * perPage >= totalDoctors }">
-                    <button class="page-link" @click="nextPage"
-                        :disabled="currentPage * perPage >= totalDoctors">Next</button>
-                </li>
-            </ul>
-        </nav>
     </div>
+    <!-- Paginazione -->
+    <nav aria-label="Pagination" v-if="sponsoredDoctors.last_page > 1">
+        <ul class="pagination justify-content-center mt-3">
+            <li class="page-item" :class="{ disabled: sponsoredDoctors.current_page === 1 }">
+                <button class="page-link" @click="getPaginatedDoctors(sponsoredDoctors.current_page - 1)">Previous</button>
+            </li>
+            <li class="page-item" :class="{ disabled: sponsoredDoctors.current_page === sponsoredDoctors.last_page }">
+                <button class="page-link" @click="getPaginatedDoctors(sponsoredDoctors.current_page + 1)">Next</button>
+            </li>
+        </ul>
+    </nav>
 </template>
 
 <style scoped lang="scss">
@@ -115,28 +91,21 @@ export default {
     height: 250px;
     margin-bottom: 30px;
     transition: transform 0.3s ease-in-out;
-}
 
-.doctor-container:hover {
-    transform: scale(1.05);
-}
+    &:hover {
+        transform: scale(1.05);
+    }
 
-// .badge {
-//     position: absolute;
-//     top: 0;
-//     start: 0;
-//     margin-top: 1rem;
-// }
-
-.img-container {
-    width: 100%;
-    height: 100%;
-
-    .round-img {
-        border-radius: 20px;
+    .img-container {
         width: 100%;
         height: 100%;
-        object-fit: cover;
+
+        .round-img {
+            border-radius: 20px;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
     }
 }
 
@@ -147,8 +116,9 @@ export default {
 
     .info-doctor {
         background-color: rgba(13, 148, 129, 0.8);
-        border-color: #0d9482;
         border-radius: 20px;
+        border-color: #0d9482;
+        padding-left: 10px;
         border-width: 4px;
         border-style: solid;
         padding-left: 10px;
