@@ -22,5 +22,9 @@ export const store = reactive({
     searchNotFound: false,
     // variabile searchbar 
     changedSearchbar: false,
+    // invio recenzioni
+    apiReviews:'/api/reviews',
+    // invio messggio
+    apiMessages: '/api/messages',
 
 });
