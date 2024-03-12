@@ -94,7 +94,7 @@ export default {
           list="searchSpecial"
           class="form-control me-2 search-input"
           type="search"
-          placeholder="Cerca dottore, specializzazione, ..."
+          placeholder="Inserisci una specializzazione..."
           aria-label="Search"
           v-model="store.filtred.doctors.key"
         />

@@ -65,27 +65,6 @@ export default {
             <h4 class="text-dark">
               {{ new_doctor.name }} {{ new_doctor.surname }}
             </h4>
-            <div class="sponsor-img-cont" v-if="new_doctor.sponsorships !== []">
-              <div
-                class="sponsor-img"
-              >
-                <img
-                  v-if="new_doctor.price == 9.99"
-                  src="../../../public/advancedSearch-img/Ellipse-gold.png"
-                  alt="gold"
-                />
-                <img
-                  v-if="new_doctor.price == 5.99"
-                  src="../../../public/advancedSearch-img/Ellipse-silver.png"
-                  alt="gold"
-                />
-                <img
-                  v-if="new_doctor.price == 2.99"
-                  src="../../../public/advancedSearch-img/Ellipse-bronze.png"
-                  alt="gold"
-                />
-              </div>
-            </div>
           </div>
           <div class="d-flex flex-wrap mb-2">
             <p
