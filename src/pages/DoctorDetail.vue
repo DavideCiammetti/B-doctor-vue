@@ -55,7 +55,6 @@ export default {
         .catch((error) => {
           console.log(error);
         });
-        this.doctor.id = '';
         this.formReviews.name = '';
         this.formReviews.surname = '';
         this.formReviews.email = '';
@@ -80,7 +79,6 @@ export default {
         .catch((error) => {
           console.log(error);
         });
-        this.doctor.id = '';
         this.formMessages.name = '';
         this.formMessages.surname = '';
         this.formMessages.email = '';
