@@ -20,6 +20,7 @@ export const store = reactive({
 
     //dottori sponsorizzati
     sponsoredDoctors: [],
+    next: null,
 
     // errore nella ricerca elemento non trovato
     searchNotFound: false,

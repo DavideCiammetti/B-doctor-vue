@@ -3,7 +3,7 @@ import MainCards from './MainCards.vue';
 import InfoSectionGreen from './InfoSectionGreen.vue'
 export default {
     name: 'SponsorshipHome',
-    components:{
+    components: {
         MainCards,
         InfoSectionGreen,
     }
@@ -12,23 +12,22 @@ export default {
 
 <template>
     <section id="sponsorship-sec" class="mt-4 mb-4 d-flex flex-column align-items-center">
-       <div class="mb-5">
+        <!-- <div class="mb-5">
         <h2 class="title-col fw-bolder">Medici Sponsorizzati</h2>
-       </div>
-        <MainCards/>
-        <InfoSectionGreen/>
+       </div> -->
+        <MainCards />
+        <InfoSectionGreen />
     </section>
 </template>
 
 <style scoped lang="scss">
-    @use'../../style/partials/palette.scss' as *;
+@use'../../style/partials/palette.scss' as *;
 
-    /*
+/*
         UTILITY
     */
-    .title-col{
-        color: $blue-950;
-        font-size: 20px;
-    }
-
+.title-col {
+    color: $blue-950;
+    font-size: 20px;
+}
 </style>
