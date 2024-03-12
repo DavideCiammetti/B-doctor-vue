@@ -8,6 +8,8 @@ export default {
     return {
       store,
       message: false,
+      // array per numero stelle da rappresentare nel range
+      voteIcons: [],
     };
   },
   methods: {
@@ -19,16 +21,16 @@ export default {
     },
     // ricerca avanzata
     filtredDoctors() {
+      // variabili per mostrare/nascondere i componenti
+      store.advancedCards = false;
+      store.advancedDoctors = true;
+
       // Oggetto per memorizzare i parametri da includere nella richiesta
       let params = {};
       store.filtred.parametri = params;
 
-      // Controlla la key e aggiunge all'oggetto params
-      Object.keys(store.filtred.doctors).forEach((doc) => {
-        if (store.filtred.doctors[doc] !== "") {
-          params[doc] = store.filtred.doctors[doc];
-        }
-      });
+      // svuotare il key della ricerca base
+      store.filtred.doctors.key = "";
 
       // Controlla le specializzazioni e aggiunge all'oggetto params
       Object.keys(store.filtred.specializations).forEach((spec) => {
@@ -39,14 +41,14 @@ export default {
 
       // Controlla i voti e aggiunge all'oggetto params
       Object.keys(store.filtred.votes).forEach((vote) => {
-        if (store.filtred.votes[vote] == true) {
+        if (store.filtred.votes[vote] !== 0) {
           params[vote] = store.filtred.votes[vote];
         }
       });
 
       // Controlla il numero di recensioni e aggiunge all'oggetto params
       Object.keys(store.filtred.reviews).forEach((review) => {
-        if (store.filtred.reviews[review] == true) {
+        if (store.filtred.reviews[review] !== 0) {
           params[review] = store.filtred.reviews[review];
         }
       });
@@ -61,10 +63,10 @@ export default {
             params: params,
           })
           .then((response) => {
-            store.doctor = response.data.results;
+            this.store.advancedDoctor = response.data.results;
             params = {}; // svuota i params dopo aver salvato i dati
             // se si verifica la condizione mostra pagina not found
-            if (store.doctor.length === 0) {
+            if (store.advancedDoctor.length === 0) {
               store.searchNotFound = true;
             }
           })
@@ -77,6 +79,19 @@ export default {
       }
     },
   },
+  // watcher per visualizzare stelle nel range
+  watch: {
+    // Watcher per il cambio di store.filtred.votes.voteValue
+    "store.filtred.votes.voteValue": function (newVal, oldVal) {
+      // Pulisci l'array di icone prima di aggiornarlo
+      this.voteIcons = [];
+
+      // Aggiungi nuove icone in base al nuovo valore
+      for (let i = 0; i < newVal; i++) {
+        this.voteIcons.push(i);
+      }
+    },
+  },
 };
 </script>
 
@@ -86,24 +101,9 @@ export default {
   >
     <div class="container-fluid p-1">
       <form class="d-flex w-100" role="search">
-        <!-- ricerca  -->
-        <div class="flex-grow-1 d-flex gap-1">
-          <span class="input-group-text bg-white" id="basic-addon1">
-            <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
-          </span>
-          <input
-            class="form-control me-1 p-0 with-border"
-            type="search"
-            placeholder="Ricerca..."
-            aria-label="Search"
-            v-model="store.filtred.doctors.key"
-          />
-        </div>
-        <!-- /ricerca  -->
-
         <!-- specializzazione  -->
         <div
-          class="flex-grow-1 d-flex gap-1 align-items-center align-content-center prov-spec"
+          class="flex-grow-1 d-flex ms-5 gap-1 align-items-center align-content-center prov-spec"
         >
           <span class="input-group-text bg-white p-0" id="basic-addon2">
             <font-awesome-icon icon="fa-solid fa-stethoscope" />
@@ -124,7 +124,7 @@ export default {
                     type="checkbox"
                     id="ortopedico"
                     name="ortopedico"
-                    :checked="store.filtred.doctors.key === 'Ortopedico'"
+                    :checked="store.filtred.specializations.ortopedico === true"
                     v-model="store.filtred.specializations.ortopedico"
                   />
                   <label for="ortopedico">Ortopedico</label>
@@ -136,7 +136,7 @@ export default {
                     type="checkbox"
                     id="osteopata"
                     name="osteopata"
-                    :checked="store.filtred.doctors.key === 'Osteopata'"
+                    :checked="store.filtred.specializations.osteopata === true"
                     v-model="store.filtred.specializations.osteopata"
                   />
                   <label for="osteopata">Osteopata</label>
@@ -148,7 +148,9 @@ export default {
                     type="checkbox"
                     id="dermatologo"
                     name="dermatologo"
-                    :checked="store.filtred.doctors.key === 'Dermatologo'"
+                    :checked="
+                      store.filtred.specializations.dermatologo === true
+                    "
                     v-model="store.filtred.specializations.dermatologo"
                   />
                   <label for="dermatologo">Dermatologo</label>
@@ -160,7 +162,7 @@ export default {
                     type="checkbox"
                     id="oculista"
                     name="oculista"
-                    :checked="store.filtred.doctors.key === 'Oculista'"
+                    :checked="store.filtred.specializations.oculista === true"
                     v-model="store.filtred.specializations.oculista"
                   />
                   <label for="oculista">Oculista</label>
@@ -172,7 +174,7 @@ export default {
                     type="checkbox"
                     id="ginecologo"
                     name="ginecologo"
-                    :checked="store.filtred.doctors.key === 'Ginecologo'"
+                    :checked="store.filtred.specializations.ginecologo === true"
                     v-model="store.filtred.specializations.ginecologo"
                   />
                   <label for="ginecologo">Ginecologo</label>
@@ -185,7 +187,9 @@ export default {
                     id="nutrizionista"
                     name="nutrizionista"
                     value="nutrizionista"
-                    :checked="store.filtred.doctors.key === 'Nutrizionista'"
+                    :checked="
+                      store.filtred.specializations.nutrizionista === true
+                    "
                     v-model="store.filtred.specializations.nutrizionista"
                   />
                   <label for="nutrizionista">Nutrizionista</label>
@@ -197,7 +201,7 @@ export default {
                     type="checkbox"
                     id="psicologo"
                     name="psicologo"
-                    :checked="store.filtred.doctors.key === 'Psicologo'"
+                    :checked="store.filtred.specializations.psicologo === true"
                     v-model="store.filtred.specializations.psicologo"
                   />
                   <label for="psicologo">Psicologo</label>
@@ -209,7 +213,7 @@ export default {
                     type="checkbox"
                     id="dentista"
                     name="dentista"
-                    :checked="store.filtred.doctors.key === 'Dentista'"
+                    :checked="store.filtred.specializations.dentista === true"
                     v-model="store.filtred.specializations.dentista"
                   />
                   <label for="dentista">Dentista</label>
@@ -221,7 +225,7 @@ export default {
                     type="checkbox"
                     id="cardiologo"
                     name="cardiologo"
-                    :checked="store.filtred.doctors.key === 'Cardiologo'"
+                    :checked="store.filtred.specializations.cardiologo === true"
                     v-model="store.filtred.specializations.cardiologo"
                   />
                   <label for="cardiologo">Cardiologo</label>
@@ -233,7 +237,7 @@ export default {
                     type="checkbox"
                     id="ostetrica"
                     name="ostetrica"
-                    :checked="store.filtred.doctors.key === 'Ostetrica'"
+                    :checked="store.filtred.specializations.ostetrica === true"
                     v-model="store.filtred.specializations.ostetrica"
                   />
                   <label for="ostetrica">Ostetrica</label>
@@ -245,7 +249,9 @@ export default {
                     type="checkbox"
                     id="anestesista"
                     name="anestesista"
-                    :checked="store.filtred.doctors.key === 'Anestesista'"
+                    :checked="
+                      store.filtred.specializations.anestesista === true
+                    "
                     v-model="store.filtred.specializations.anestesista"
                   />
                   <label for="anestesista">Anestesista</label>
@@ -257,7 +263,9 @@ export default {
                     type="checkbox"
                     id="logopedista"
                     name="logopedista"
-                    :checked="store.filtred.doctors.key === 'Logopedista'"
+                    :checked="
+                      store.filtred.specializations.logopedista === true
+                    "
                     v-model="store.filtred.specializations.logopedista"
                   />
                   <label for="logopedista">Logopedista</label>
@@ -284,63 +292,26 @@ export default {
             >
               Voti
             </button>
-            <ul class="dropdown-menu">
-              <li>
-                <div class="d-flex align-iitems-center gap-2 p-1">
-                  <input
-                    type="checkbox"
-                    id="scarso"
-                    name="5"
-                    v-model="this.store.filtred.votes.scarso"
-                  />
-                  <label for="scarso">Scarso</label>
-                </div>
-              </li>
-              <li>
-                <div class="d-flex align-iitems-center gap-2 p-1">
-                  <input
-                    type="checkbox"
-                    id="sufficiente"
-                    name="4"
-                    v-model="this.store.filtred.votes.sufficiente"
-                  />
-                  <label for="sufficiente">Sufficiente</label>
-                </div>
-              </li>
-              <li>
-                <div class="d-flex align-iitems-center gap-2 p-1">
-                  <input
-                    type="checkbox"
-                    id="buono"
-                    name="3"
-                    v-model="this.store.filtred.votes.buono"
-                  />
-                  <label for="buono">Buono</label>
-                </div>
-              </li>
-              <li>
-                <div class="d-flex align-iitems-center gap-2 p-1">
-                  <input
-                    type="checkbox"
-                    id="discreto"
-                    name="2"
-                    v-model="this.store.filtred.votes.discreto"
-                  />
-                  <label for="discreto">Discreto</label>
-                </div>
-              </li>
-              <li>
-                <div class="d-flex align-iitems-center gap-2 p-1">
-                  <input
-                    type="checkbox"
-                    id="1"
-                    name="1"
-                    v-model="this.store.filtred.votes.ottimo"
-                  />
-                  <label for="ottimo">Ottimo</label>
-                </div>
-              </li>
-            </ul>
+            <div class="dropdown-menu px-3">
+              <label for="customRange1" class="form-label">Media Voto</label>
+              <input
+                type="range"
+                class="form-range"
+                id="customRange1"
+                min="0"
+                max="5"
+                step="1"
+                v-model="store.filtred.votes.voteValue"
+                name="vote"
+              />
+              <div class="stars">
+                <font-awesome-icon
+                  v-for="star in voteIcons"
+                  :icon="['fas', 'star']"
+                />
+                {{ store.filtred.votes.voteValue }}
+              </div>
+            </div>
           </div>
         </div>
         <!-- /voti  -->
@@ -361,30 +332,30 @@ export default {
             >
               Recensioni
             </button>
-            <ul class="dropdown-menu">
-              <li>
-                <div class="d-flex align-iitems-center gap-2 p-1">
-                  <input
-                    type="checkbox"
-                    id="minDieci"
-                    name="minDieci"
-                    v-model="this.store.filtred.reviews.minDieci"
-                  />
-                  <label for="minDieci"> < 10</label>
-                </div>
-              </li>
-              <li>
-                <div class="d-flex align-iitems-center gap-2 p-1">
-                  <input
-                    type="checkbox"
-                    id="maxDieci"
-                    name="maxDieci"
-                    v-model="this.store.filtred.reviews.maxDieci"
-                  />
-                  <label for="maxDieci"> > 10</label>
-                </div>
-              </li>
-            </ul>
+            <div class="dropdown-menu w-full px-3">
+              <label for="customRange1" class="form-label"
+                >Num. Recensioni</label
+              >
+              <input
+                type="range"
+                class="form-range"
+                id="customRange1"
+                min="0"
+                max="50"
+                step="10"
+                name="review"
+                v-model="store.filtred.reviews.reviewValue"
+              />
+              <div class="d-flex gap-4">
+                <label for="number">Num. Selezionato</label>
+                <input
+                  v-model="store.filtred.reviews.reviewValue"
+                  type="number"
+                  name="reviews"
+                  class="input number px-2"
+                />
+              </div>
+            </div>
           </div>
         </div>
         <!-- /recensioni  -->
@@ -494,5 +465,19 @@ export default {
       font-size: 13px;
     }
   }
+}
+
+.number {
+  display: inline;
+  border: none;
+  width: 50px;
+}
+
+input:focus-visible {
+  border: none;
+}
+
+.stars svg {
+  color: $green-400;
 }
 </style>
