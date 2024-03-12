@@ -65,4 +65,6 @@ export const store = reactive({
   searchNotFound: false,
   // variabile searchbar
   changedSearchbar: false,
+  sponsoredDoctors: [],
+  next: null,
 });

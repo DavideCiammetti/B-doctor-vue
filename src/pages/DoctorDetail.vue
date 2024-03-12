@@ -205,6 +205,10 @@ export default {
                 </div>
                 <!-- offcanvas form messaggi -->
                 <div class="offcanvas offcanvas-start off-width" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+                  <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Inserisci il messaggio</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                  </div>
                   <div class="offcanvas-body">
                     <div v-if="this.showFormMessage">
                   <form action="" @submit.prevent="sendMessages" method="post">
