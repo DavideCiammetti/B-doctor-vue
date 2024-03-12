@@ -57,7 +57,7 @@ export default {
 
 
 <template>
-    <div class="mb-5">
+    <div class="mb-3">
         <h2 class="title-col fw-bolder">Medici Sponsorizzati {{ totalSponsoredDoctors }}</h2>
     </div>
     <div class="d-md-flex gap-5 mt-5 flex-wrap justify-content-center">
