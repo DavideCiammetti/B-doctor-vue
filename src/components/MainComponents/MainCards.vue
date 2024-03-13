@@ -67,17 +67,21 @@ export default {
 </script>
 
 <template>
+    <!-- titolo  -->
     <div class="mb-3">
         <h2 class="title-col fw-bolder">Medici Sponsorizzati {{ totalSponsoredDoctors }}</h2>
     </div>
+    <!-- big container  -->
     <div class="w-100 d-flex justify-content-center align-items-center">
-        <div class="d-block d-md-none">
+        <!-- div bottone precedente  -->
+        <div class="d-block d-md-none px-3">
             <button @click="prevPage" :disabled="currentPage === 1" class="btn btn-cstm rounded-circle text-white">
                 <font-awesome-icon icon="fa-solid fa-circle-chevron-left" />
             </button>
-            <!-- ciao -->
         </div>
+        <!-- /div bottone precedente  -->
 
+        <!-- card docs sponsored  -->
         <div class="d-flex gap-md-5 mt-5 flex-wrap justify-content-center">
             <div v-for="(doctor, index) in sponsoredDoctors" :key="index" class="doctor-container position-relative">
                 <div class="img-container">
@@ -109,16 +113,18 @@ export default {
                 </div>
             </div>
         </div>
+        <!-- /card docs sponsored  -->
 
-        <div class="d-block d-md-none">
+        <!-- div bottone successivo fontawesome  -->
+        <div class="d-block d-md-none px-3">
             <button @click="nextPage" :disabled="currentPage === totalPages" class="btn btn-cstm rounded-circle text-white">
                 <font-awesome-icon icon="fa-solid fa-circle-chevron-right" />
             </button>
-            <!-- ciao -->
         </div>
-
+        <!-- div bottone successimo fontawesome  -->
     </div>
 
+    <!-- bottoni prec succ e num page  -->
     <div class="pagination-container mt-5 d-flex justify-content-center align-items-center gap-2">
         <button @click="prevPage" :disabled="currentPage === 1"
             class="btn btn-cstm text-white d-none d-md-block">Precedente</button>
@@ -136,6 +142,7 @@ export default {
         <button @click="nextPage" :disabled="currentPage === totalPages"
             class="btn btn-cstm text-white d-none d-md-block">Successiva</button>
     </div>
+    <!-- /bottoni prec succ e num page  -->
 </template>
 
 <style scoped lang="scss">
