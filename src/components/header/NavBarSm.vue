@@ -103,7 +103,7 @@ export default {
         </div>
         <datalist id="searchSpecial">
           <option value="Logopedista"></option>
-          <option value="Anestesista"></option>
+          <option value="Anestetista"></option>
           <option value="Ostetrica"></option>
           <option value="Osteopata"></option>
           <option value="Cardiologo"></option>

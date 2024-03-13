@@ -25,6 +25,8 @@ export const store = reactive({
   apiReviews: "/api/reviews",
   // invio messggio
   apiMessages: "/api/messages",
+  // invio voto
+  apiVotes: '/api/votes',
   // ricerca avanzata
   filtred: {
     parametri: {},
