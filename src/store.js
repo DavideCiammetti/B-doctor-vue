@@ -15,6 +15,8 @@ export const store = reactive({
   },
   // oggetto vuoto per ricerca base
   doctor: {},
+  // oggetto vuoto per ricerca avanzata
+  advancedDoctor: {},
   // errore nella ricerca elemento non trovato
   searchNotFound: false,
   // variabile searchbar
@@ -47,16 +49,11 @@ export const store = reactive({
     },
 
     votes: {
-      ottimo: "",
-      buono: "",
-      discreto: "",
-      sufficiente: "",
-      scarso: "",
+      voteValue: 0,
     },
 
     reviews: {
-      minDieci: "",
-      maxDieci: "",
+      reviewValue: 0,
     },
   },
   // url immagini
@@ -67,4 +64,9 @@ export const store = reactive({
   changedSearchbar: false,
   sponsoredDoctors: [],
   next: null,
+  // advanced...
+  advancedCards: false,
+  advancedDoctors: false,
+  // error
+  error: false,
 });

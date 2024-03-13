@@ -26,17 +26,13 @@ export default {
       <h6>Numero dottori trovati: {{ store.doctor.length }}</h6>
       <!-- visualizza le info dopo aver selezionato almeno una checkbox -->
       <h6 v-if="Object.keys(store.filtred.parametri) > 1">Filtri Applicati:</h6>
-      <!-- visualizza la key se presente -->
-      <h6 v-if="store.filtred.doctors.key" class="lower-case">
-        {{ store.filtred.doctors.key }}
-      </h6>
       <!-- visualizza i parametri della richiesta -->
       <div
         v-for="(key, index) in Object.keys(store.filtred.parametri)"
         :key="index"
       >
         <!-- tranne il primo elemento perchè è la key -->
-        <h6 v-if="index > 0" class="lower-case">{{ key }}</h6>
+        <h6 class="lower-case">{{ key }}</h6>
       </div>
     </div>
     <!-- /info ricerca -->
@@ -68,10 +64,10 @@ export default {
           </div>
           <div class="d-flex flex-wrap mb-2">
             <p
-            v-for="specializations in new_doctor.specializations"
+              v-for="specializations in new_doctor.specializations"
               class="m-0 pe-2"
             >
-              {{specializations}}
+              {{ specializations }}
             </p>
           </div>
           <!-- <div class="col-stars d-flex">-------voti feature

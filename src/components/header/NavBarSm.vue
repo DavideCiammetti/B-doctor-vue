@@ -6,9 +6,32 @@ export default {
   data() {
     return {
       store,
+      // specializzazioni
+      specializations: [
+        "ortopedico",
+        "dermatologo",
+        "psicologo",
+        "oculista",
+        "ginecologo",
+        "nutrizionista",
+        "dentista",
+        "cardiologo",
+        "osteopata",
+        "ostetrica",
+        "anestesista",
+        "logopedista",
+      ],
     };
   },
   methods: {
+    // setta a true la specializzazione inserita nella ricerca base
+    keySpecializations() {
+      this.specializations.forEach((specialization) => {
+        if (this.store.filtred.doctors.key.toLowerCase() === specialization) {
+          this.store.filtred.specializations[specialization] = true;
+        }
+      });
+    },
     // chiamata axios per ricerca base dottori con validazioni
     getDoctors() {
       const validRegex = /^[a-zA-Z\s]+$/;
@@ -31,6 +54,10 @@ export default {
       } else {
         onlyLetters.classList.add("d-none");
         maxThree.classList.add("d-none");
+
+        // variabili per mostrare/nascondere i componenti
+        store.advancedCards = true;
+        store.advancedDoctors = false;
         axios
           .get(this.store.api.baseUrl + this.store.apiUrls.doctors, {
             params: {
@@ -39,7 +66,6 @@ export default {
           })
           .then((response) => {
             this.store.doctor = response.data.results;
-            console.log(this.store.doctor);
             this.showSearchbar();
             // ricerca che non produce risultati
             if (this.store.doctor.length === 0) {
@@ -47,7 +73,7 @@ export default {
               this.$router.push("/notFound");
             } else {
               this.store.searchNotFound = false;
-              // this.store.doctors.searchKey = '';
+              // this.store.filtred.doctors.key = "";
               this.$router.push("/ricerca-avanzata");
             }
           })
@@ -99,7 +125,11 @@ export default {
           v-model="store.filtred.doctors.key"
         />
 
-        <button class="btn btn-outline-success search-button" type="submit">
+        <button
+          class="btn btn-outline-success search-button"
+          @click="keySpecializations()"
+          type="submit"
+        >
           Cerca
         </button>
       </form>
