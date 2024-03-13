@@ -30,6 +30,11 @@ export default {
         phoneNumber: null,
         message: null,
       },
+      // invio voto
+      formVotes:{
+        vote_id: null,
+      },
+      selectedStars: 0,
     };
   },
   methods: {
@@ -86,6 +91,29 @@ export default {
         this.formMessages.message = '';
 
     },
+    sendVotes(){
+      const data = {
+          vote_id: this.formVotes.vote_id,  
+          doctor_id: this.doctor.id,
+      };
+
+      console.log(data);
+      axios.post(this.store.api.baseUrl + this.store.apiVotes, data
+        )
+        .then((response) => {
+         console.log('messages', response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+        this.formMessages.vote_id = '';
+    },
+    // click stelle voti
+    clickStar(key){
+      console.log(key);
+      this.selectedStars = key;
+      return  this.formVotes.vote_id = this.selectedStars;
+    },
     reviews() {
       this.activeReviews = true;
       this.activeServices = false;
@@ -126,7 +154,7 @@ export default {
           somma = somma + vote.id; // sommo gli id
           console.log(somma);
         });
-        const numStelleRimanenti = Math.floor(somma / this.doctor.votes?.length); // divido la somma per la lunghezza dell'array
+        const numStelleRimanenti = Math.round(somma / this.doctor.votes?.length); // divido la somma per la lunghezza dell'array
         return numStelleRimanenti; // restituisco il numero di stelle mancanti
       } else {
         return 5; // Se non ci sono voti, restituisci 5
@@ -191,7 +219,7 @@ export default {
                 <h6>Indirizzo: {{ doctor.address }}</h6>
                 <div class="cont d-flex flex-column flex-md-row align-items-center gap-2 mt-2">
                   <div class="stelle d-flex gap-1">
-                    <font-awesome-icon v-for="star in 5 - stars()" :icon="['fas', 'star']"/>
+                    <font-awesome-icon v-for="star in stars()" :icon="['fas', 'star']"/>
                   </div>
                   <span v-if="doctor.reviews?.length">{{ doctor.reviews?.length }} Recensioni</span>
                 </div>
@@ -263,6 +291,7 @@ export default {
               <div
                 class="cont d-flex justify-content-between align-items-center"
               >
+              <!-- davide -->
                 <h4>{{ doctor.reviews?.length }} Recensioni</h4>
                 <button class="btn border border-2" @click="showForm">Aggiungi recensione</button>
               </div>
@@ -290,13 +319,23 @@ export default {
 
               <!-- voto -->
               <div class="cont">
-                <div class="stelle d-flex gap-1 mt-2">
-                  <font-awesome-icon
-                    v-for="star in 5 - stars()"
-                    :icon="['fas', 'star']"
-                  />
+                <!-- voto medio -->
+                <div>
+                  <div class="stelle d-flex gap-1 mt-2">
+                    <font-awesome-icon
+                      v-for="star in stars()"
+                      :icon="['fas', 'star']"
+                    />
+                  </div>
+                  <p class="mb-0">Punteggio Medio</p>
                 </div>
-                <p class="mb-0">Punteggio Medio</p>
+                <!-- aggiungi voto davide-->
+                <div>
+                  <form action="" @submit.prevent="sendVotes" method="post">
+                    <font-awesome-icon class="starsVote" :class="{'bg-star-c': key + 1 <= selectedStars }" v-for="(star, key) in 5":icon="['fas', 'star']" @click="clickStar(key+1)"/>
+                    <button v-show="selectedStars" class="send-vote-bt">Invia Voto</button>
+                  </form>
+                </div>
               </div>
               <!-- /voto -->
 
@@ -340,14 +379,6 @@ export default {
                 </div>
               </div>
               <!-- /lista recensioni -->
-
-              <!-- button -->
-              <!-- <div class="cont border-top border-2 p-3 text-center">
-                <button class="btn border border-w bg-light">
-                  Mosta Altro
-                </button>
-              </div> -->
-              <!-- /button -->
             </div>
             <!-- /recensioni -->
 
@@ -413,7 +444,13 @@ li {
 .stelle {
   color: #00c3a5;
 }
-
+.bg-star-c{
+  color: #00c3a5;
+}
+.send-vote-bt{
+  border: none;
+  font-size: 12px;
+}
 .input-reviews, .butt-Reviews{
   border: 0;
   outline: none;
