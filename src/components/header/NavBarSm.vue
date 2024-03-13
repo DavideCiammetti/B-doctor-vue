@@ -28,9 +28,7 @@ export default {
     keySpecializations() {
       this.specializations.forEach((specialization) => {
         if (this.store.filtred.doctors.key.toLowerCase() === specialization) {
-          console.log(this.store.filtred.specializations.specialization);
           this.store.filtred.specializations[specialization] = true;
-          console.log(this.store.filtred.specializations.specialization);
         }
       });
     },
@@ -68,7 +66,6 @@ export default {
           })
           .then((response) => {
             this.store.doctor = response.data.results;
-            console.log(this.store.doctor);
             this.showSearchbar();
             // ricerca che non produce risultati
             if (this.store.doctor.length === 0) {

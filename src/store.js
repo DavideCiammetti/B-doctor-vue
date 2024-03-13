@@ -67,4 +67,6 @@ export const store = reactive({
   // advanced...
   advancedCards: false,
   advancedDoctors: false,
+  // error
+  error: false,
 });

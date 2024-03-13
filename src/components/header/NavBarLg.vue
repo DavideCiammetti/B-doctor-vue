@@ -7,9 +7,23 @@ export default {
   data() {
     return {
       store,
-      message: false,
       // array per numero stelle da rappresentare nel range
       voteIcons: [],
+      // specializzazioni
+      specializations: [
+        "ortopedico",
+        "dermatologo",
+        "psicologo",
+        "oculista",
+        "ginecologo",
+        "nutrizionista",
+        "dentista",
+        "cardiologo",
+        "osteopata",
+        "ostetrica",
+        "anestesista",
+        "logopedista",
+      ],
     };
   },
   methods: {
@@ -19,8 +33,14 @@ export default {
         name: "/notFound",
       });
     },
+    fillSpecializations() {
+      this.specializations.forEach((specialization) => {
+        this.store.filtred.specializations[specialization] = true;
+      });
+    },
     // ricerca avanzata
     filtredDoctors() {
+      store.error = false;
       // variabili per mostrare/nascondere i componenti
       store.advancedCards = false;
       store.advancedDoctors = true;
@@ -39,23 +59,8 @@ export default {
         }
       });
 
-      // Controlla i voti e aggiunge all'oggetto params
-      Object.keys(store.filtred.votes).forEach((vote) => {
-        if (store.filtred.votes[vote] !== 0) {
-          params[vote] = store.filtred.votes[vote];
-        }
-      });
-
-      // Controlla il numero di recensioni e aggiunge all'oggetto params
-      Object.keys(store.filtred.reviews).forEach((review) => {
-        if (store.filtred.reviews[review] !== 0) {
-          params[review] = store.filtred.reviews[review];
-        }
-      });
-
       // Esegue la chiamata API solo se ci sono parametri da inviare
       if (Object.keys(params).length > 0) {
-        this.message = false; // nasconde il messaggio d'errore
         store.searchNotFound = false; // nasconde pagina not found
         // axios
         axios
@@ -64,6 +69,12 @@ export default {
           })
           .then((response) => {
             this.store.advancedDoctor = response.data.results;
+            if (this.store.filtred.votes.voteValue > 0) {
+              this.voteFilter();
+            }
+            if (this.store.filtred.reviews.reviewValue > 0) {
+              this.reviewFilter();
+            }
             params = {}; // svuota i params dopo aver salvato i dati
             // se si verifica la condizione mostra pagina not found
             if (store.advancedDoctor.length === 0) {
@@ -77,6 +88,28 @@ export default {
         // Avvisa l'utente che non ha selezionato nessun filtro
         this.message = true;
       }
+    },
+    voteFilter() {
+      this.store.advancedDoctor = this.store.advancedDoctor.filter((doctor) => {
+        if (doctor.votes.length > 0) {
+          let media = 0;
+          let voti = doctor.votes;
+          let numeroVoti = doctor.votes.length;
+          let somma = 0;
+          voti.forEach((vote) => {
+            somma = somma + vote.id; // sommo gli id
+          });
+          media = Math.floor(somma / numeroVoti); // Calcolo della media corretto
+          return media >= this.store.filtred.votes.voteValue; // Restituisce true solo se la media è maggiore o uguale al valore di voto filtrato
+        }
+        return false; // Se non ci sono voti, il dottore non viene incluso nei risultati
+      });
+    },
+    reviewFilter() {
+      this.store.advancedDoctor = this.store.advancedDoctor.filter((doctor) => {
+        // Filtra i dottori con un numero di recensioni maggiore o uguale a quello specificato
+        return doctor.reviews.length >= this.store.filtred.reviews.reviewValue;
+      });
     },
   },
   // watcher per visualizzare stelle nel range
@@ -96,14 +129,15 @@ export default {
 </script>
 
 <template>
-  <nav
-    class="navbar navbar-expand-lg navbar-light bg-white rounded-pill nav-cstm p-0"
-  >
+  <nav class="navbar navbar-expand-lg nav-cstm p-0">
     <div class="container-fluid p-1">
-      <form class="d-flex w-100" role="search">
+      <form
+        class="d-flex flex-column flex-md-row ps-3 pe-3 p-md-1 ps-md-3 justify-content-between w-100 bg-white rounded-5"
+        role="search"
+      >
         <!-- specializzazione  -->
         <div
-          class="flex-grow-1 d-flex ms-5 gap-1 align-items-center align-content-center prov-spec"
+          class="d-flex gap-1 align-items-center align-content-center prov-spec"
         >
           <span class="input-group-text bg-white p-0" id="basic-addon2">
             <font-awesome-icon icon="fa-solid fa-stethoscope" />
@@ -271,6 +305,11 @@ export default {
                   <label for="logopedista">Logopedista</label>
                 </div>
               </li>
+              <li @click="fillSpecializations()">
+                <div class="btn btn-primary">
+                  Seleziona tutte le specializzazioni
+                </div>
+              </li>
             </ul>
           </div>
         </div>
@@ -278,7 +317,7 @@ export default {
 
         <!-- voti  -->
         <div
-          class="flex-grow-1 d-flex gap-1 align-items-center align-content-center prov-vot"
+          class="d-flex gap-1 align-items-center align-content-center prov-vot"
         >
           <span class="input-group-text bg-white p-0" id="basic-addon3">
             <font-awesome-icon icon="fa-regular fa-star" />
@@ -318,7 +357,7 @@ export default {
 
         <!-- recensioni  -->
         <div
-          class="flex-grow-1 d-flex gap-1 align-items-center align-content-center prov-rec"
+          class="d-flex gap-1 align-items-center align-content-center prov-rec"
         >
           <span class="input-group-text bg-white p-0" id="basic-addon3">
             <font-awesome-icon icon="fa-regular fa-file-lines" />
@@ -361,7 +400,7 @@ export default {
         <!-- /recensioni  -->
 
         <!-- bottone cerca  -->
-        <div class="col-1 d-flex justify-content-end">
+        <div class="col-12 col-md-1 d-flex justify-content-end mb-2 mb-md-0">
           <button
             @click.prevent="filtredDoctors"
             class="btn btn-outline-success flex-grow-1 search-button"
@@ -374,13 +413,6 @@ export default {
       </form>
     </div>
   </nav>
-  <div
-    class="alert alert-danger mt-3"
-    :class="message === true ? 'd-block' : 'd-none'"
-    role="alert"
-  >
-    Seleziona almeno un filtro prima di effettuare la ricerca.
-  </div>
 </template>
 
 <style scoped lang="scss">
@@ -409,6 +441,16 @@ export default {
   }
 
   // prove resposive
+  .search-button {
+    @media (min-width: 768px) {
+      border-radius: 0 50px 50px 0;
+    }
+
+    @media (max-width: 768px) {
+      border-radius: 20px;
+    }
+  }
+
   .flex-grow-1.d-flex.gap-1 {
     @media (max-width: 606px) {
       flex-grow: 0; // Impedisce al elemento di espandersi
@@ -452,7 +494,6 @@ export default {
     background-color: #00264c;
     color: white;
     border-color: #00264c;
-    border-radius: 0 50px 50px 0;
     height: 54px;
     display: block;
 

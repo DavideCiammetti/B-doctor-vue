@@ -13,17 +13,17 @@ export default {
       activeSpecializations: false,
       doctor: {},
       showFormReviews: false,
-      showFormMessage:false,
+      showFormMessage: false,
       // invio recenzioni
-      formReviews:{
+      formReviews: {
         name: null,
         surname: null,
         email: null,
         phoneNumber: null,
         content: null,
       },
-      // invio messaggi 
-      formMessages:{
+      // invio messaggi
+      formMessages: {
         name: null,
         surname: null,
         email: null,
@@ -33,58 +33,57 @@ export default {
     };
   },
   methods: {
-     // invio recenzioni
-     sendReviews(){
+    // invio recenzioni
+    sendReviews() {
       const data = {
-            doctor_id: this.doctor.id,
-            name: this.formReviews.name,
-            surname: this.formReviews.surname,
-            email: this.formReviews.email,
-            phone_number: this.formReviews.phoneNumber,
-            content: this.formReviews.content
+        doctor_id: this.doctor.id,
+        name: this.formReviews.name,
+        surname: this.formReviews.surname,
+        email: this.formReviews.email,
+        phone_number: this.formReviews.phoneNumber,
+        content: this.formReviews.content,
       };
       console.log(data);
-      axios.post(this.store.api.baseUrl + this.store.apiReviews, data
-        )
+      axios
+        .post(this.store.api.baseUrl + this.store.apiReviews, data)
         .then((response) => {
-         console.log(response);
-         if(response.status === 201){
-          this.doctor.reviews.push(response.data);
-         }
+          console.log(response);
+          if (response.status === 201) {
+            this.doctor.reviews.push(response.data);
+          }
         })
         .catch((error) => {
           console.log(error);
         });
-        this.formReviews.name = '';
-        this.formReviews.surname = '';
-        this.formReviews.email = '';
-        this.formReviews.phoneNumber = '';
-        this.formReviews.content = '';
+      this.formReviews.name = "";
+      this.formReviews.surname = "";
+      this.formReviews.email = "";
+      this.formReviews.phoneNumber = "";
+      this.formReviews.content = "";
     },
-    sendMessages(){
+    sendMessages() {
       const data = {
-            doctor_id: this.doctor.id,
-            name: this.formMessages.name,
-            surname: this.formMessages.surname,
-            email: this.formMessages.email,
-            phone_number: this.formMessages.phoneNumber,
-            message: this.formMessages.message,
+        doctor_id: this.doctor.id,
+        name: this.formMessages.name,
+        surname: this.formMessages.surname,
+        email: this.formMessages.email,
+        phone_number: this.formMessages.phoneNumber,
+        message: this.formMessages.message,
       };
       console.log(data);
-      axios.post(this.store.api.baseUrl + this.store.apiMessages, data
-        )
+      axios
+        .post(this.store.api.baseUrl + this.store.apiMessages, data)
         .then((response) => {
-         console.log('messages', response);
+          console.log("messages", response);
         })
         .catch((error) => {
           console.log(error);
         });
-        this.formMessages.name = '';
-        this.formMessages.surname = '';
-        this.formMessages.email = '';
-        this.formMessages.phoneNumber = '';
-        this.formMessages.message = '';
-
+      this.formMessages.name = "";
+      this.formMessages.surname = "";
+      this.formMessages.email = "";
+      this.formMessages.phoneNumber = "";
+      this.formMessages.message = "";
     },
     reviews() {
       this.activeReviews = true;
@@ -124,12 +123,11 @@ export default {
         // scorro l'array
         votes.forEach((vote) => {
           somma = somma + vote.id; // sommo gli id
-          console.log(somma);
         });
-        const numStelleRimanenti = Math.floor(somma / this.doctor.votes?.length); // divido la somma per la lunghezza dell'array
-        return numStelleRimanenti; // restituisco il numero di stelle mancanti
+        const numStelle = Math.floor(somma / this.doctor.votes?.length); // divido la somma per la lunghezza dell'array
+        return numStelle; // restituisco il numero di stelle
       } else {
-        return 5; // Se non ci sono voti, restituisci 5
+        return 0; // Se non ci sono voti, restituisci 0
       }
     },
 
@@ -139,11 +137,10 @@ export default {
     // mostra form inserimento reviews
     showForm() {
       this.showFormReviews = !this.showFormReviews;
-  },
-  showFormMessages(){
-    this.showFormMessage = !this.showFormMessage;
-  },
-
+    },
+    showFormMessages() {
+      this.showFormMessage = !this.showFormMessage;
+    },
   },
   created() {
     this.getDoctor();
@@ -172,65 +169,129 @@ export default {
               <div class="info d-flex flex-column gap-2">
                 <div>
                   <div class="name d-flex gap-1">
-                  <h4>Dott.</h4>
-                  <h4>{{ doctor.user?.name }}</h4>
-                  <h4>{{ doctor.user?.surname }}</h4>
-                </div>
-                <h6 v-for="specialization in doctor.specializations">
-                  {{ specialization.title }}
-                </h6>
-                <div class="d-flex gap-1" v-if="doctor.phone_number">
-                  <span>Telefono:</span>
-                  <a :href="'tel:' + doctor.phone_number">{{
-                    doctor.phone_number
-                  }}</a>
-                </div>
-                <!-- <div v-else>
+                    <h4>Dott.</h4>
+                    <h4>{{ doctor.user?.name }}</h4>
+                    <h4>{{ doctor.user?.surname }}</h4>
+                  </div>
+                  <h6 v-for="specialization in doctor.specializations">
+                    {{ specialization.title }}
+                  </h6>
+                  <div class="d-flex gap-1" v-if="doctor.phone_number">
+                    <span>Telefono:</span>
+                    <a :href="'tel:' + doctor.phone_number">{{
+                      doctor.phone_number
+                    }}</a>
+                  </div>
+                  <!-- <div v-else>
 
                 </div> -->
-                <h6>Indirizzo: {{ doctor.address }}</h6>
-                <div class="cont d-flex flex-column flex-md-row align-items-center gap-2 mt-2">
-                  <div class="stelle d-flex gap-1">
-                    <font-awesome-icon v-for="star in 5 - stars()" :icon="['fas', 'star']"/>
+                  <h6>Indirizzo: {{ doctor.address }}</h6>
+                  <div
+                    class="cont d-flex flex-column flex-md-row align-items-center gap-2 mt-2"
+                  >
+                    <div class="stelle d-flex gap-1">
+                      <font-awesome-icon
+                        v-for="star in stars()"
+                        :icon="['fas', 'star']"
+                      />
+                    </div>
+                    <span v-if="doctor.reviews?.length"
+                      >{{ doctor.reviews?.length }} Recensioni</span
+                    >
                   </div>
-                  <span v-if="doctor.reviews?.length">{{ doctor.reviews?.length }} Recensioni</span>
-                </div>
                   <div>
-                    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" @click="showFormMessages" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+                    <button
+                      class="btn btn-primary"
+                      type="button"
+                      data-bs-toggle="offcanvas"
+                      @click="showFormMessages"
+                      data-bs-target="#offcanvasExample"
+                      aria-controls="offcanvasExample"
+                    >
                       Contatta il Medico
                     </button>
                   </div>
                 </div>
                 <!-- offcanvas form messaggi -->
-                <div class="offcanvas offcanvas-start off-width" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+                <div
+                  class="offcanvas offcanvas-start off-width"
+                  tabindex="-1"
+                  id="offcanvasExample"
+                  aria-labelledby="offcanvasExampleLabel"
+                >
                   <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Inserisci il messaggio</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    <h5 class="offcanvas-title" id="offcanvasExampleLabel">
+                      Inserisci il messaggio
+                    </h5>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="offcanvas"
+                      aria-label="Close"
+                    ></button>
                   </div>
                   <div class="offcanvas-body">
                     <div v-if="this.showFormMessage">
-                  <form action="" @submit.prevent="sendMessages" method="post">
-                    <!-- name -->
-                    <label for="nameRev" class="d-none">Nome</label>
-                    <input type="text" id="nameRev" placeholder="Nome" class="input-reviews p-2" name="name" v-model="formMessages.name">
-                    <!-- surname -->
-                    <label for="surnameRev" class="d-none">surname</label>
-                    <input type="text" name="surname" class="input-reviews p-2" placeholder="Cognome" v-model="formMessages.surname">
-                    <!-- email -->
-                    <label for="emailRev" class="d-none">email</label>
-                    <input type="email" name="email" class="input-reviews p-2" placeholder="Email" v-model="formMessages.email">
-                    <!-- phone number -->
-                    <label for="phoneRev" class="d-none">phone</label>
-                    <input type="text" name="phoneNumber" class="input-reviews p-2" placeholder="Tel" id="phoneRev" v-model="formMessages.phoneNumber">
-                    <!-- content -->
-                    <textarea name="content" id="reviewsText" class="input-reviews p-1" placeholder="Recenzione" cols="80" rows="4" v-model="formMessages.message"></textarea>
-                    <button class="ms-2 butt-Reviews p-2">Invia Recenzione</button>
-                  </form>
-                </div>
+                      <form
+                        action=""
+                        @submit.prevent="sendMessages"
+                        method="post"
+                      >
+                        <!-- name -->
+                        <label for="nameRev" class="d-none">Nome</label>
+                        <input
+                          type="text"
+                          id="nameRev"
+                          placeholder="Nome"
+                          class="input-reviews p-2"
+                          name="name"
+                          v-model="formMessages.name"
+                        />
+                        <!-- surname -->
+                        <label for="surnameRev" class="d-none">surname</label>
+                        <input
+                          type="text"
+                          name="surname"
+                          class="input-reviews p-2"
+                          placeholder="Cognome"
+                          v-model="formMessages.surname"
+                        />
+                        <!-- email -->
+                        <label for="emailRev" class="d-none">email</label>
+                        <input
+                          type="email"
+                          name="email"
+                          class="input-reviews p-2"
+                          placeholder="Email"
+                          v-model="formMessages.email"
+                        />
+                        <!-- phone number -->
+                        <label for="phoneRev" class="d-none">phone</label>
+                        <input
+                          type="text"
+                          name="phoneNumber"
+                          class="input-reviews p-2"
+                          placeholder="Tel"
+                          id="phoneRev"
+                          v-model="formMessages.phoneNumber"
+                        />
+                        <!-- content -->
+                        <textarea
+                          name="content"
+                          id="reviewsText"
+                          class="input-reviews p-1"
+                          placeholder="Recenzione"
+                          cols="80"
+                          rows="4"
+                          v-model="formMessages.message"
+                        ></textarea>
+                        <button class="ms-2 butt-Reviews p-2">
+                          Invia Recenzione
+                        </button>
+                      </form>
+                    </div>
                   </div>
                 </div>
-
-
               </div>
             </div>
             <!-- /top -->
@@ -264,27 +325,65 @@ export default {
                 class="cont d-flex justify-content-between align-items-center"
               >
                 <h4>{{ doctor.reviews?.length }} Recensioni</h4>
-                <button class="btn border border-2" @click="showForm">Aggiungi recensione</button>
+                <button class="btn border border-2" @click="showForm">
+                  Aggiungi recensione
+                </button>
               </div>
               <!-- invio dati reviews -->
               <div v-if="this.showFormReviews">
-                  <form action="" @submit.prevent="sendReviews" method="post">
-                    <!-- name -->
-                    <label for="nameRev" class="d-none">Nome</label>
-                    <input type="text" id="nameRev" placeholder="Nome" class="input-reviews p-2" name="name" v-model="formReviews.name">
-                    <!-- surname -->
-                    <label for="surnameRev" class="d-none">surname</label>
-                    <input type="text" name="surname" class="input-reviews p-2" placeholder="Cognome" v-model="formReviews.surname">
-                    <!-- email -->
-                    <label for="emailRev" class="d-none">email</label>
-                    <input type="email" name="email" class="input-reviews p-2" placeholder="Email" v-model="formReviews.email">
-                    <!-- phone number -->
-                    <label for="phoneRev" class="d-none">phone</label>
-                    <input type="text" name="phoneNumber" class="input-reviews p-2" placeholder="Tel" id="phoneRev" v-model="formReviews.phoneNumber">
-                    <!-- content -->
-                    <textarea name="content" id="reviewsText" class="input-reviews p-1" placeholder="Recenzione" cols="80" rows="4" v-model="formReviews.content"></textarea>
-                    <button class="ms-2 butt-Reviews p-2">Invia Recenzione</button>
-                  </form>
+                <form action="" @submit.prevent="sendReviews" method="post">
+                  <!-- name -->
+                  <label for="nameRev" class="d-none">Nome</label>
+                  <input
+                    type="text"
+                    id="nameRev"
+                    placeholder="Nome"
+                    class="input-reviews p-2"
+                    name="name"
+                    v-model="formReviews.name"
+                  />
+                  <!-- surname -->
+                  <label for="surnameRev" class="d-none">surname</label>
+                  <input
+                    type="text"
+                    name="surname"
+                    class="input-reviews p-2"
+                    placeholder="Cognome"
+                    v-model="formReviews.surname"
+                  />
+                  <!-- email -->
+                  <label for="emailRev" class="d-none">email</label>
+                  <input
+                    type="email"
+                    name="email"
+                    class="input-reviews p-2"
+                    placeholder="Email"
+                    v-model="formReviews.email"
+                  />
+                  <!-- phone number -->
+                  <label for="phoneRev" class="d-none">phone</label>
+                  <input
+                    type="text"
+                    name="phoneNumber"
+                    class="input-reviews p-2"
+                    placeholder="Tel"
+                    id="phoneRev"
+                    v-model="formReviews.phoneNumber"
+                  />
+                  <!-- content -->
+                  <textarea
+                    name="content"
+                    id="reviewsText"
+                    class="input-reviews p-1"
+                    placeholder="Recenzione"
+                    cols="80"
+                    rows="4"
+                    v-model="formReviews.content"
+                  ></textarea>
+                  <button class="ms-2 butt-Reviews p-2">
+                    Invia Recenzione
+                  </button>
+                </form>
               </div>
               <!-- /top -->
 
@@ -374,10 +473,13 @@ export default {
               :class="activeSpecializations === true ? 'd-block' : 'd-none'"
             >
               <h4 class="fs-5">Specializzazioni</h4>
-              <ul
-                class="p-0 mt-4"
-              >
-                <li v-for="specialization in doctor.specializations" class="p-2">{{ specialization.title }}</li>
+              <ul class="p-0 mt-4">
+                <li
+                  v-for="specialization in doctor.specializations"
+                  class="p-2"
+                >
+                  {{ specialization.title }}
+                </li>
               </ul>
             </div>
             <!-- /specializzazioni -->
@@ -405,7 +507,7 @@ export default {
 </template>
 
 <style scoped lang="scss">
-  @use "../style/partials/palette.scss" as *;
+@use "../style/partials/palette.scss" as *;
 
 li {
   list-style-type: none;
@@ -414,30 +516,31 @@ li {
   color: #00c3a5;
 }
 
-.input-reviews, .butt-Reviews{
+.input-reviews,
+.butt-Reviews {
   border: 0;
   outline: none;
   margin: 10px;
   border-radius: 6px;
   border: 2px solid #00264c;
 }
-.buttMessage{
+.buttMessage {
   margin: 0 10px;
 }
-.off-width{
+.off-width {
   width: 700px;
 }
-.butt-Reviews:hover{
+.butt-Reviews:hover {
   border: 2px solid #2dd4b8;
   background-color: #00264c;
   color: white;
 }
-.input-reviews:hover{
+.input-reviews:hover {
   border: 2px solid #2dd4b8;
 }
 /*
   crads
-*/ 
+*/
 .doc-card {
   background-color: #eef2f2;
 
@@ -465,13 +568,13 @@ li {
 
 /*
   sezioni
-*/ 
+*/
 .section {
   background-color: #eef2f2;
 
-/*
+  /*
  recenzioni
-*/ 
+*/
   .recensioni {
     .data {
       color: #627282;

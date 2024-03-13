@@ -9,6 +9,21 @@ export default {
     };
   },
   methods: {
+    // specializzazioni
+    closeParam(parametro) {
+      store.filtred.parametri[parametro] = false;
+      store.filtred.specializations[parametro] = false;
+    },
+    // voti
+    closeVote(parametro) {
+      store.filtred.parametri[parametro] = 0;
+      store.filtred.votes[parametro] = 0;
+    },
+    // recensioni
+    closeReview(parametro) {
+      store.filtred.parametri[parametro] = 0;
+      store.filtred.reviews[parametro] = 0;
+    },
     // svuota ricerca
     emptyParams() {
       this.store.filtred.parametri = {};
@@ -29,17 +44,15 @@ export default {
         let voti = this.store.advancedDoctor[index].votes;
         let numeroVoti = this.store.advancedDoctor[index].votes.length;
         let somma = 0;
-        console.log(this.numeroVoti);
         // scorro l'array
         voti.forEach((vote) => {
           somma = somma + vote.id; // sommo gli id
-          console.log(somma);
         });
-        let numStelleRimanenti = Math.floor(somma / numeroVoti);
-        return numStelleRimanenti; // divido la somma per la lunghezza dell'array
+        let numStelle = Math.floor(somma / numeroVoti); // divido la somma per la lunghezza dell'array
+        return numStelle;
       } else {
-        let numStelleRimanenti = 0;
-        return numStelleRimanenti; // Se non ci sono voti, restituisci 5
+        let numStelle = 0;
+        return numStelle; // Se non ci sono voti, restituisci 0
       }
     },
   },
@@ -49,38 +62,237 @@ export default {
 <template>
   <main class="main py-5" v-show="!this.store.searchNotFound">
     <!-- info ricerca -->
-    <div class="info-ricerca px-5 mb-5 d-flex justify-content-between">
+    <h6 class="px-5">
+      Numero dottori trovati: {{ store.advancedDoctor.length }}
+    </h6>
+
+    <div class="info-ricerca px-5 mb-5 d-flex justify-content-between mt-3">
+      <!-- sinistra -->
       <div class="left">
-        <h6>Numero dottori trovati: {{ store.doctor.length }}</h6>
-        <!-- visualizza le info dopo aver selezionato almeno una checkbox -->
-        <h6 v-if="Object.keys(store.filtred.parametri).length > 1">
-          Filtri Applicati:
-        </h6>
-        <!-- visualizza i parametri della richiesta -->
-        <div
-          v-for="(key, index) in Object.keys(store.filtred.parametri)"
-          :key="index"
-        >
-          <!-- tranne il chiavi di voti e recensioni -->
-          <h6
-            class="lower-case"
-            v-if="key !== 'voteValue' && key !== 'reviewValue'"
+        <div class="filtri d-flex gap-1">
+          <!-- ortopedico -->
+          <div
+            v-if="store.filtred.parametri.ortopedico"
+            class="alert alert-success d-flex flex-column flex-md-row gap-1 mb-0 position-relative"
+            role="alert"
           >
-            {{ key }}
-          </h6>
+            <font-awesome-icon
+              :icon="['fas', 'xmark']"
+              class="close position-absolute p-1"
+              @click="closeParam('ortopedico')"
+            />
+            <h6 class="mt-2 me-2">ortopedico</h6>
+          </div>
+          <!-- /ortopedico -->
+          <!-- dermatologo -->
+          <div
+            v-if="store.filtred.parametri.dermatologo"
+            class="alert alert-success d-flex flex-column flex-md-row gap-1 mb-0 position-relative"
+            role="alert"
+          >
+            <font-awesome-icon
+              :icon="['fas', 'xmark']"
+              class="close position-absolute p-1"
+              @click="closeParam('dermatologo')"
+            />
+            <h6 class="mt-2 me-2">dermatologo</h6>
+          </div>
+          <!-- /dermatologo -->
+          <!-- psicologo -->
+          <div
+            v-if="store.filtred.parametri.psicologo"
+            class="alert alert-success d-flex flex-column flex-md-row gap-1 mb-0 position-relative"
+            role="alert"
+          >
+            <font-awesome-icon
+              :icon="['fas', 'xmark']"
+              class="close position-absolute p-1"
+              @click="closeParam('psicologo')"
+            />
+            <h6 class="mt-2 me-2">psicologo</h6>
+          </div>
+          <!-- /psicologo -->
+          <!-- oculista -->
+          <div
+            v-if="store.filtred.parametri.oculista"
+            class="alert alert-success d-flex flex-column flex-md-row gap-1 mb-0 position-relative"
+            role="alert"
+          >
+            <font-awesome-icon
+              :icon="['fas', 'xmark']"
+              class="close position-absolute p-1"
+              @click="closeParam('oculista')"
+            />
+            <h6 class="mt-2 me-2">oculista</h6>
+          </div>
+          <!-- /oculista -->
+          <!-- ginecologo -->
+          <div
+            v-if="store.filtred.parametri.ginecologo"
+            class="alert alert-success d-flex flex-column flex-md-row gap-1 mb-0 position-relative"
+            role="alert"
+          >
+            <font-awesome-icon
+              :icon="['fas', 'xmark']"
+              class="close position-absolute p-1"
+              @click="closeParam('ginecologo')"
+            />
+            <h6 class="mt-2 me-2">ginecologo</h6>
+          </div>
+          <!-- /ginecologo -->
+          <!-- nutrizionista -->
+          <div
+            v-if="store.filtred.parametri.nutrizionista"
+            class="alert alert-success d-flex flex-column flex-md-row gap-1 mb-0 position-relative"
+            role="alert"
+          >
+            <font-awesome-icon
+              :icon="['fas', 'xmark']"
+              class="close position-absolute p-1"
+              @click="closeParam('nutrizionista')"
+            />
+            <h6 class="mt-2 me-2">nutrizionista</h6>
+          </div>
+          <!-- /nutrizionista -->
+          <!-- dentista -->
+          <div
+            v-if="store.filtred.parametri.dentista"
+            class="alert alert-success d-flex flex-column flex-md-row gap-1 mb-0 position-relative"
+            role="alert"
+          >
+            <font-awesome-icon
+              :icon="['fas', 'xmark']"
+              class="close position-absolute p-1"
+              @click="closeParam('dentista')"
+            />
+            <h6 class="mt-2 me-2">dentista</h6>
+          </div>
+          <!-- /dentista -->
+          <!-- cardiologo -->
+          <div
+            v-if="store.filtred.parametri.cardiologo"
+            class="alert alert-success d-flex flex-column flex-md-row gap-1 mb-0 position-relative"
+            role="alert"
+          >
+            <font-awesome-icon
+              :icon="['fas', 'xmark']"
+              class="close position-absolute p-1"
+              @click="closeParam('cardiologo')"
+            />
+            <h6 class="mt-2 me-2">cardiologo</h6>
+          </div>
+          <!-- /cardiologo -->
+          <!-- osteopata -->
+          <div
+            v-if="store.filtred.parametri.osteopata"
+            class="alert alert-success d-flex flex-column flex-md-row gap-1 mb-0 position-relative"
+            role="alert"
+          >
+            <font-awesome-icon
+              :icon="['fas', 'xmark']"
+              class="close position-absolute p-1"
+              @click="closeParam('osteopata')"
+            />
+            <h6 class="mt-2 me-2">osteopata</h6>
+          </div>
+          <!-- /osteopata -->
+          <!-- ostetrica -->
+          <div
+            v-if="store.filtred.parametri.ostetrica"
+            class="alert alert-success d-flex flex-column flex-md-row gap-1 mb-0 position-relative"
+            role="alert"
+          >
+            <font-awesome-icon
+              :icon="['fas', 'xmark']"
+              class="close position-absolute p-1"
+              @click="closeParam('ostetrica')"
+            />
+            <h6 class="mt-2 me-2">ostetrica</h6>
+          </div>
+          <!-- /ostetrica -->
+          <!-- anestesista -->
+          <div
+            v-if="store.filtred.parametri.anestesista"
+            class="alert alert-success d-flex flex-column flex-md-row gap-1 mb-0 position-relative"
+            role="alert"
+          >
+            <font-awesome-icon
+              :icon="['fas', 'xmark']"
+              class="close position-absolute p-1"
+              @click="closeParam('anestesista')"
+            />
+            <h6 class="mt-2 me-2">anestesista</h6>
+          </div>
+          <!-- /anestesista -->
+          <!-- logopedista -->
+          <div
+            v-if="store.filtred.parametri.logopedista"
+            class="alert alert-success d-flex flex-column flex-md-row gap-1 mb-0 position-relative"
+            role="alert"
+          >
+            <font-awesome-icon
+              :icon="['fas', 'xmark']"
+              class="close position-absolute p-1"
+              @click="closeParam('logopedista')"
+            />
+            <h6 class="mt-2 me-2">logopedista</h6>
+          </div>
+          <!-- /logopedista -->
+          <!-- voto -->
+          <div
+            v-if="store.filtred.votes.voteValue > 0"
+            class="alert alert-success d-flex flex-column flex-md-row gap-1 mb-0 position-relative"
+            role="alert"
+          >
+            <font-awesome-icon
+              :icon="['fas', 'xmark']"
+              class="close position-absolute p-1"
+              @click="closeVote('voteValue')"
+            />
+            <h6 class="mt-2 me-2">
+              Media voto maggiore di {{ store.filtred.votes.voteValue }} stelle
+            </h6>
+          </div>
+          <!-- /voto -->
+          <!-- recensione -->
+          <div
+            v-if="store.filtred.reviews.reviewValue > 0"
+            class="alert alert-success d-flex flex-column flex-md-row gap-1 mb-0 position-relative"
+            role="alert"
+          >
+            <font-awesome-icon
+              :icon="['fas', 'xmark']"
+              class="close position-absolute p-1"
+              @click="closeReview('reviewValue')"
+            />
+            <h6 class="mt-2 me-2">
+              Numero recensioni maggiore di
+              {{ store.filtred.reviews.reviewValue }}
+            </h6>
+          </div>
         </div>
-        <h6 v-if="store.filtred.votes.voteValue > 0">
-          Media voto > {{ store.filtred.votes.voteValue }} stella
-        </h6>
-        <h6 v-if="store.filtred.reviews.reviewValue > 0">
-          Numero Recensioni > {{ store.filtred.reviews.reviewValue }}
-        </h6>
+        <div
+          class="alert alert-danger d-flex gap-1 mb-0 mt-2"
+          role="alert"
+          :class="
+            Object.keys(store.filtred.parametri).length === 0
+              ? 'd-block'
+              : 'd-none'
+          "
+        >
+          Devi selezionare almeno una specializzazione
+        </div>
+        <!-- /elenco filtri applicati -->
       </div>
+      <!-- /sinistra -->
+
+      <!-- destra -->
       <div class="right">
         <button class="btn btn-danger" @click="emptyParams()">
-          Svuota Ricerca
+          Svuota Campi
         </button>
       </div>
+      <!-- /destra -->
     </div>
     <!-- /info ricerca -->
 
@@ -93,6 +305,13 @@ export default {
         class="d-flex card-item col-12 col-md-5 position-relative"
         v-for="(new_doctor, index) in this.store.advancedDoctor"
       >
+        <div
+          class="sponsor d-flex align-items-center gap-1 position-absolute py-2 px-3"
+          v-if="new_doctor.sponsorships.length > 0"
+        >
+          <font-awesome-icon :icon="['fas', 'circle-info']" />
+          <h6>Sponsorizzato</h6>
+        </div>
         <!-- immagine -->
         <div class="img-container">
           <img
@@ -103,30 +322,11 @@ export default {
           />
         </div>
         <!-- informazioni -->
-        <div class="w-63 mt-4">
-          <div class="d-flex justify-content-between w-100">
+        <div class="w-63 mt-5">
+          <div class="w-100">
             <h4 class="text-dark">
               {{ new_doctor.user.name }} {{ new_doctor.user.surname }}
             </h4>
-            <div class="sponsor-img-cont" v-if="new_doctor.sponsorships !== []">
-              <div class="sponsor-img">
-                <img
-                  v-if="new_doctor.price == 9.99"
-                  src="../../../public/advancedSearch-img/Ellipse-gold.png"
-                  alt="gold"
-                />
-                <img
-                  v-if="new_doctor.price == 5.99"
-                  src="../../../public/advancedSearch-img/Ellipse-silver.png"
-                  alt="gold"
-                />
-                <img
-                  v-if="new_doctor.price == 2.99"
-                  src="../../../public/advancedSearch-img/Ellipse-bronze.png"
-                  alt="gold"
-                />
-              </div>
-            </div>
           </div>
           <div class="d-flex flex-wrap mb-2">
             <p
@@ -196,13 +396,13 @@ export default {
   }
 }
 // immagine sponsor cerchi
-.sponsor-img-cont {
-  margin-right: 20px;
-  .sponsor-img {
-    width: 35px;
-    img {
-      width: 100%;
-    }
+.sponsor {
+  top: 0;
+  right: 0;
+  color: $green-400;
+
+  h6 {
+    font-size: 12px;
   }
 }
 // tag a colore
@@ -217,5 +417,15 @@ export default {
 .lower-case {
   text-transform: lowercase;
 }
+
+h6 {
+  margin-bottom: 0;
+}
+
+.close {
+  top: 0;
+  right: 5px;
+  font-size: 14px;
+  cursor: pointer;
+}
 </style>
-./AdvancedDoctors.vue/index.js

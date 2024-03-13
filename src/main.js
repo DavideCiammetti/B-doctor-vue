@@ -34,6 +34,7 @@ import {
   faArrowRightToBracket,
   faAddressCard,
   faStar,
+  faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 library.add(
   faHouse,
@@ -49,22 +50,32 @@ library.add(
   faFileLines,
   faArrowRightToBracket,
   faAddressCard,
-  faShieldHalved
+  faShieldHalved,
+  faXmark
 );
 
-import {fas} from '@fortawesome/free-solid-svg-icons'
-import {far} from '@fortawesome/free-regular-svg-icons'
-import {fab} from '@fortawesome/free-brands-svg-icons'
+import { fas } from "@fortawesome/free-solid-svg-icons";
+import { far } from "@fortawesome/free-regular-svg-icons";
+import { fab } from "@fortawesome/free-brands-svg-icons";
 
-library.add(faHouse, faBars, 
-    faMagnifyingGlass, faCircleQuestion, 
-    faUser, faCircleInfo, 
-    faLocationDot, faStethoscope, 
-    faStar, faFileLines,
-    faArrowRightToBracket,
-    faAddressCard, faShieldHalved,
-    fas, fab, far)
-
+library.add(
+  faHouse,
+  faBars,
+  faMagnifyingGlass,
+  faCircleQuestion,
+  faUser,
+  faCircleInfo,
+  faLocationDot,
+  faStethoscope,
+  faStar,
+  faFileLines,
+  faArrowRightToBracket,
+  faAddressCard,
+  faShieldHalved,
+  fas,
+  fab,
+  far
+);
 
 createApp(App)
   .component("font-awesome-icon", FontAwesomeIcon)
