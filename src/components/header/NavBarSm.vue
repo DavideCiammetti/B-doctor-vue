@@ -87,17 +87,14 @@ export default {
     showSearchbar() {
       this.store.changedSearchbar = true;
     },
-  },
+  }
 };
 </script>
 
 <template>
   <nav class="navbar navbar-light rounded-pill nav-cstm p-0">
     <div class="container-fluid pe-0">
-      <form
-        class="d-flex align-items-center p-0 custom-search-bar"
-        @submit.prevent="getDoctors"
-      >
+      <form class="d-flex align-items-center p-0 custom-search-bar" @submit.prevent="getDoctors">
         <div class="search-icon">
           <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
         </div>
@@ -116,14 +113,8 @@ export default {
           <option value="Ortopedico"></option>
         </datalist>
 
-        <input
-          list="searchSpecial"
-          class="form-control me-2 search-input"
-          type="search"
-          placeholder="Inserisci una specializzazione..."
-          aria-label="Search"
-          v-model="store.filtred.doctors.key"
-        />
+        <input list="searchSpecial" class="form-control me-2 search-input" type="search"
+          placeholder="Inserisci una specializzazione..." aria-label="Search" v-model="store.filtred.doctors.key" />
 
         <button
           class="btn btn-outline-success search-button"
@@ -188,6 +179,7 @@ export default {
       color: black;
       margin-left: 0.625rem;
     }
+
     .search-button {
       width: 70%;
       height: 90%;
