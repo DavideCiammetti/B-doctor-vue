@@ -84,11 +84,12 @@ export default {
         <!-- card docs sponsored  -->
         <div class="d-flex gap-md-5 mt-5 flex-wrap justify-content-center">
             <div v-for="(doctor, index) in sponsoredDoctors" :key="index" class="doctor-container position-relative">
-                <div class="img-container">
+                <div v-if="doctor?.doctor_img" class="img-container">
                     <!-- immagine -->
                     <img :src="`${imgUrl}/${doctor.doctor_img}`" :alt="`${doctor.user.name} ${doctor.user.surname} image`"
                         class="round-img">
                 </div>
+                <p v-else>{{ doctor.user.name }} {{ doctor.user.surname }} non ha una immagine</p>
                 <div class="position-absolute info-doctor-container d-flex justify-content-center align-items-center p-0">
                     <div class="info-doctor text-start width-80">
                         <!-- Nome e cognome del dottore -->
