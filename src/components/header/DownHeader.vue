@@ -20,7 +20,8 @@ export default {
 
 <template>
     <div class="container-cstm">
-        <div v-if="!store.changedSearchbar || $route.name === 'home'" class="container-cstm">
+        <!-- <div v-if="!store.changedSearchbar || $route.name === 'home'" class="container-cstm"> -->
+        <div v-if="$route.name === 'home'" class="container-cstm">
             <ContentDHeader />
         </div>
         <div v-else class="container-cstm mt-4">
