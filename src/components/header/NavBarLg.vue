@@ -81,9 +81,7 @@ export default {
 </script>
 
 <template>
-  <nav
-    class="navbar navbar-expand-lg navbar-light bg-white rounded-pill nav-cstm p-0"
-  >
+  <nav class="navbar navbar-expand-lg navbar-light bg-white rounded-pill nav-cstm p-0">
     <div class="container-fluid p-1">
       <form class="d-flex w-100" role="search">
         <!-- ricerca  -->
@@ -91,175 +89,113 @@ export default {
           <span class="input-group-text bg-white" id="basic-addon1">
             <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
           </span>
-          <input
-            class="form-control me-1 p-0 with-border"
-            type="search"
-            placeholder="Ricerca..."
-            aria-label="Search"
-            v-model="store.filtred.doctors.key"
-          />
+          <input class="form-control me-1 p-0 with-border" type="search" placeholder="Ricerca..." aria-label="Search"
+            v-model="store.filtred.doctors.key" />
         </div>
         <!-- /ricerca  -->
 
         <!-- specializzazione  -->
-        <div
-          class="flex-grow-1 d-flex gap-1 align-items-center align-content-center prov-spec"
-        >
+        <div class="flex-grow-1 d-flex gap-1 align-items-center align-content-center prov-spec">
           <span class="input-group-text bg-white p-0" id="basic-addon2">
             <font-awesome-icon icon="fa-solid fa-stethoscope" />
           </span>
           <div class="dropdown">
-            <button
-              class="btn btn-secondary dropdown-toggle"
-              type="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
               Specializzazione
             </button>
             <ul class="dropdown-menu">
               <li>
                 <div class="d-flex align-iitems-center gap-2 p-1">
-                  <input
-                    type="checkbox"
-                    id="ortopedico"
-                    name="ortopedico"
+                  <input type="checkbox" id="ortopedico" name="ortopedico"
                     :checked="store.filtred.doctors.key === 'Ortopedico'"
-                    v-model="store.filtred.specializations.ortopedico"
-                  />
+                    v-model="store.filtred.specializations.ortopedico" />
                   <label for="ortopedico">Ortopedico</label>
                 </div>
               </li>
               <li>
                 <div class="d-flex align-iitems-center gap-2 p-1">
-                  <input
-                    type="checkbox"
-                    id="osteopata"
-                    name="osteopata"
+                  <input type="checkbox" id="osteopata" name="osteopata"
                     :checked="store.filtred.doctors.key === 'Osteopata'"
-                    v-model="store.filtred.specializations.osteopata"
-                  />
+                    v-model="store.filtred.specializations.osteopata" />
                   <label for="osteopata">Osteopata</label>
                 </div>
               </li>
               <li>
                 <div class="d-flex align-iitems-center gap-2 p-1">
-                  <input
-                    type="checkbox"
-                    id="dermatologo"
-                    name="dermatologo"
+                  <input type="checkbox" id="dermatologo" name="dermatologo"
                     :checked="store.filtred.doctors.key === 'Dermatologo'"
-                    v-model="store.filtred.specializations.dermatologo"
-                  />
+                    v-model="store.filtred.specializations.dermatologo" />
                   <label for="dermatologo">Dermatologo</label>
                 </div>
               </li>
               <li>
                 <div class="d-flex align-iitems-center gap-2 p-1">
-                  <input
-                    type="checkbox"
-                    id="oculista"
-                    name="oculista"
-                    :checked="store.filtred.doctors.key === 'Oculista'"
-                    v-model="store.filtred.specializations.oculista"
-                  />
+                  <input type="checkbox" id="oculista" name="oculista" :checked="store.filtred.doctors.key === 'Oculista'"
+                    v-model="store.filtred.specializations.oculista" />
                   <label for="oculista">Oculista</label>
                 </div>
               </li>
               <li>
                 <div class="d-flex align-iitems-center gap-2 p-1">
-                  <input
-                    type="checkbox"
-                    id="ginecologo"
-                    name="ginecologo"
+                  <input type="checkbox" id="ginecologo" name="ginecologo"
                     :checked="store.filtred.doctors.key === 'Ginecologo'"
-                    v-model="store.filtred.specializations.ginecologo"
-                  />
+                    v-model="store.filtred.specializations.ginecologo" />
                   <label for="ginecologo">Ginecologo</label>
                 </div>
               </li>
               <li>
                 <div class="d-flex align-iitems-center gap-2 p-1">
-                  <input
-                    type="checkbox"
-                    id="nutrizionista"
-                    name="nutrizionista"
-                    value="nutrizionista"
+                  <input type="checkbox" id="nutrizionista" name="nutrizionista" value="nutrizionista"
                     :checked="store.filtred.doctors.key === 'Nutrizionista'"
-                    v-model="store.filtred.specializations.nutrizionista"
-                  />
+                    v-model="store.filtred.specializations.nutrizionista" />
                   <label for="nutrizionista">Nutrizionista</label>
                 </div>
               </li>
               <li>
                 <div class="d-flex align-iitems-center gap-2 p-1">
-                  <input
-                    type="checkbox"
-                    id="psicologo"
-                    name="psicologo"
+                  <input type="checkbox" id="psicologo" name="psicologo"
                     :checked="store.filtred.doctors.key === 'Psicologo'"
-                    v-model="store.filtred.specializations.psicologo"
-                  />
+                    v-model="store.filtred.specializations.psicologo" />
                   <label for="psicologo">Psicologo</label>
                 </div>
               </li>
               <li>
                 <div class="d-flex align-iitems-center gap-2 p-1">
-                  <input
-                    type="checkbox"
-                    id="dentista"
-                    name="dentista"
-                    :checked="store.filtred.doctors.key === 'Dentista'"
-                    v-model="store.filtred.specializations.dentista"
-                  />
+                  <input type="checkbox" id="dentista" name="dentista" :checked="store.filtred.doctors.key === 'Dentista'"
+                    v-model="store.filtred.specializations.dentista" />
                   <label for="dentista">Dentista</label>
                 </div>
               </li>
               <li>
                 <div class="d-flex align-iitems-center gap-2 p-1">
-                  <input
-                    type="checkbox"
-                    id="cardiologo"
-                    name="cardiologo"
+                  <input type="checkbox" id="cardiologo" name="cardiologo"
                     :checked="store.filtred.doctors.key === 'Cardiologo'"
-                    v-model="store.filtred.specializations.cardiologo"
-                  />
+                    v-model="store.filtred.specializations.cardiologo" />
                   <label for="cardiologo">Cardiologo</label>
                 </div>
               </li>
               <li>
                 <div class="d-flex align-iitems-center gap-2 p-1">
-                  <input
-                    type="checkbox"
-                    id="ostetrica"
-                    name="ostetrica"
+                  <input type="checkbox" id="ostetrica" name="ostetrica"
                     :checked="store.filtred.doctors.key === 'Ostetrica'"
-                    v-model="store.filtred.specializations.ostetrica"
-                  />
+                    v-model="store.filtred.specializations.ostetrica" />
                   <label for="ostetrica">Ostetrica</label>
                 </div>
               </li>
               <li>
                 <div class="d-flex align-iitems-center gap-2 p-1">
-                  <input
-                    type="checkbox"
-                    id="anestesista"
-                    name="anestesista"
+                  <input type="checkbox" id="anestesista" name="anestesista"
                     :checked="store.filtred.doctors.key === 'Anestesista'"
-                    v-model="store.filtred.specializations.anestesista"
-                  />
+                    v-model="store.filtred.specializations.anestesista" />
                   <label for="anestesista">Anestesista</label>
                 </div>
               </li>
               <li>
                 <div class="d-flex align-iitems-center gap-2 p-1">
-                  <input
-                    type="checkbox"
-                    id="logopedista"
-                    name="logopedista"
+                  <input type="checkbox" id="logopedista" name="logopedista"
                     :checked="store.filtred.doctors.key === 'Logopedista'"
-                    v-model="store.filtred.specializations.logopedista"
-                  />
+                    v-model="store.filtred.specializations.logopedista" />
                   <label for="logopedista">Logopedista</label>
                 </div>
               </li>
@@ -269,74 +205,43 @@ export default {
         <!-- /specializzazione  -->
 
         <!-- voti  -->
-        <div
-          class="flex-grow-1 d-flex gap-1 align-items-center align-content-center prov-vot"
-        >
+        <div class="flex-grow-1 d-flex gap-1 align-items-center align-content-center prov-vot">
           <span class="input-group-text bg-white p-0" id="basic-addon3">
             <font-awesome-icon icon="fa-regular fa-star" />
           </span>
           <div class="dropdown">
-            <button
-              class="btn btn-secondary dropdown-toggle"
-              type="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
               Voti
             </button>
             <ul class="dropdown-menu">
               <li>
                 <div class="d-flex align-iitems-center gap-2 p-1">
-                  <input
-                    type="checkbox"
-                    id="scarso"
-                    name="5"
-                    v-model="this.store.filtred.votes.scarso"
-                  />
+                  <input type="checkbox" id="scarso" name="5" v-model="this.store.filtred.votes.scarso" />
                   <label for="scarso">Scarso</label>
                 </div>
               </li>
               <li>
                 <div class="d-flex align-iitems-center gap-2 p-1">
-                  <input
-                    type="checkbox"
-                    id="sufficiente"
-                    name="4"
-                    v-model="this.store.filtred.votes.sufficiente"
-                  />
+                  <input type="checkbox" id="sufficiente" name="4" v-model="this.store.filtred.votes.sufficiente" />
                   <label for="sufficiente">Sufficiente</label>
                 </div>
               </li>
               <li>
                 <div class="d-flex align-iitems-center gap-2 p-1">
-                  <input
-                    type="checkbox"
-                    id="buono"
-                    name="3"
-                    v-model="this.store.filtred.votes.buono"
-                  />
+                  <input type="checkbox" id="buono" name="3" v-model="this.store.filtred.votes.buono" />
                   <label for="buono">Buono</label>
                 </div>
               </li>
               <li>
                 <div class="d-flex align-iitems-center gap-2 p-1">
-                  <input
-                    type="checkbox"
-                    id="discreto"
-                    name="2"
-                    v-model="this.store.filtred.votes.discreto"
-                  />
+                  <input type="checkbox" id="discreto" name="2" v-model="this.store.filtred.votes.discreto" />
                   <label for="discreto">Discreto</label>
                 </div>
               </li>
               <li>
                 <div class="d-flex align-iitems-center gap-2 p-1">
-                  <input
-                    type="checkbox"
-                    id="1"
-                    name="1"
-                    v-model="this.store.filtred.votes.ottimo"
-                  />
+                  <input type="checkbox" id="1" name="1" v-model="this.store.filtred.votes.ottimo" />
                   <label for="ottimo">Ottimo</label>
                 </div>
               </li>
@@ -346,41 +251,26 @@ export default {
         <!-- /voti  -->
 
         <!-- recensioni  -->
-        <div
-          class="flex-grow-1 d-flex gap-1 align-items-center align-content-center prov-rec"
-        >
+        <div class="flex-grow-1 d-flex gap-1 align-items-center align-content-center prov-rec">
           <span class="input-group-text bg-white p-0" id="basic-addon3">
             <font-awesome-icon icon="fa-regular fa-file-lines" />
           </span>
           <div class="dropdown">
-            <button
-              class="btn btn-secondary dropdown-toggle"
-              type="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
               Recensioni
             </button>
             <ul class="dropdown-menu">
               <li>
                 <div class="d-flex align-iitems-center gap-2 p-1">
-                  <input
-                    type="checkbox"
-                    id="minDieci"
-                    name="minDieci"
-                    v-model="this.store.filtred.reviews.minDieci"
-                  />
-                  <label for="minDieci"> < 10</label>
+                  <input type="checkbox" id="minDieci" name="minDieci" v-model="this.store.filtred.reviews.minDieci" />
+                  <label for="minDieci">
+                    < 10</label>
                 </div>
               </li>
               <li>
                 <div class="d-flex align-iitems-center gap-2 p-1">
-                  <input
-                    type="checkbox"
-                    id="maxDieci"
-                    name="maxDieci"
-                    v-model="this.store.filtred.reviews.maxDieci"
-                  />
+                  <input type="checkbox" id="maxDieci" name="maxDieci" v-model="this.store.filtred.reviews.maxDieci" />
                   <label for="maxDieci"> > 10</label>
                 </div>
               </li>
@@ -391,11 +281,7 @@ export default {
 
         <!-- bottone cerca  -->
         <div class="col-1 d-flex justify-content-end">
-          <button
-            @click.prevent="filtredDoctors"
-            class="btn btn-outline-success flex-grow-1 search-button"
-            type="submit"
-          >
+          <button @click.prevent="filtredDoctors" class="btn btn-outline-success flex-grow-1 search-button" type="submit">
             Cerca >
           </button>
         </div>
@@ -403,11 +289,7 @@ export default {
       </form>
     </div>
   </nav>
-  <div
-    class="alert alert-danger mt-3"
-    :class="message === true ? 'd-block' : 'd-none'"
-    role="alert"
-  >
+  <div class="alert alert-danger mt-3" :class="message === true ? 'd-block' : 'd-none'" role="alert">
     Seleziona almeno un filtro prima di effettuare la ricerca.
   </div>
 </template>

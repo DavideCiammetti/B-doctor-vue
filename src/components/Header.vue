@@ -1,15 +1,15 @@
 <script>
 import UpHeader from './header/UpHeader.vue';
 import DownHeader from './header/DownHeader.vue';
-import {store} from '../store';
+import { store } from '../store';
 export default {
     name: 'Header',
     components: {
         UpHeader,
         DownHeader,
     },
-    data(){
-        return{
+    data() {
+        return {
             store,
         }
     },
@@ -17,7 +17,7 @@ export default {
 </script>
 
 <template>
-    <header :class="this.store.changedSearchbar  === true ?'pb-5' : ''" class="app-header">
+    <header :class="$route.name === 'AdvancedSearch' || $route.name === 'doctor-detail' ? 'pb-5' : ''" class="app-header">
         <UpHeader />
         <DownHeader />
     </header>

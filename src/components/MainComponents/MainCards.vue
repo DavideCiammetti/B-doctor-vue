@@ -1,7 +1,6 @@
 <script>
 import { store } from "../../store.js";
 import axios from 'axios';
-import { DOMDirectiveTransforms } from "@vue/compiler-dom";
 
 export default {
     name: 'MainCards',
