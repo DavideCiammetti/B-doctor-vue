@@ -31,10 +31,7 @@ export default {
         {{ store.filtred.doctors.key }}
       </h6>
       <!-- visualizza i parametri della richiesta -->
-      <div
-        v-for="(key, index) in Object.keys(store.filtred.parametri)"
-        :key="index"
-      >
+      <div v-for="(key, index) in Object.keys(store.filtred.parametri)" :key="index">
         <!-- tranne il primo elemento perchè è la key -->
         <h6 v-if="index > 0" class="lower-case">{{ key }}</h6>
       </div>
@@ -42,22 +39,12 @@ export default {
     <!-- /info ricerca -->
 
     <!-- contenitore cards -->
-    <div
-      class="card-container d-flex justify-content-center flex-wrap justify-content-md-around p-3 gap-5"
-    >
+    <div class="card-container d-flex justify-content-center flex-wrap justify-content-md-around p-3 gap-5">
       <!-- card -->
-      <div
-        class="d-flex card-item col-12 col-md-5 position-relative"
-        v-for="(new_doctor, index) in this.store.doctor"
-      >
+      <div class="d-flex card-item col-12 col-md-5 position-relative" v-for="(new_doctor, index) in this.store.doctor">
         <!-- immagine -->
         <div class="img-container">
-          <img
-            v-if="new_doctor.doctor_img"
-            :src="this.store.imgUrl + new_doctor.doctor_img"
-            class="card-img"
-            alt=""
-          />
+          <img v-if="new_doctor.doctor_img" :src="this.store.imgUrl + new_doctor.doctor_img" class="card-img" alt="" />
         </div>
         <!-- informazioni -->
         <div class="w-63 mt-4">
@@ -67,11 +54,8 @@ export default {
             </h4>
           </div>
           <div class="d-flex flex-wrap mb-2">
-            <p
-            v-for="specializations in new_doctor.specializations"
-              class="m-0 pe-2"
-            >
-              {{specializations}}
+            <p v-for="specializations in new_doctor.specializations" class="m-0 pe-2">
+              {{ specializations }}
             </p>
           </div>
           <!-- <div class="col-stars d-flex">-------voti feature
@@ -95,18 +79,22 @@ export default {
 .main {
   background-color: $grey-100;
 }
+
 // card
 .card-item {
   background-color: white;
   border-radius: 25px;
   box-shadow: 0px 4px 0px rgb(189, 175, 175, 0.5);
+
   .w-63 {
     width: 63%;
   }
+
   .col-stars {
     color: $green-w-400;
   }
 }
+
 .butt-home {
   button {
     border: none;
@@ -117,11 +105,13 @@ export default {
     padding: 3px;
   }
 }
+
 // immagine card
 .img-container {
   width: 250px;
   height: 300px;
   margin-right: 30px;
+
   .card-img {
     width: 100%;
     height: 100%;
@@ -129,16 +119,20 @@ export default {
     object-fit: cover;
   }
 }
+
 // immagine sponsor cerchi
 .sponsor-img-cont {
   margin-right: 20px;
+
   .sponsor-img {
     width: 35px;
+
     img {
       width: 100%;
     }
   }
 }
+
 // tag a colore
 .col-grey {
   color: rgb(169, 169, 169);

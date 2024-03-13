@@ -76,7 +76,29 @@ export default {
         this.message = true;
       }
     },
-  },
+    //   refreshDoctor() {
+    //     this.store.refreshKey = this.store.filtred.doctors.key;
+    //     console.log('ci sono');
+    //     // window.addEventListener('beforeunload', () => {
+    //     axios
+    //       .get(this.store.api.baseUrl + this.store.apiUrls.doctors, {
+    //         params: {
+    //           key: this.store.refreshKey,
+    //         },
+    //       })
+    //       .then((response) => {
+    //         this.store.refreshSearch = response.data.results;
+    //         console.log(this.store.refreshSearch);
+    //       })
+    //       .catch((error) => {
+    //         console.log(error);
+    //       });
+    //     // });
+    //   }
+    // },
+    // created() {
+    //   this.refreshDoctor();
+  }
 };
 </script>
 

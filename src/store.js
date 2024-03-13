@@ -19,6 +19,10 @@ export const store = reactive({
   searchNotFound: false,
   // variabile searchbar
   changedSearchbar: false,
+  // variabile refresh
+  // refreshSearch: {},
+  // refreshkey
+  // refreshKey: '',
   // invio recenzioni
   apiReviews: "/api/reviews",
   // invio messggio
