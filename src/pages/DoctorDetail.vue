@@ -204,7 +204,7 @@ export default {
           <!-- card -->
           <div class="doc-card rounded-4 px-3 px-md-5 py-3 py-md-4 w50-percento">
             <!-- top -->
-            <div class="top d-flex flex-column flex-md-row gap-4">
+            <div class="top gap-4 d-flex">
               <div class="img">
                 <img
                   v-if="doctor.doctor_img"
@@ -226,12 +226,10 @@ export default {
                     doctor.phone_number
                   }}</a>
                 </div>
-                <!-- <div v-else>
-
-                </div> -->
+                
                 <h6 class="my-3">Indirizzo: {{ doctor.address }}</h6>
-                <div class="cont d-flex flex-column flex-md-row align-items-center gap-2 mt-2 mb-2 pb-4">
-                  <div class="stelle d-flex gap-1">
+                <div class="cont d-flex flex-column gap-2 mt-2 mb-2 pb-4">
+                  <div class="stelle d-flex gap-1 mb-2">
                     <font-awesome-icon v-for="star in stars()" :icon="['fas', 'star']"/>
                   </div>
                   <div>
@@ -289,11 +287,11 @@ export default {
                 </div>
               </div>
             </div>
+          </div>
             <!-- /top -->
             <!-- bottom -->
             <div
-              class="bottom d-flex flex-column flex-md-row justify-content-center gap-3 gap-md-5 mt-5"
-            >
+              class="bottom d-flex flex-column flex-md-row justify-content-center gap-3 gap-md-5 mt-5">
               <p class="p-2 rounded-3 text-center" @click="reviews">
                 Recensioni
               </p>
@@ -457,7 +455,6 @@ export default {
         </div>
       </div>
     </div>
-  </div>  
   </main>
 </template>
 
