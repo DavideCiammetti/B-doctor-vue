@@ -1,67 +1,72 @@
 import { reactive } from "vue";
 
-// Funzione per inizializzare lo store, recuperando i dati dal localStorage se presenti
-function initializeStore() {
-  const savedStore = localStorage.getItem("store");
-  if (savedStore) {
-    const parsedStore = JSON.parse(savedStore);
-    // Elimina il campo searchKey
-    delete parsedStore.doctors.searchKey;
-    return parsedStore;
-  } else {
-    return {
-      api: {
-        baseUrl: "http://127.0.0.1:8000",
-      },
-      apiUrls: {
-        doctors: "/api/doctors",
-      },
-      doctors: {
-        searchKey: "",
-      },
-      searchNotFound: false,
-      changedSearchbar: false,
-      filtred: {
-        parametri: {},
-        doctors: {
-          key: "",
-        },
-        specializations: {
-          ortopedico: "",
-          dermatologo: "",
-          psicologo: "",
-          oculista: "",
-          ginecologo: "",
-          nutrizionista: "",
-          dentista: "",
-          cardiologo: "",
-          osteopata: "",
-          ostetrica: "",
-          anestesista: "",
-          logopedista: "",
-        },
-        votes: {
-          voteValue: 0,
-        },
-        reviews: {
-          reviewValue: 0,
-        },
-      },
-      imgUrl: "http://127.0.0.1:8000/storage/",
-      sponsoredDoctors: [],
-      next: null,
-      advancedCards: false,
-      advancedDoctors: false,
-    };
-  }
-}
+export const store = reactive({
+  // url base
+  api: {
+    baseUrl: "http://127.0.0.1:8000",
+  },
+  // api per ricerca dottori
+  apiUrls: {
+    doctors: "/api/doctors",
+  },
+  // chiave per ricerca dottori in ricerca base
+  doctors: {
+    searchKey: "",
+  },
+  // oggetto vuoto per ricerca base
+  doctor: {},
+  // oggetto vuoto per ricerca avanzata
+  advancedDoctor: {},
+  // errore nella ricerca elemento non trovato
+  searchNotFound: false,
+  // variabile searchbar
+  changedSearchbar: false,
+  // invio recenzioni
+  apiReviews: "/api/reviews",
+  // invio messggio
+  apiMessages: "/api/messages",
+  // ricerca avanzata
+  filtred: {
+    parametri: {},
 
-export const store = reactive(initializeStore());
+    doctors: {
+      key: "",
+    },
 
-// Funzione per salvare lo store nel localStorage
-function saveStore() {
-  localStorage.setItem("store", JSON.stringify(store));
-}
+    specializations: {
+      ortopedico: "",
+      dermatologo: "",
+      psicologo: "",
+      oculista: "",
+      ginecologo: "",
+      nutrizionista: "",
+      dentista: "",
+      cardiologo: "",
+      osteopata: "",
+      ostetrica: "",
+      anestesista: "",
+      logopedista: "",
+    },
 
-// Aggiungere un event listener per il beforeunload per salvare lo store prima del refresh
-window.addEventListener("beforeunload", saveStore);
+    votes: {
+      voteValue: 0,
+    },
+
+    reviews: {
+      reviewValue: 0,
+    },
+  },
+  // url immagini
+  imgUrl: "http://127.0.0.1:8000/storage/",
+  // errore nella ricerca elemento non trovato
+  searchNotFound: false,
+  // variabile searchbar
+  changedSearchbar: false,
+  sponsoredDoctors: [],
+  next: null,
+  // advanced...
+  advancedCards: false,
+  advancedDoctors: false,
+  // error
+  error: false,
+});
