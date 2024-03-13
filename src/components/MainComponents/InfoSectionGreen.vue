@@ -15,7 +15,7 @@ export default {
             <!-- titolo -->
             <div class="ps-4">
                 <h4 class="text-white">Fai parte del personale sanitario?</h4>
-                <p class="text-white fs-14">Entra in Doctolib e sviluppa insieme a noi i software del futuro</p>
+                <p class="text-white fs-14">Entra in BDoctor e sviluppa insieme a noi i software del futuro</p>
             </div>
             <ul class="p-0 ps-4 pe-4">
                 <!-- primo paragrafo -->
