@@ -1,74 +1,70 @@
 import { reactive } from "vue";
 
-export const store = reactive({
-  // url base
-  api: {
-    baseUrl: "http://127.0.0.1:8000",
-  },
-  // api per ricerca dottori
-  apiUrls: {
-    doctors: "/api/doctors",
-  },
-  // chiave per ricerca dottori in ricerca base
-  doctors: {
-    searchKey: "",
-  },
-  // oggetto vuoto per ricerca base
-  doctor: {},
-  // errore nella ricerca elemento non trovato
-  searchNotFound: false,
-  // variabile searchbar
-  changedSearchbar: false,
-  // variabile refresh
-  // refreshSearch: {},
-  // refreshkey
-  // refreshKey: '',
-  // invio recenzioni
-  apiReviews: "/api/reviews",
-  // invio messggio
-  apiMessages: "/api/messages",
-  // ricerca avanzata
-  filtred: {
-    parametri: {},
+// Funzione per inizializzare lo store, recuperando i dati dal localStorage se presenti
+function initializeStore() {
+  const savedStore = localStorage.getItem("store");
+  if (savedStore) {
+    const parsedStore = JSON.parse(savedStore);
+    // Elimina il campo searchKey
+    delete parsedStore.doctors.searchKey;
+    return parsedStore;
+  } else {
+    return {
+      api: {
+        baseUrl: "http://127.0.0.1:8000",
+      },
+      apiUrls: {
+        doctors: "/api/doctors",
+      },
+      doctors: {
+        searchKey: "",
+      },
+      searchNotFound: false,
+      changedSearchbar: false,
+      filtred: {
+        parametri: {},
+        doctors: {
+          key: "",
+        },
+        specializations: {
+          ortopedico: "",
+          dermatologo: "",
+          psicologo: "",
+          oculista: "",
+          ginecologo: "",
+          nutrizionista: "",
+          dentista: "",
+          cardiologo: "",
+          osteopata: "",
+          ostetrica: "",
+          anestesista: "",
+          logopedista: "",
+        },
+        votes: {
+          ottimo: "",
+          buono: "",
+          discreto: "",
+          sufficiente: "",
+          scarso: "",
+        },
+        reviews: {
+          minDieci: "",
+          maxDieci: "",
+        },
+      },
+      imgUrl: "http://127.0.0.1:8000/storage/",
+      sponsoredDoctors: [],
+      next: null,
+    };
+  }
+}
 
-    doctors: {
-      key: "",
-    },
+export const store = reactive(initializeStore());
 
-    specializations: {
-      ortopedico: "",
-      dermatologo: "",
-      psicologo: "",
-      oculista: "",
-      ginecologo: "",
-      nutrizionista: "",
-      dentista: "",
-      cardiologo: "",
-      osteopata: "",
-      ostetrica: "",
-      anestesista: "",
-      logopedista: "",
-    },
+// Funzione per salvare lo store nel localStorage
+function saveStore() {
+  localStorage.setItem("store", JSON.stringify(store));
+}
 
-    votes: {
-      ottimo: "",
-      buono: "",
-      discreto: "",
-      sufficiente: "",
-      scarso: "",
-    },
-
-    reviews: {
-      minDieci: "",
-      maxDieci: "",
-    },
-  },
-  // url immagini
-  imgUrl: "http://127.0.0.1:8000/storage/",
-  // errore nella ricerca elemento non trovato
-  searchNotFound: false,
-  // variabile searchbar
-  changedSearchbar: false,
-  sponsoredDoctors: [],
-  next: null,
-});
+// Aggiungere un event listener per il beforeunload per salvare lo store prima del refresh
+window.addEventListener("beforeunload", saveStore);
