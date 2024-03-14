@@ -15,6 +15,22 @@ export default {
         params: { slug: this.store.doctor[index].slug },
       });
     },
+    stars(index) {
+      if (this.store.doctor[index].votes.length > 0) {
+        let voti = this.store.doctor[index].votes;
+        let numeroVoti = this.store.doctor[index].votes.length;
+        let somma = 0;
+        // scorro l'array
+        voti.forEach((vote) => {
+          somma = somma + vote.id; // sommo gli id
+        });
+        let numStelle = Math.floor(somma / numeroVoti); // divido la somma per la lunghezza dell'array
+        return numStelle;
+      } else {
+        let numStelle = 0;
+        return numStelle; // Se non ci sono voti, restituisci 0
+      }
+    },
   },
 };
 </script>
@@ -24,16 +40,6 @@ export default {
     <!-- info ricerca -->
     <div class="info-ricerca px-5 mb-5">
       <h6>Numero dottori trovati: {{ store.doctor.length }}</h6>
-      <!-- visualizza le info dopo aver selezionato almeno una checkbox -->
-      <h6 v-if="Object.keys(store.filtred.parametri) > 1">Filtri Applicati:</h6>
-      <!-- visualizza i parametri della richiesta -->
-      <div
-        v-for="(key, index) in Object.keys(store.filtred.parametri)"
-        :key="index"
-      >
-        <!-- tranne il primo elemento perchè è la key -->
-        <h6 class="lower-case">{{ key }}</h6>
-      </div>
     </div>
     <!-- /info ricerca -->
 
@@ -70,10 +76,13 @@ export default {
               {{ specializations }}
             </p>
           </div>
-          <!-- <div class="col-stars d-flex">-------voti feature
-                        <font-awesome-icon v-for="star in 5 - this.store.numStelleRimanenti" :icon="['fas', 'star']"/>
-                    </div> -->
-          <!-- <p>{{ new_doctor.reviews.length }} Recensioni</p> -->
+          <div class="col-stars d-flex gap-1 my-2">
+            <font-awesome-icon
+              v-for="star in stars(index)"
+              :icon="['fas', 'star']"
+            />
+            <p v-if="new_doctor.votes.length === 0" class="mb-0">Nussun Voto</p>
+          </div>
           <p>
             <font-awesome-icon icon="fa-solid fa-location-dot" />
             {{ new_doctor.address }}

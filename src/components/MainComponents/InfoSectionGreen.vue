@@ -71,9 +71,9 @@ export default {
                 </li>
             </ul>
             <div class="ms-4">
-                <button class="button-pro fw-medium">
+                <a class="btn button-pro fw-medium" href="http://127.0.0.1:8000/" target="_blank">
                     SCOPRI BDOCTORS PRO
-                </button>
+                </a>
             </div>
         </div>
     </div>

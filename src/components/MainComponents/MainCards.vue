@@ -1,7 +1,6 @@
 <script>
 import { store } from "../../store.js";
 import axios from 'axios';
-import { DOMDirectiveTransforms } from "@vue/compiler-dom";
 
 export default {
     name: 'MainCards',
@@ -65,7 +64,6 @@ export default {
     },
 }
 </script>
-
 <template>
     <!-- titolo  -->
     <div class="mb-3">
@@ -83,13 +81,13 @@ export default {
 
         <!-- card docs sponsored  -->
         <div class="d-flex gap-md-5 mt-5 flex-wrap justify-content-center">
-            <div v-for="(doctor, index) in sponsoredDoctors" :key="index" class="doctor-container position-relative">
-                <div v-if="doctor?.doctor_img" class="img-container">
+            <div v-for="(doctor, index) in sponsoredDoctors" :key="index" @click="redirectToDoctorDetail(doctor.slug)"
+                class="doctor-container position-relative">
+                <div class="img-container">
                     <!-- immagine -->
                     <img :src="`${imgUrl}/${doctor.doctor_img}`" :alt="`${doctor.user.name} ${doctor.user.surname} image`"
                         class="round-img">
                 </div>
-                <p v-else>{{ doctor.user.name }} {{ doctor.user.surname }} non ha una immagine</p>
                 <div class="position-absolute info-doctor-container d-flex justify-content-center align-items-center p-0">
                     <div class="info-doctor text-start width-80">
                         <!-- Nome e cognome del dottore -->
@@ -108,8 +106,8 @@ export default {
                         <!-- recensioni -->
                         <p class="m-0 text-white font-s-13 md-1">{{ doctor.reviews.length }} Recensioni</p>
                         <!-- dettaglio  -->
-                        <p @click="redirectToDoctorDetail(doctor.slug)" class="col-grey dettaglio m-0 font-s-13 md-1">
-                            Dettaglio</p>
+                        <!-- <p @click="redirectToDoctorDetail(doctor.slug)" class="col-grey dettaglio m-0 font-s-13 md-1">
+                            Dettaglio</p> -->
                     </div>
                 </div>
             </div>
@@ -158,6 +156,7 @@ export default {
     height: 250px;
     margin-bottom: 30px;
     transition: transform 0.3s ease-in-out;
+    cursor: pointer;
 
     &:hover {
         transform: scale(1.05);

@@ -192,13 +192,17 @@ export default {
   },
   created() {
     this.getDoctor();
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
   },
 };
 </script>
 
 <template>
   <main>
-    <div class="container my-5">
+    <div class="container my-5 d-flex flex-wrap d-md-block flex-md-nowrap">
       <div class="row">
         <div class="d-flex flex-wrap flex-md-nowrap gap-5 height-tot">
           <!-- card -->
@@ -310,10 +314,7 @@ export default {
           <!-- /card -->
 
 
-
-
-
-            <!-- sezioni -->
+          <!-- sezioni -->
           <div class="section rounded-4 px-3 px-md-5 py-4 w50-percento overflow-auto" :class="activeCv === true ? 'd-none' : 'd-block'">
             <!-- recensioni -->
             <div
@@ -447,7 +448,7 @@ export default {
                 v-if="doctor.doctor_cv"
                 :src="'http://127.0.0.1:8000/storage/' + doctor.doctor_cv"
                 frameborder="0"
-                style="width: 600px; height: 600px"
+                style="width: 500px; height: 600px"
               ></iframe>
               <h6 v-else>Il dottore non ha ancora inserito il CV</h6>
             </div>
@@ -460,8 +461,10 @@ export default {
 
 <style scoped lang="scss">
   @use "../style/partials/palette.scss" as *;
-.cv-width{
-  width: 50%;
+
+  iframe {
+  height: 350px;
+  width: 240px;
 }
 li {
   list-style-type: none;
@@ -564,5 +567,8 @@ li {
   .height-tot{
     height: 600px;
   }
+  .cv-width{
+  width: 50%;
+}
 }
 </style>
