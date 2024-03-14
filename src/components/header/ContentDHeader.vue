@@ -9,9 +9,9 @@ export default {
 </script>
 
 <template>
-    <div class="row mt-5">
+    <div class="row mt-5 mx-auto">
         <!-- Colonna sinistra -->
-        <div class="col">
+        <div class="col-sm-8">
             <NavBarSm />
             <div class="mt-5">
                 <h1 class="text-cstm">Cerchi un appuntamento</h1>
@@ -19,8 +19,8 @@ export default {
             </div>
         </div>
         <!-- Colonna destra -->
-        <div class="col d-flex justify-content-end align-items-end">
-            <div class="image-container d-flex align-items-end">
+        <div class="col-4 d-flex justify-content-end align-items-end d-none d-sm-block">
+            <div class="image-container d-flex justify-content-end">
                 <img src="../../assets/img/image_1.svg" alt="Immagine dottore" class="img-fluid">
             </div>
         </div>
