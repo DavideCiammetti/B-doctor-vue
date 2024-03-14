@@ -62,17 +62,26 @@ export default {
 <template>
   <main class="main py-5" v-show="!this.store.searchNotFound">
     <!-- info ricerca -->
-    <h6 class="px-5">
-      Numero dottori trovati: {{ store.advancedDoctor.length }}
-    </h6>
+    <div class="d-flex justify-content-between align-items-center">
+      <h6 class="px-5">
+        Numero dottori trovati: {{ store.advancedDoctor.length }}
+      </h6>
+      <!-- bottone elimina filtri  -->
+      <div class="right py-2 py-lg-0 text-center me-5">
+        <button class="btn btn-danger" @click="emptyParams()">
+          Elimina Filtri
+        </button>
+      </div>
+      <!-- /bottone elimina filtri  -->
+    </div>
 
-    <div class="info-ricerca px-5 mb-5 d-flex justify-content-between mt-3">
-      <!-- sinistra -->
-      <div class="left">
-        <div class="filtri d-flex gap-1">
+    <div class="info-ricerca px-5 mb-5 d-flex justify-content-between mt-3 flex-wrap align-items-center">
+      <!-- filtri -->
+      <div class="left col-12">
+        <div class="filtri col d-flex gap-1 flex-wrap overflow-auto">
           <!-- ortopedico -->
           <div v-if="store.filtred.parametri.ortopedico"
-            class="alert alert-success d-flex flex-column flex-md-row gap-1 mb-0 position-relative" role="alert">
+            class="alert alert-success d-flex flex-column flex-md-row gap-1 mb-0 position-relative p-2" role="alert">
             <font-awesome-icon :icon="['fas', 'xmark']" class="close position-absolute p-1"
               @click="closeParam('ortopedico')" />
             <h6 class="mt-2 me-2">ortopedico</h6>
@@ -80,7 +89,7 @@ export default {
           <!-- /ortopedico -->
           <!-- dermatologo -->
           <div v-if="store.filtred.parametri.dermatologo"
-            class="alert alert-success d-flex flex-column flex-md-row gap-1 mb-0 position-relative" role="alert">
+            class="alert alert-success d-flex flex-column flex-md-row gap-1 mb-0 position-relative p-2" role="alert">
             <font-awesome-icon :icon="['fas', 'xmark']" class="close position-absolute p-1"
               @click="closeParam('dermatologo')" />
             <h6 class="mt-2 me-2">dermatologo</h6>
@@ -88,7 +97,7 @@ export default {
           <!-- /dermatologo -->
           <!-- psicologo -->
           <div v-if="store.filtred.parametri.psicologo"
-            class="alert alert-success d-flex flex-column flex-md-row gap-1 mb-0 position-relative" role="alert">
+            class="alert alert-success d-flex flex-column flex-md-row gap-1 mb-0 position-relative p-2" role="alert">
             <font-awesome-icon :icon="['fas', 'xmark']" class="close position-absolute p-1"
               @click="closeParam('psicologo')" />
             <h6 class="mt-2 me-2">psicologo</h6>
@@ -96,7 +105,7 @@ export default {
           <!-- /psicologo -->
           <!-- oculista -->
           <div v-if="store.filtred.parametri.oculista"
-            class="alert alert-success d-flex flex-column flex-md-row gap-1 mb-0 position-relative" role="alert">
+            class="alert alert-success d-flex flex-column flex-md-row gap-1 mb-0 position-relative p-2" role="alert">
             <font-awesome-icon :icon="['fas', 'xmark']" class="close position-absolute p-1"
               @click="closeParam('oculista')" />
             <h6 class="mt-2 me-2">oculista</h6>
@@ -104,7 +113,7 @@ export default {
           <!-- /oculista -->
           <!-- ginecologo -->
           <div v-if="store.filtred.parametri.ginecologo"
-            class="alert alert-success d-flex flex-column flex-md-row gap-1 mb-0 position-relative" role="alert">
+            class="alert alert-success d-flex flex-column flex-md-row gap-1 mb-0 position-relative p-2" role="alert">
             <font-awesome-icon :icon="['fas', 'xmark']" class="close position-absolute p-1"
               @click="closeParam('ginecologo')" />
             <h6 class="mt-2 me-2">ginecologo</h6>
@@ -112,7 +121,7 @@ export default {
           <!-- /ginecologo -->
           <!-- nutrizionista -->
           <div v-if="store.filtred.parametri.nutrizionista"
-            class="alert alert-success d-flex flex-column flex-md-row gap-1 mb-0 position-relative" role="alert">
+            class="alert alert-success d-flex flex-column flex-md-row gap-1 mb-0 position-relative p-2" role="alert">
             <font-awesome-icon :icon="['fas', 'xmark']" class="close position-absolute p-1"
               @click="closeParam('nutrizionista')" />
             <h6 class="mt-2 me-2">nutrizionista</h6>
@@ -120,7 +129,7 @@ export default {
           <!-- /nutrizionista -->
           <!-- dentista -->
           <div v-if="store.filtred.parametri.dentista"
-            class="alert alert-success d-flex flex-column flex-md-row gap-1 mb-0 position-relative" role="alert">
+            class="alert alert-success d-flex flex-column flex-md-row gap-1 mb-0 position-relative p-2" role="alert">
             <font-awesome-icon :icon="['fas', 'xmark']" class="close position-absolute p-1"
               @click="closeParam('dentista')" />
             <h6 class="mt-2 me-2">dentista</h6>
@@ -128,7 +137,7 @@ export default {
           <!-- /dentista -->
           <!-- cardiologo -->
           <div v-if="store.filtred.parametri.cardiologo"
-            class="alert alert-success d-flex flex-column flex-md-row gap-1 mb-0 position-relative" role="alert">
+            class="alert alert-success d-flex flex-column flex-md-row gap-1 mb-0 position-relative p-2" role="alert">
             <font-awesome-icon :icon="['fas', 'xmark']" class="close position-absolute p-1"
               @click="closeParam('cardiologo')" />
             <h6 class="mt-2 me-2">cardiologo</h6>
@@ -136,7 +145,7 @@ export default {
           <!-- /cardiologo -->
           <!-- osteopata -->
           <div v-if="store.filtred.parametri.osteopata"
-            class="alert alert-success d-flex flex-column flex-md-row gap-1 mb-0 position-relative" role="alert">
+            class="alert alert-success d-flex flex-column flex-md-row gap-1 mb-0 position-relative p-2" role="alert">
             <font-awesome-icon :icon="['fas', 'xmark']" class="close position-absolute p-1"
               @click="closeParam('osteopata')" />
             <h6 class="mt-2 me-2">osteopata</h6>
@@ -144,7 +153,7 @@ export default {
           <!-- /osteopata -->
           <!-- ostetrica -->
           <div v-if="store.filtred.parametri.ostetrica"
-            class="alert alert-success d-flex flex-column flex-md-row gap-1 mb-0 position-relative" role="alert">
+            class="alert alert-success d-flex flex-column flex-md-row gap-1 mb-0 position-relative p-2" role="alert">
             <font-awesome-icon :icon="['fas', 'xmark']" class="close position-absolute p-1"
               @click="closeParam('ostetrica')" />
             <h6 class="mt-2 me-2">ostetrica</h6>
@@ -152,7 +161,7 @@ export default {
           <!-- /ostetrica -->
           <!-- anestesista -->
           <div v-if="store.filtred.parametri.anestesista"
-            class="alert alert-success d-flex flex-column flex-md-row gap-1 mb-0 position-relative" role="alert">
+            class="alert alert-success d-flex flex-column flex-md-row gap-1 mb-0 position-relative p-2" role="alert">
             <font-awesome-icon :icon="['fas', 'xmark']" class="close position-absolute p-1"
               @click="closeParam('anestesista')" />
             <h6 class="mt-2 me-2">anestesista</h6>
@@ -160,7 +169,7 @@ export default {
           <!-- /anestesista -->
           <!-- logopedista -->
           <div v-if="store.filtred.parametri.logopedista"
-            class="alert alert-success d-flex flex-column flex-md-row gap-1 mb-0 position-relative" role="alert">
+            class="alert alert-success d-flex flex-column flex-md-row gap-1 mb-0 position-relative p-2" role="alert">
             <font-awesome-icon :icon="['fas', 'xmark']" class="close position-absolute p-1"
               @click="closeParam('logopedista')" />
             <h6 class="mt-2 me-2">logopedista</h6>
@@ -168,7 +177,7 @@ export default {
           <!-- /logopedista -->
           <!-- voto -->
           <div v-if="store.filtred.votes.voteValue > 0"
-            class="alert alert-success d-flex flex-column flex-md-row gap-1 mb-0 position-relative" role="alert">
+            class="alert alert-success d-flex flex-column flex-md-row gap-1 mb-0 position-relative p-2" role="alert">
             <font-awesome-icon :icon="['fas', 'xmark']" class="close position-absolute p-1"
               @click="closeVote('voteValue')" />
             <h6 class="mt-2 me-2">
@@ -178,7 +187,7 @@ export default {
           <!-- /voto -->
           <!-- recensione -->
           <div v-if="store.filtred.reviews.reviewValue > 0"
-            class="alert alert-success d-flex flex-column flex-md-row gap-1 mb-0 position-relative" role="alert">
+            class="alert alert-success d-flex flex-column flex-md-row gap-1 mb-0 position-relative p-2" role="alert">
             <font-awesome-icon :icon="['fas', 'xmark']" class="close position-absolute p-1"
               @click="closeReview('reviewValue')" />
             <h6 class="mt-2 me-2">
@@ -187,7 +196,7 @@ export default {
             </h6>
           </div>
         </div>
-        <div class="alert alert-danger d-flex gap-1 mb-0 mt-2" role="alert" :class="Object.keys(store.filtred.parametri).length === 0
+        <div class="alert alert-danger mb-0 mt-2" role="alert" :class="Object.keys(store.filtred.parametri).length === 0
           ? 'd-block'
           : 'd-none'
           ">
@@ -195,14 +204,14 @@ export default {
         </div>
         <!-- /elenco filtri applicati -->
       </div>
-      <!-- /sinistra -->
+      <!-- /filtri -->
 
       <!-- destra -->
-      <div class="right">
+      <!-- <div class="right col-2 py-2 py-lg-0 text-center">
         <button class="btn btn-danger" @click="emptyParams()">
-          Svuota Campi
+          Elimina Filtri
         </button>
-      </div>
+      </div> -->
       <!-- /destra -->
     </div>
     <!-- /info ricerca -->
@@ -254,6 +263,31 @@ export default {
 
 .main {
   background-color: $grey-100;
+}
+
+// filtri
+// .left.row {
+//   width: 90%;
+
+//   @media (max-width: 992px) {
+//     width: 100%;
+//   }
+// }
+
+.info-ricerca {
+  max-height: 450px;
+}
+
+.filtri {
+  max-height: 450px;
+}
+
+.alert.alert-success.d-flex.flex-column.flex-md-row.gap-1.mb-0.position-relative.p-2 {
+  max-height: 3.75rem;
+}
+
+.alert.alert-danger.mb-0.mt-2 {
+  max-width: 400px;
 }
 
 // card
