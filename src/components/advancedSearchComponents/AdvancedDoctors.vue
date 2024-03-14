@@ -188,8 +188,8 @@ export default {
           </div>
         </div>
         <div class="alert alert-danger d-flex gap-1 mb-0 mt-2" role="alert" :class="Object.keys(store.filtred.parametri).length === 0
-            ? 'd-block'
-            : 'd-none'
+          ? 'd-block'
+          : 'd-none'
           ">
           Devi selezionare almeno una specializzazione
         </div>
@@ -242,7 +242,7 @@ export default {
             <font-awesome-icon icon="fa-solid fa-location-dot" />
             {{ new_doctor.address }}
           </p>
-          <p @click="showClick(index)" class="col-grey dettaglio">Dettaglio</p>
+          <p @click="showClick(index)" class="col-grey dettaglio text-decoration-underline"><strong>Dettaglio</strong></p>
         </div>
       </div>
     </div>
@@ -309,7 +309,8 @@ export default {
 
 // tag a colore
 .col-grey {
-  color: rgb(169, 169, 169);
+  color: $green-600;
+  font-size: 1.125rem;
 }
 
 .dettaglio {
