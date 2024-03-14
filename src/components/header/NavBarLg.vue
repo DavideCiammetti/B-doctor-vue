@@ -99,7 +99,7 @@ export default {
           voti.forEach((vote) => {
             somma = somma + vote.id; // sommo gli id
           });
-          media = Math.floor(somma / numeroVoti); // Calcolo della media corretto
+          media = Math.round(somma / numeroVoti); // Calcolo della media corretto
           return media >= this.store.filtred.votes.voteValue; // Restituisce true solo se la media è maggiore o uguale al valore di voto filtrato
         }
         return false; // Se non ci sono voti, il dottore non viene incluso nei risultati

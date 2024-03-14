@@ -9,6 +9,21 @@ export default {
     };
   },
   methods: {
+    // calcolo stelle
+    stars(index) {
+      if (store.doctor[index].votes.length > 0) {
+        let votes = store.doctor[index].votes;
+        let somma = 0;
+        // scorro l'array
+        votes.forEach((vote) => {
+          somma = somma + +vote; // sommo i voti dopo aver convertito voto in numero
+        });
+        let numStelle = Math.round(somma / votes.length); // divido la somma per la lunghezza dell'array
+        return numStelle; // restituisco il numero di stelle
+      } else {
+        return 0; // Se non ci sono voti, restituisci 0
+      }
+    },
     showClick(index) {
       this.$router.push({
         name: "doctor-detail",
@@ -28,12 +43,22 @@ export default {
     <!-- /info ricerca -->
 
     <!-- contenitore cards -->
-    <div class="card-container d-flex justify-content-center flex-wrap justify-content-md-around p-3 gap-5">
+    <div
+      class="card-container d-flex justify-content-center flex-wrap justify-content-md-around p-3 gap-5"
+    >
       <!-- card -->
-      <div class="d-flex card-item col-12 col-md-5 position-relative" v-for="(new_doctor, index) in this.store.doctor">
+      <div
+        class="d-flex card-item col-12 col-md-5 position-relative"
+        v-for="(new_doctor, index) in this.store.doctor"
+      >
         <!-- immagine -->
         <div class="img-container">
-          <img v-if="new_doctor.doctor_img" :src="this.store.imgUrl + new_doctor.doctor_img" class="card-img" alt="" />
+          <img
+            v-if="new_doctor.doctor_img"
+            :src="this.store.imgUrl + new_doctor.doctor_img"
+            class="card-img"
+            alt=""
+          />
         </div>
         <!-- informazioni -->
         <div class="w-63 mt-4">
@@ -43,15 +68,44 @@ export default {
             </h4>
           </div>
           <div class="d-flex flex-wrap mb-2">
-            <p v-for="specializations in new_doctor.specializations" class="m-0 pe-2">
-              {{ specializations }}
+            <p
+              v-for="(specialization, index) in new_doctor.specializations"
+              class="m-0 pe-2"
+            >
+              {{ specialization }}
+              <span v-if="index !== new_doctor.specializations.length - 1"
+                >-</span
+              >
             </p>
           </div>
+          <div class="stelle d-flex gap-1 mb-2">
+            <font-awesome-icon
+              v-for="star in stars(index)"
+              :icon="['fas', 'star']"
+            />
+            <p v-if="new_doctor.votes[0] === ''" class="mb-0">Nussun Voto</p>
+          </div>
+          <div class="recensioni pb-1">
+            <div class="singola" v-if="new_doctor.reviews.length === 1">
+              {{ new_doctor.reviews.length }} Recensione
+            </div>
+            <div class="singola" v-else>
+              {{ new_doctor.reviews.length }} Recensioni
+            </div>
+          </div>
+          <p>
+            {{ new_doctor.address }}
+          </p>
           <p>
             <font-awesome-icon icon="fa-solid fa-location-dot" />
             {{ new_doctor.address }}
           </p>
-          <p @click="showClick(index)" class="col-grey dettaglio text-decoration-underline"><strong>Dettaglio</strong></p>
+          <p
+            @click="showClick(index)"
+            class="col-grey dettaglio text-decoration-underline"
+          >
+            <strong>Dettaglio</strong>
+          </p>
         </div>
       </div>
     </div>
@@ -130,5 +184,9 @@ export default {
 
 .lower-case {
   text-transform: lowercase;
+}
+
+.stelle {
+  color: $green-w-400;
 }
 </style>
