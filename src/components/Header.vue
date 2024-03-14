@@ -17,10 +17,7 @@ export default {
 </script>
 
 <template>
-  <header
-    :class="this.store.changedSearchbar === true ? 'h-500' : ''"
-    class="app-header"
-  >
+  <header :class="$route.name !== 'home' ? 'h-500' : ''" class="app-header">
     <UpHeader />
     <DownHeader />
   </header>
@@ -40,6 +37,7 @@ export default {
 
 .h-500 {
   padding-bottom: 30px;
+
   @media (max-width: 768px) {
     margin-bottom: 0;
     height: 300px;
