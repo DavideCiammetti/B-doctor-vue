@@ -15,22 +15,6 @@ export default {
         params: { slug: this.store.doctor[index].slug },
       });
     },
-    stars(index) {
-      if (this.store.doctor[index].votes.length > 0) {
-        let voti = this.store.doctor[index].votes;
-        let numeroVoti = this.store.doctor[index].votes.length;
-        let somma = 0;
-        // scorro l'array
-        voti.forEach((vote) => {
-          somma = somma + vote.id; // sommo gli id
-        });
-        let numStelle = Math.floor(somma / numeroVoti); // divido la somma per la lunghezza dell'array
-        return numStelle;
-      } else {
-        let numStelle = 0;
-        return numStelle; // Se non ci sono voti, restituisci 0
-      }
-    },
   },
 };
 </script>
@@ -75,13 +59,6 @@ export default {
             >
               {{ specializations }}
             </p>
-          </div>
-          <div class="col-stars d-flex gap-1 my-2">
-            <font-awesome-icon
-              v-for="star in stars(index)"
-              :icon="['fas', 'star']"
-            />
-            <p v-if="new_doctor.votes.length === 0" class="mb-0">Nussun Voto</p>
           </div>
           <p>
             <font-awesome-icon icon="fa-solid fa-location-dot" />
