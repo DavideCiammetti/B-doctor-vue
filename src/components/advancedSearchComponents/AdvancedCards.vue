@@ -150,6 +150,7 @@ export default {
   );
   border: none;
   display: inline;
+  cursor: pointer;
 }
 
 // immagine card

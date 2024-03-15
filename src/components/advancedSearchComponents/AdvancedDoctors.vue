@@ -386,6 +386,7 @@ export default {
   );
   border: none;
   display: inline;
+  cursor: pointer;
 }
 
 .info-ricerca {

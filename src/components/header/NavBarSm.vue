@@ -197,7 +197,7 @@ export default {
     .search-button {
       width: 70%;
       height: 90%;
-      background-color: $green-700;
+      background-color: $green-900;
       color: white;
       border-color: $green-700;
       border-top-right-radius: 1.5625rem;

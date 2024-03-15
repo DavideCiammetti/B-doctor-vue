@@ -409,7 +409,7 @@ export default {
             class="btn btn-outline-success flex-grow-1 search-button"
             type="submit"
           >
-            Cerca >
+            Cerca
           </button>
         </div>
         <!-- /bottone cerca  -->
@@ -499,9 +499,9 @@ export default {
 
   // bottone
   .search-button {
-    background-color: #00264c;
+    background-color: $green-900;
     color: white;
-    border-color: #00264c;
+    border-color: $green-900;
     height: 54px;
     display: block;
 
