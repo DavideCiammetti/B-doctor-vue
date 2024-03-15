@@ -8,10 +8,11 @@ export default {
   data() {
     return {
       store,
-      activeReviews: true,
-      activeServices: false,
+      activeServices: true,
       activeSpecializations: false,
       activeCv: false,
+      // disattiva il colore delle stelle e il numero
+      noStarsColor: true,
       doctor: {},
       // form reviews show
       showFormReviews: false,
@@ -39,6 +40,12 @@ export default {
         vote_id: null,
       },
       selectedStars: 0,
+      // alert invio messaggio 
+      messageAlertSuccess: false,
+      // alert invio review
+      messageAlertSuccessReview: false,
+      // alert invio voto
+      messageAlertSuccessVote: false,
     };
   },
   methods: {
@@ -63,7 +70,15 @@ export default {
         })
         .catch((error) => {
           console.log(error);
+          this.messageAlertSuccessReview = false;
         });
+
+        this.messageAlertSuccessReview = true;
+      if (this.messageAlertSuccessReview === true) {
+        setTimeout(() => {
+          this.messageAlertSuccessReview = false;
+        }, 3000);
+      }
       this.formReviews.name = "";
       this.formReviews.surname = "";
       this.formReviews.email = "";
@@ -80,6 +95,7 @@ export default {
         message: this.formMessages.message,
       };
       console.log(data);
+
       axios
         .post(this.store.api.baseUrl + this.store.apiMessages, data)
         .then((response) => {
@@ -87,7 +103,14 @@ export default {
         })
         .catch((error) => {
           console.log(error);
+          this.messageAlertSuccess = false;
         });
+        this.messageAlertSuccess = true;
+      if (this.messageAlertSuccess === true) {
+        setTimeout(() => {
+          this.messageAlertSuccess = false;
+        }, 3000);
+      }
       this.formMessages.name = "";
       this.formMessages.surname = "";
       this.formMessages.email = "";
@@ -108,35 +131,34 @@ export default {
         })
         .catch((error) => {
           console.log(error);
+          this.messageAlertSuccessVote = false;
         });
+
+        this.messageAlertSuccessVote = true;
+      if (this.messageAlertSuccessVote === true) {
+        setTimeout(() => {
+          this.messageAlertSuccessVote = false;
+        }, 3000);
+      }
       this.formMessages.vote_id = '';
     },
     // click stelle voti
-    clickStar(key) {
-      console.log(key);
-      this.selectedStars = key;
-      return this.formVotes.vote_id = this.selectedStars;
-    },
-    reviews() {
-      this.activeReviews = true;
-      this.activeServices = false;
-      this.activeSpecializations = false;
-      this.activeCv = false;
+    clickStar(starIndex) {
+      console.log(starIndex);
+      this.selectedStars = starIndex;
+      this.formVotes.vote_id = starIndex;
     },
     services() {
-      this.activeReviews = false;
       this.activeServices = true;
       this.activeSpecializations = false;
       this.activeCv = false;
     },
     specializations() {
-      this.activeReviews = false;
       this.activeServices = false;
       this.activeSpecializations = true;
       this.activeCv = false;
     },
     docCv() {
-      this.activeReviews = false;
       this.activeServices = false;
       this.activeSpecializations = false;
       this.activeCv = true;
@@ -202,195 +224,206 @@ export default {
 
 <template>
   <main>
-    <div class="container my-5 d-flex flex-wrap d-md-block flex-md-nowrap">
-      <div class="row">
-        <div class="d-flex flex-wrap flex-md-nowrap gap-5 height-tot">
-          <!-- card -->
-          <div class="doc-card rounded-4 px-3 px-md-5 py-3 py-md-4 w50-percento">
-            <!-- top -->
-            <div class="top gap-4 d-flex">
-              <div class="img">
-                <img v-if="doctor.doctor_img" :src="'http://127.0.0.1:8000/storage/' + doctor.doctor_img"
-                  alt="doctor image" class="rounded-4" />
-              </div>
-              <div class="info d-flex flex-column gap-2">
-                <div>
-                  <div class="name d-flex gap-1">
-                    <h4>Dott.</h4>
-                    <h4>{{ doctor.user?.name }}</h4>
-                    <h4>{{ doctor.user?.surname }}</h4>
-                  </div>
-                  <div class="d-flex gap-1" v-if="doctor.phone_number">
-                    <span>Telefono:</span>
-                    <a :href="'tel:' + doctor.phone_number">{{
-                      doctor.phone_number
-                    }}</a>
-                  </div>
+    <div class=" my-5 justify-content-center d-flex flex-wrap">
+      <div class="justify-content-center flex-column flex-lg-row d-flex flex-wrap flex-md-nowrap gap-5 p-3 px-md-3 section-width" >
+        <!-- card -->
+        <div class="justify-content-center doc-card rounded-4 px-1 px-md-2 py-3 py-md-4 section-width">
+          <!-- top -->
+          <div class="top gap-4 d-flex mb-2">
+            <div class="img">
+              <img v-if="doctor.doctor_img" :src="'http://127.0.0.1:8000/storage/' + doctor.doctor_img"
+                alt="doctor image" class="rounded-4" />
+            </div>
+            <div class="d-flex flex-column gap-2">
+              <div>
+                <div class="name d-flex gap-1">
+                  <h4>Dott.</h4>
+                  <h4>{{ doctor.user?.name }}</h4>
+                  <h4>{{ doctor.user?.surname }}</h4>
+                </div>
+                <div class="d-flex flex-column" v-if="doctor.phone_number">
+                  <span>Telefono:</span>
+                  <a :href="'tel:' + doctor.phone_number">{{
+                    doctor.phone_number
+                  }}</a>
+                </div>
 
-                  <h6 class="my-3">Indirizzo: {{ doctor.address }}</h6>
-                  <div class="cont d-flex flex-column gap-2 mt-2 mb-2 pb-4">
-                    <div class="stelle d-flex gap-1 mb-2">
-                      <font-awesome-icon v-for="star in stars()" :icon="['fas', 'star']" />
-                    </div>
+                <h6 class="my-3">Indirizzo: {{ doctor.address }}</h6>
+                <div class="d-flex flex-column gap-2 mt-2 mb-2 pb-4">
+                  <div class="stelle d-flex gap-1 mb-2">
+                    <font-awesome-icon v-for="star in stars()" :icon="['fas', 'star']" />
+                  </div>
+                  <div>
+                    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" @click="showFormMessages"
+                      data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+                      Contatta il Medico
+                    </button>
+                  </div>
+                </div>
+                <!-- offcanvas form messaggi -->
+                <div class="offcanvas offcanvas-start off-width" tabindex="-1" id="offcanvasExample"
+                  aria-labelledby="offcanvasExampleLabel">
+                  <div class="offcanvas-header">
+                    <h4 class="offcanvas-title fs-1" id="offcanvasExampleLabel">
+                      Invia il messaggio
+                    </h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                  </div>
+                  <p class=" ps-3 required-fields-text">* I seguenti campi sono obbligatri</p>
+                  <div class="offcanvas-body">
                     <div>
-                      <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" @click="showFormMessages"
-                        data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-                        Contatta il Medico
-                      </button>
-                    </div>
-                  </div>
-                  <!-- offcanvas form messaggi -->
-                  <div class="offcanvas offcanvas-start off-width" tabindex="-1" id="offcanvasExample"
-                    aria-labelledby="offcanvasExampleLabel">
-                    <div class="offcanvas-header">
-                      <h5 class="offcanvas-title" id="offcanvasExampleLabel">
-                        Inserisci il messaggio
-                      </h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                    </div>
-                    <div class="offcanvas-body">
-                      <div v-if="this.showFormMessage">
-                        <form action="" @submit.prevent="sendMessages" method="post">
-                          <!-- name -->
-                          <label for="nameRev" class="d-none">Nome</label>
-                          <input type="text" id="nameRev" placeholder="Nome" class="input-reviews p-2" name="name"
-                            v-model="formMessages.name">
-                          <!-- surname -->
-                          <label for="surnameRev" class="d-none">surname</label>
-                          <input type="text" name="surname" class="input-reviews p-2" placeholder="Cognome"
-                            v-model="formMessages.surname">
-                          <!-- email -->
-                          <label for="emailRev" class="d-none">email</label>
-                          <input type="email" name="email" class="input-reviews p-2" placeholder="Email"
-                            v-model="formMessages.email">
-                          <!-- phone number -->
-                          <label for="phoneRev" class="d-none">phone</label>
-                          <input type="text" name="phoneNumber" class="input-reviews p-2" placeholder="Tel" id="phoneRev"
-                            v-model="formMessages.phoneNumber">
-                          <!-- content -->
-                          <textarea name="content" id="reviewsText" class="input-reviews p-1" placeholder="Messaggio"
-                            cols="80" rows="4" v-model="formMessages.message"></textarea>
-                          <button class="ms-2 butt-Reviews p-2">Invia Messaggio </button>
-                        </form>
+                      <form action="" @submit.prevent="sendMessages" method="post">
+                        <!-- name -->
+                        <label for="nameRev" class="d-none">Nome</label>
+                        <input type="text" id="nameRev" placeholder="Nome" class="rev-w input-reviews p-2" name="name"
+                          v-model="formMessages.name">
+                        <!-- surname -->
+                        <label for="surnameRev" class="d-none">surname</label>
+                        <input type="text" name="surname" class="rev-w input-reviews p-2" placeholder="Cognome"
+                          v-model="formMessages.surname">
+                        <!-- email -->
+                        <label for="emailRev" class="d-none">email</label>
+                        <input type="email" name="email" class="rev-w input-reviews p-2" placeholder="Email*"
+                          v-model="formMessages.email">
+                        <!-- phone number -->
+                        <label for="phoneRev" class="d-none">phone</label>
+                        <input type="text" name="phoneNumber" class="rev-w input-reviews p-2" placeholder="Tel" id="phoneRev"
+                          v-model="formMessages.phoneNumber">
+                        <!-- content -->
+                        <textarea name="content" id="reviewsText" class="text-rev-w input-reviews p-1" placeholder="Messaggio*"
+                          cols="60" rows="4" v-model="formMessages.message"></textarea>
+                      <div>
+                        <button class="ms-2 butt-Reviews p-2">Invia Messaggio </button>
                       </div>
+                      </form>
+                    </div>
+                    <div v-show="messageAlertSuccess" class="alert alert-success" role="alert">
+                      il messaggio è stato inviato correttamente
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <!-- /top -->
-            <!-- bottom -->
-            <div class="bottom d-flex flex-column flex-md-row justify-content-center gap-3 gap-md-5 mt-5">
-              <p class="p-2 rounded-3 text-center" @click="reviews">
-                Recensioni
-              </p>
-              <p class="p-2 rounded-3 text-center" @click="services">
-                Prestazioni
-              </p>
-              <p class="p-2 rounded-3 text-center" @click="specializations">
-                Specializzazioni
-              </p>
-              <p class="p-2 rounded-3 text-center" @click="docCv">
-                Cv
-              </p>
-            </div>
-            <!-- /bottom -->
           </div>
-          <!-- /card -->
-
-
-          <!-- sezioni -->
-          <div class="section rounded-4 px-3 px-md-5 py-4 w50-percento overflow-auto"
-            :class="activeCv === true ? 'd-none' : 'd-block'">
-            <!-- recensioni -->
-            <div class="recensioni d-flex flex-column gap-2" :class="activeReviews === true ? 'd-block' : 'd-none'">
-              <!-- top -->
-              <div class="cont d-flex justify-content-between align-items-center">
-                <!-- davide -->
-                <h4>{{ doctor.reviews?.length }} Recensioni</h4>
-                <button class="btn border border-2 col-black" v-if="showButton" @click="showForm">Aggiungi
-                  recensione</button>
-                <button class="btn border border-2 col-black" v-if="!showButton" @click="closeReview">Chiudi form
-                  recensione</button>
-              </div>
-              <!-- invio dati reviews -->
-              <div v-if="showFormReviews">
-                <form action="" @submit.prevent="sendReviews" method="post">
-                  <!-- name -->
-                  <label for="nameRev" class="d-none">Nome</label>
-                  <input type="text" id="nameRev" placeholder="Nome" class="input-reviews p-2" name="name"
-                    v-model="formReviews.name">
-                  <!-- surname -->
-                  <label for="surnameRev" class="d-none">surname</label>
-                  <input type="text" name="surname" class="input-reviews p-2" placeholder="Cognome"
-                    v-model="formReviews.surname">
-                  <!-- email -->
-                  <label for="emailRev" class="d-none">email</label>
-                  <input type="email" name="email" class="input-reviews p-2" placeholder="Email"
-                    v-model="formReviews.email">
-                  <!-- phone number -->
-                  <label for="phoneRev" class="d-none">phone</label>
-                  <input type="text" name="phoneNumber" class="input-reviews p-2" placeholder="Tel" id="phoneRev"
-                    v-model="formReviews.phoneNumber">
-                  <!-- content -->
-                  <textarea name="content" id="reviewsText" class="input-reviews p-1" placeholder="Recensione" cols="53"
-                    rows="4" v-model="formReviews.content"></textarea>
-                  <button class="ms-2 butt-Reviews p-2">Invia Recensione</button>
-                </form>
-              </div>
-              <!-- /top -->
-
-              <div class="cont p-2">
-                <!-- aggiungi voto davide-->
-                <p class="m-0 fs-5 mb-md-3">Dai un voto</p>
-                <div>
-                  <form action="" @submit.prevent="sendVotes" method="post">
-                    <font-awesome-icon class="stars-vote" :class="{ 'bg-star-c': key + 1 <= selectedStars }"
-                      v-for="(star, key) in 5" :icon="['fas', 'star']" @click="clickStar(key + 1)" />
-                    <button v-show="selectedStars" class="send-vote-bt">Invia Voto</button>
-                  </form>
-                </div>
-              </div>
-              <!-- /voto -->
-
-              <!-- sicurezza recensioni -->
-              <div class="cont d-flex align-items-center gap-4 border border-2 py-3 px-4">
-                <font-awesome-icon :icon="['fas', 'shield-halved']" />
-                <p class="mb-0">
-                  Tutte le recensioni contano e non possono essere rimosse o
-                  modificate dai dottori a proprio piacimento.
-                </p>
-              </div>
-              <!-- /sicurezza recensioni -->
-
-              <!-- lista recensioni -->
-              <div class="cont">
-                <h4 class="mt-4">Lista recensioni</h4>
-                <ul class="cont px-5" v-if="doctor.reviews && doctor.reviews.length > 0">
-                  <li v-for="review in doctor.reviews" class="cont d-flex flex-column gap-2 mt-5">
-                    <div class="d-flex gap-1">
-                      <h6>{{ review.name }}</h6>
-                      <h6>{{ review.surname }}</h6>
-                    </div>
-                    <h6 class="data">
-                      {{ formatDate(review.updated_at) }}
-                    </h6>
-                    <p>
-                      {{ review.content }}
-                    </p>
-                  </li>
-                </ul>
-                <div v-else>
-                  <p>Non sono presenti recensioni</p>
-                </div>
-              </div>
-              <!-- /lista recensioni -->
+          <!-- /top -->
+          <!-- recensioni -->
+          <div class="recensioni d-flex flex-column gap-2">
+            <!-- top -->
+            <div class=" d-flex justify-content-between align-items-center">
+              <!-- davide -->
+              <h4>{{ doctor.reviews?.length }} Recensioni</h4>
             </div>
-            <!-- /recensioni -->
+
+            <!-- sicurezza recensioni -->
+            <div class=" d-flex align-items-center gap-4 border border-2 py-3 px-4">
+              <font-awesome-icon :icon="['fas', 'shield-halved']" />
+              <p class="mb-0">
+                Tutte le recensioni contano e non possono essere rimosse o
+                modificate dai dottori a proprio piacimento.
+              </p>
+            </div>
+            <!-- /sicurezza recensioni -->
+
+            <!-- lista recensioni -->
+            <h4 class="mt-4 reviews-list-title">Lista recensioni</h4>
+            <div class=" overflow-auto mb-4 reviews-list-container">
+              <ul class="px-5" v-if="doctor.reviews && doctor.reviews.length > 0">
+                <li v-for="review in doctor.reviews" class="cont d-flex flex-column gap-2 mt-5">
+                  <div class="d-flex gap-1">
+                    <h6>{{ review.name }}</h6>
+                    <h6>{{ review.surname }}</h6>
+                  </div>
+                  <h6 class="data">
+                    {{ formatDate(review.updated_at) }}
+                  </h6>
+                  <p>
+                    {{ review.content }}
+                  </p>
+                </li>
+              </ul>
+              <div v-else>
+                <p>Non sono presenti recensioni</p>
+              </div>
+            </div>
+            <!-- /lista recensioni -->
+          </div>
+
+            <!-- voto -->
+            <div class="p-2">
+              <h4 class="m-0 fs-5 mb-3 votes-title">Dai un voto</h4>
+              <div>
+                <form action="" @submit.prevent="sendVotes" method="post">
+                  <font-awesome-icon class="stars-vote" 
+                  :class="{ 'bg-star-c': key + 1 <= selectedStars }"
+                  v-for="(star, key) in 5" 
+                  :icon="[key + 1 <= selectedStars ? 'fas' : 'far', 'star']"
+                  @click="clickStar(key + 1)" />
+
+                  <button v-show="selectedStars" class="send-vote-bt">Invia Voto</button>
+                </form>
+                <div v-show="messageAlertSuccessVote " class="alert alert-success mt-3" role="alert">
+                  voto inviato correttamente
+                </div>
+              </div>
+            </div>
+            <!-- /voto -->
+
+            <!-- invio dati reviews -->
+            <div class="review-form-send mt-4">
+              <div class="ps-3">
+              <h4 class="ps-3 fs-1">Invia una recensione</h4>
+              <p class=" ps-3 required-fields-text">* I seguenti campi sono obbligatri</p>
+              </div>
+              <form action="" class="text-center" @submit.prevent="sendReviews" method="post">
+                <!-- name -->
+                <label for="nameRev" class="d-none">Nome</label>
+                <input type="text" id="nameRev" placeholder="Nome*" class="rev-w input-reviews p-2" name="name"
+                  v-model="formReviews.name">
+                <!-- surname -->
+                <label for="surnameRev" class="d-none">surname</label>
+                <input type="text" name="surname" class="rev-w input-reviews p-2" placeholder="Cognome*"
+                  v-model="formReviews.surname">
+                <!-- email -->
+                <label for="emailRev" class="d-none">email</label>
+                <input type="email" name="email" class="rev-w input-reviews p-2" placeholder="Email*"
+                  v-model="formReviews.email">
+                <!-- phone number -->
+                <label for="phoneRev" class="d-none">phone</label>
+                <input type="text" name="phoneNumber" class="rev-w input-reviews p-2" placeholder="Tel" id="phoneRev"
+                  v-model="formReviews.phoneNumber">
+                <!-- content -->
+                <textarea name="content" id="reviewsText" class="text-rev-w input-reviews p-1" placeholder="Recensione*" cols="43"
+                  rows="4" v-model="formReviews.content"></textarea>
+                <div class="button-reviews ps-2">
+                <button class="ms-2 butt-Reviews p-2 ms-3">Invia Recensione</button>
+                </div>
+              </form>
+              <div v-show="messageAlertSuccessReview" class="alert alert-success" role="alert">
+                il messaggio è stato inviato correttamente
+              </div>
+            </div>
+        </div>
+        <!-- /recensioni -->
+        <!-- /card -->
+        
+        <!-- sezioni-->
+        <div class="section rounded-4 px-3 px-md-5 py-4 w50-percento overflow-auto section-width height-tot">
+          <div>
+            <div class="bottom d-flex flex-column flex-md-row justify-content-center gap-3 gap-md-5 mt-5 mb-4">
+              <button :class="activeServices === true ? 'button-fix': ''" class="button-detali-doc fs-4 p-2 rounded-3 text-center" @click="services">
+                Prestazioni
+              </button>
+              <button :class="activeSpecializations === true ? 'button-fix': ''" class="button-detali-doc fs-4 p-2 rounded-3 text-center" @click="specializations">
+                Specializzazioni
+              </button>
+              <button :class="activeCv === true ? 'button-fix': ''" class="button-detali-doc fs-4 p-2 rounded-3 text-center" @click="docCv">
+                Cv
+              </button>
+            </div>
 
             <!-- prestazioni -->
             <div class="prestazioni" :class="activeServices === true ? 'd-block' : 'd-none'">
-              <h4>Prestazioni</h4>
+              <h4 class="prestazioni-title">Prestazioni</h4>
               <div class="p-0 mt-4">
                 <p class="p-2" v-if="doctor.services !== null">
                   {{ doctor.services }}
@@ -404,24 +437,25 @@ export default {
 
             <!-- specializzazioni -->
             <div class="specializzazioni" :class="activeSpecializations === true ? 'd-block' : 'd-none'">
-              <h4 class="fs-5">Specializzazioni</h4>
+              <h4 class="specializzazioni-title">Specializzazioni</h4>
               <ul class="p-0 mt-4">
                 <li v-for="specialization in doctor.specializations" class="p-2">
                   {{ specialization.title }}
                 </li>
               </ul>
             </div>
-            <!-- /specializzazioni -->
           </div>
-          <!-- /sezioni -->
-          <!-- cv -->
-          <div class="cv-width mx-auto mt-5 mt-lg-0" :class="activeCv === true ? 'd-block' : 'd-none'">
-            <iframe v-if="doctor.doctor_cv" :src="'http://127.0.0.1:8000/storage/' + doctor.doctor_cv" frameborder="0"
-              style="width: 500px; height: 600px"></iframe>
+            <!-- cv -->
+          <div class="cv-width mx-auto mt-5 mt-lg-0 text-center" :class="activeCv === true ? 'd-block' : 'd-none'">
+            <iframe v-if="doctor.doctor_cv" :src="'http://127.0.0.1:8000/storage/' + doctor.doctor_cv" frameborder="0" 
+              style="width: 100%; height: 100%;;">
+            </iframe>
             <h6 v-else>Il dottore non ha ancora inserito il CV</h6>
           </div>
-          <!-- cv -->
+            <!-- cv -->
+          <!-- /specializzazioni -->
         </div>
+        <!-- /sezioni -->
       </div>
     </div>
   </main>
@@ -429,64 +463,9 @@ export default {
 
 <style scoped lang="scss">
 @use "../style/partials/palette.scss" as *;
-
-iframe {
-  height: 350px;
-  width: 240px;
-}
-
-li {
-  list-style-type: none;
-}
-
-.stelle {
-  color: #00c3a5;
-}
-
-.stars-vote {
-  font-size: 20px;
-}
-
-.bg-star-c {
-  color: #00c3a5;
-}
-
-// button che invia voto
-.send-vote-bt {
-  background-color: #00566e;
-  margin-left: 5px;
-  padding: 3px 5px;
-  border-radius: 3px;
-  color: white;
-  border: none;
-  font-size: 12px;
-}
-
-.input-reviews,
-.butt-Reviews {
-  border: 0;
-  outline: none;
-  margin: 10px;
-  border-radius: 6px;
-  border: 2px solid #00264c;
-}
-
-.buttMessage {
-  margin: 0 10px;
-}
-
-.off-width {
-  width: 700px;
-}
-
-.butt-Reviews:hover {
-  border: 2px solid #2dd4b8;
-  background-color: #00264c;
-  color: white;
-}
-
-.input-reviews:hover {
-  border: 2px solid #2dd4b8;
+// dimensioni sezione
+.section-width{
+  width: 97%;
 }
 
 /*
@@ -496,8 +475,7 @@ li {
   background-color: #eef2f2;
 
   .img {
-    height: 200px;
-    width: 200px;
+    width: 220px;
 
     img {
       width: 100%;
@@ -517,6 +495,108 @@ li {
   }
 }
 
+// input field forms
+.rev-w{
+  width: 42%;
+}
+// campi obbligatori testo
+.required-fields-text{
+  color: rgb(255, 0, 0);
+}
+// form invio reviews
+  .review-form-send{
+      border-radius: 20px;
+      padding: 20px;
+  }
+  .input-reviews,
+  .butt-Reviews {
+    border: 0;
+    outline: none;
+    margin: 10px;
+    border-radius: 6px;
+    border: 1px solid #00c3a5;
+  }
+  .off-width {
+    width: 700px;
+  }
+  .text-rev-w{
+    width: 91%;
+  }
+  .button-reviews{
+    text-align: justify;
+  }
+  .butt-Reviews:hover {
+    background-color: #027779;
+    color: white;
+  }
+// cv 
+iframe {
+  height: 350px;
+  width: 240px;
+}
+
+li {
+  list-style-type: none;
+}
+
+.stelle,
+.bg-star-c  {
+  color: #00c3a5;
+}
+
+.stars-vote {
+  font-size: 20px;
+}
+
+// button che invia voto
+.send-vote-bt {
+  background-color: #00566e;
+  margin-left: 5px;
+  padding: 3px 5px;
+  border-radius: 3px;
+  color: white;
+  border: none;
+  font-size: 12px;
+}
+
+
+.buttMessage {
+  margin: 0 10px;
+}
+
+// button che mostrano i dettagli
+.button-detali-doc{
+  border: none;
+  outline: none;
+  width: 50%;
+  background-color: #eef2f2;
+}
+.button-fix{
+  background-color: #00566e;
+  color: white;
+}
+.button-detali-doc:hover{
+  background-color: #00566e;
+  color: white;
+}
+.prestazioni-title, 
+.specializzazioni-title,
+.reviews-list-title,
+.votes-title{
+  background-color: #009798;
+    color: white;
+    padding: 7px 3px;
+    border-radius: 3px;
+}
+// lista reviews
+.reviews-list-container{
+  height: 300px;
+}
+// cv
+.cv-width {
+  height: 182px;
+    width: 314px;
+  }
 /*
   sezioni
 */
@@ -537,22 +617,16 @@ li {
   responsivity
 */
 @media (min-width: 768px) {
-  .img {
-    width: 100% !important;
-  }
-
-  .w50-percento {
-    width: 50%;
-    height: 100%;
-
-  }
-
   .height-tot {
     height: 600px;
   }
 
   .cv-width {
-    width: 50%;
+    width: 500px; 
+    height: 600px;
   }
+  .section-width{
+  width: 100%;
+}
 }
 </style>
