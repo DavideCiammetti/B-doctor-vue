@@ -1,2 +1,12 @@
 // Import all of Bootstrap's CSS
 @import "bootstrap/scss/bootstrap";
+// madimi
+@import "@fontsource/madimi-one"; // Defaults to weight 400
+@import "@fontsource/madimi-one/400.css"; // Specify weight
+// lato
+@import "@fontsource/lato"; // Defaults to weight 400
+@import "@fontsource/lato/400.css"; // Specify weight
+@import "@fontsource/lato/400-italic.css"; // Specify weight and style
+body {
+  font-family: "Lato";
+}

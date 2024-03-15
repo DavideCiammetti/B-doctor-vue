@@ -35,6 +35,8 @@ import {
   faAddressCard,
   faStar,
   faXmark,
+  faCalendarCheck,
+  faComments,
 } from "@fortawesome/free-solid-svg-icons";
 library.add(
   faHouse,
@@ -51,7 +53,10 @@ library.add(
   faArrowRightToBracket,
   faAddressCard,
   faShieldHalved,
-  faXmark
+  faXmark,
+  faCalendarCheck,
+  faStethoscope,
+  faComments
 );
 
 import { fas } from "@fortawesome/free-solid-svg-icons";

@@ -1,101 +1,74 @@
 <script>
-import NavBarSm from './NavBarSm.vue';
+import NavBarSm from "./NavBarSm.vue";
 export default {
-    name: 'ContentDHeader',
-    components: {
-        NavBarSm,
-    }
-}
+  name: "ContentDHeader",
+  components: {
+    NavBarSm,
+  },
+};
 </script>
 
 <template>
-    <div class="row mt-5 mx-auto">
-        <!-- Colonna sinistra -->
-        <div class="col-sm-8">
-            <NavBarSm />
-            <div class="mt-5">
-                <h1 class="text-cstm">Cerchi un appuntamento</h1>
-                <p class="text-cstm"><strong>per un medico</strong></p>
-            </div>
-        </div>
-        <!-- Colonna destra -->
-        <div class="col-4 d-flex justify-content-end align-items-end d-none d-sm-block">
-            <div class="image-container d-flex justify-content-end">
-                <img src="../../assets/img/image_1.svg" alt="Immagine dottore" class="img-fluid">
-            </div>
-        </div>
+  <div class="row mx-auto align-items-center justify-content-between pt-3">
+    <!-- Colonna sinistra -->
+    <div class="col-12 col-md-6">
+      <div class="mt-5">
+        <h1 class="text-cstm">
+          Cerchi appuntamento<br />con un medico specialista?
+        </h1>
+        <h3 class="text-cstm mt-3">
+          <strong>Prenota la tua visista online!</strong>
+        </h3>
+      </div>
+      <NavBarSm />
     </div>
+    <!-- Colonna destra -->
+    <div class="col-6 d-none d-md-block">
+      <div class="image-container">
+        <img src="../../assets/img/doctor-home.png" alt="Immagine dottore" />
+      </div>
+    </div>
+  </div>
 </template>
 
 <style scoped lang="scss">
-@use'../../style/partials/palette.scss' as *;
+@use "../../style/partials/palette.scss" as *;
 
-.row.mt-5 {
-    h1.text-cstm {
-        font-size: 1.375rem;
+.row {
+  max-width: 1080px;
 
-        @media (min-width: 768px) {
-            font-size: 2rem;
-        }
-
-        @media (min-width: 992px) {
-            font-size: 3.125rem;
-        }
-    }
-
-    p.text-cstm {
-        color: $green-200;
-        font-size: 1.125rem;
-
-        @media (min-width: 768px) {
-            font-size: 1.5rem;
-        }
-
-        @media (min-width: 992px) {
-            font-size: 1.875rem;
-        }
-    }
-
+  h1.text-cstm {
     @media (min-width: 768px) {
-        width: 90%;
+      font-size: 1.75rem;
     }
 
     @media (min-width: 992px) {
-        width: 80%;
+      font-size: 42px;
     }
+  }
 
-    .row {
-        display: flex;
-        flex-wrap: wrap-reverse;
-    }
-
-    .image-container {
-        position: relative;
-        height: 100%;
-    }
-
-    .img-fluid {
-        width: 100%;
-        max-width: 100px;
-        height: auto;
-    }
+  h3.text-cstm {
+    color: $green-200;
+    font-size: 1.125rem;
 
     @media (min-width: 768px) {
-        .img-fluid {
-            max-width: 12.5rem;
-        }
+      font-size: 1.375rem;
     }
 
     @media (min-width: 992px) {
-        .img-fluid {
-            max-width: 18.75rem;
-        }
+      font-size: 1.625rem;
     }
+  }
 
-    @media (max-width: 767px) {
-        .img-fluid {
-            max-width: 80%;
-        }
+  .image-container {
+    height: 100%;
+    width: 100%;
+
+    img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
     }
+  }
 }
 </style>

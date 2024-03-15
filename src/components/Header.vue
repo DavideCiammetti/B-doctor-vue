@@ -28,7 +28,12 @@ export default {
 
 .app-header {
   height: auto;
-  background-color: $green-900;
+  background: rgb(20, 184, 159);
+  background: linear-gradient(
+    140deg,
+    rgba(20, 184, 159, 1) 15%,
+    rgba(15, 118, 106, 1) 100%
+  );
   border-bottom-left-radius: 1.875rem;
   border-bottom-right-radius: 1.875rem;
   color: white;
@@ -40,7 +45,8 @@ export default {
 
   @media (max-width: 768px) {
     margin-bottom: 0;
-    height: 300px;
+    padding-bottom: 0;
+    height: 320px;
   }
 }
 </style>
