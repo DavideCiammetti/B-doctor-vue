@@ -313,7 +313,7 @@ export default {
     >
       <!-- card -->
       <div
-        class="d-flex card-item col-12 col-md-5 position-relative"
+        class="d-flex align-items-center card-item col-12 col-md-5 position-relative"
         v-for="(new_doctor, index) in this.store.advancedDoctor"
       >
         <div
@@ -333,7 +333,7 @@ export default {
           />
         </div>
         <!-- informazioni -->
-        <div class="w-63 mt-5">
+        <div class="w-63">
           <div class="w-100">
             <h4 class="text-dark">
               {{ new_doctor.user.name }} {{ new_doctor.user.surname }}
@@ -364,7 +364,7 @@ export default {
           </p>
           <p
             @click="showClick(index)"
-            class="col-grey dettaglio text-decoration-underline"
+            class="btn-dettaglio px-3 py-2 rounded-3 fw-medium"
           >
             <strong>Dettaglio</strong>
           </p>
@@ -377,18 +377,16 @@ export default {
 <style scoped lang="scss">
 @use "../../style/partials/palette.scss" as *;
 
-.main {
-  background-color: $grey-100;
+.btn-dettaglio {
+  color: white;
+  background: rgb(20, 184, 159);
+  background: linear-gradient(
+    140deg,
+    rgba(15, 118, 106, 1) 10% rgba(20, 184, 159, 1) 100%
+  );
+  border: none;
+  display: inline;
 }
-
-// filtri
-// .left.row {
-//   width: 90%;
-
-//   @media (max-width: 992px) {
-//     width: 100%;
-//   }
-// }
 
 .info-ricerca {
   max-height: 450px;
@@ -410,7 +408,10 @@ export default {
 .card-item {
   background-color: white;
   border-radius: 25px;
-  box-shadow: 0px 4px 0px rgb(189, 175, 175, 0.5);
+  border-top: 4px solid rgba(162, 162, 162, 0.75);
+  border-left: 2px solid rgba(162, 162, 162, 0.75);
+  border-right: 2px solid rgba(162, 162, 162, 0.75);
+  border-bottom: 4px solid rgba(162, 162, 162, 0.75);
 
   .w-63 {
     width: 63%;

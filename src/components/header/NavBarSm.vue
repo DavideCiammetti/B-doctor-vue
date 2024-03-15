@@ -92,10 +92,10 @@ export default {
 </script>
 
 <template>
-  <nav class="navbar navbar-light rounded-pill nav-cstm p-0">
+  <nav class="navbar navbar-light rounded-pill nav-cstm p-0 my-5">
     <div class="container-fluid pe-0">
       <form
-        class="d-flex align-items-center p-0 custom-search-bar"
+        class="d-flex align-items-center pe-1 p-md-0 custom-search-bar"
         @submit.prevent="getDoctors"
       >
         <div class="search-icon">
@@ -103,7 +103,7 @@ export default {
         </div>
         <datalist id="searchSpecial">
           <option value="Logopedista"></option>
-          <option value="Anestetista"></option>
+          <option value="Anestesista"></option>
           <option value="Ostetrica"></option>
           <option value="Osteopata"></option>
           <option value="Cardiologo"></option>
@@ -135,11 +135,11 @@ export default {
       </form>
     </div>
     <div>
-      <p class="m-0 text-warning ms-4 pt-1 max-three d-none">
-        la ricerca deve contenere almeno 3 caratteri
+      <p class="m-0 ms-4 pt-1 max-three d-none">
+        La ricerca deve contenere almeno 3 caratteri
       </p>
-      <p class="m-0 text-warning ms-4 only-letters d-none">
-        la ricerca non può contenere numeri o caratteri speciali
+      <p class="m-0 ms-4 only-letters d-none">
+        La ricerca non può contenere numeri o caratteri speciali
       </p>
     </div>
   </nav>
@@ -147,6 +147,12 @@ export default {
 
 <style scoped lang="scss">
 @use "../../style/partials/palette.scss" as *;
+
+.max-three,
+.only-letters {
+  font-weight: bold;
+  color: rgb(255, 213, 0);
+}
 
 .nav-cstm {
   background-color: white;
@@ -173,7 +179,7 @@ export default {
 
     .search-icon {
       background-color: white;
-      color: black;
+      color: $green-800;
       padding: 0.5rem;
       border-right: none;
       border-top-left-radius: 0.3125rem;
@@ -191,9 +197,9 @@ export default {
     .search-button {
       width: 70%;
       height: 90%;
-      background-color: #00264c;
+      background-color: $green-700;
       color: white;
-      border-color: #00264c;
+      border-color: $green-700;
       border-top-right-radius: 1.5625rem;
       border-bottom-right-radius: 1.5625rem;
       padding: 0.25rem 0.9375rem;

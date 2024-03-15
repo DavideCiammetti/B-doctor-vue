@@ -1,54 +1,63 @@
 <script>
-import MenuHeader from './MenuHeader.vue';
-import {store} from '../../store.js';
+import MenuHeader from "./MenuHeader.vue";
+import { store } from "../../store.js";
 export default {
-    name: 'UpHeader',
-    components: {
-        MenuHeader,
+  name: "UpHeader",
+  components: {
+    MenuHeader,
+  },
+  data() {
+    return {
+      store,
+    };
+  },
+  methods: {
+    // mostra searchbar
+    showSearchbar() {
+      this.store.changedSearchbar = false;
     },
-    data(){
-        return{
-            store,
-        }
-    },
-    methods:{
-         // mostra searchbar
-         showSearchbar(){
-            this.store.changedSearchbar = false; 
-        }
-    }
-}
+  },
+};
 </script>
 
 <template>
-    <div class="up-header d-flex justify-content-between align-items-center px-4 py-2">
+  <div
+    class="up-header d-flex justify-content-between align-items-center px-4 py-3"
+  >
+    <div class="logo-img d-flex align-items-center gap-3">
         <div class="logo">
-            <router-link class="text-white text-decoration-none" :to="{name: 'home'}"><h1 @click="showSearchbar">BDoctors</h1></router-link>
+            <router-link
+                class="text-white text-decoration-none"
+                :to="{ name: 'home' }"
+                
+                ><img @click="showSearchbar" src="../../../public/img/logo-verde.png" alt="logo-bdoctors"></img></router-link
+            >
         </div>
-        <MenuHeader />
+        <h1 class="d-none d-md-block">BDoctors</h1>
     </div>
+    <MenuHeader />
+  </div>
 </template>
 
 <style scoped lang="scss">
-@use'../../style/partials/palette.scss' as *;
+@use "../../style/partials/palette.scss" as *;
 
 .up-header {
-    height: 3.125rem;
-
-    .logo {
-        h1 {
-            font-size: 3rem;
-        }
+    h1{
+        font-family: "Madimi One";
+        font-size: 42px;
+        color: $green-900;
+        font-weight: bold;
     }
 
-    /* Altezza 75px su tablet */
-    @media (min-width: 768px) {
-        height: 3.75rem;
+  .logo {
+    height: 80px;
+    width: 80px;
+    img {
+      height: 100%;
+      width: 100%;
+      object-fit: contain;
     }
-
-    /* Altezza 100px su schermi più grandi */
-    @media (min-width: 992px) {
-        height: 4.6875rem;
-    }
+  }
 }
 </style>

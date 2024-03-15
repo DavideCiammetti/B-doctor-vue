@@ -40,6 +40,7 @@ export default {
     },
     // ricerca avanzata
     filtredDoctors() {
+      this.$router.push("/ricerca-avanzata");
       store.error = false;
       // variabili per mostrare/nascondere i componenti
       store.advancedCards = false;
@@ -132,7 +133,7 @@ export default {
   <nav class="navbar navbar-expand-lg nav-cstm p-0">
     <div class="container-fluid p-1">
       <form
-        class="d-flex flex-column flex-md-row ps-3 pe-3 p-md-1 ps-md-3 justify-content-between w-100 bg-white rounded-5"
+        class="d-flex flex-column flex-md-row ps-3 pt-1 pe-3 p-md-1 ps-md-3 justify-content-between w-100 bg-white rounded-5"
         role="search"
       >
         <!-- specializzazione  -->
@@ -151,7 +152,7 @@ export default {
             >
               Specializzazione
             </button>
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu pb-0 overflow-hidden">
               <li>
                 <div class="d-flex align-iitems-center gap-2 p-1">
                   <input
@@ -306,7 +307,9 @@ export default {
                 </div>
               </li>
               <li @click="fillSpecializations()">
-                <div class="btn btn-primary">
+                <div
+                  class="btn-specialization p-2 text-center text-white fw-medium"
+                >
                   Seleziona tutte le specializzazioni
                 </div>
               </li>
@@ -420,6 +423,11 @@ export default {
 
 .nav-cstm {
   height: 60px;
+
+  .btn-specialization {
+    background-color: $green-500;
+    cursor: pointer;
+  }
 
   input.form-control.me-1.p-0.with-border::placeholder {
     font-size: 16px;
