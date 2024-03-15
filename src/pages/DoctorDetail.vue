@@ -254,7 +254,7 @@ export default {
                     <font-awesome-icon v-for="star in stars()" :icon="['fas', 'star']" />
                   </div>
                   <div>
-                    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" @click="showFormMessages"
+                    <button class="btn message-button" type="button" data-bs-toggle="offcanvas" @click="showFormMessages"
                       data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
                       Contatta il Medico
                     </button>
@@ -342,7 +342,7 @@ export default {
                 </li>
               </ul>
               <div v-else>
-                <p>Non sono presenti recensioni</p>
+                <p>Non sono presenti Recensioni</p>
               </div>
             </div>
             <!-- /lista recensioni -->
@@ -350,15 +350,15 @@ export default {
 
             <!-- voto -->
             <div class="p-2">
-              <h4 class="m-0 fs-5 mb-3 votes-title">Dai un voto</h4>
-              <div>
-                <form action="" @submit.prevent="sendVotes" method="post">
+              <h4 class="m-0 fs-5 mb-5 votes-title">Invia una Recensione o Dai un Voto</h4>
+              <div class="ps-4">
+                  <p class="ms-3 col-insert-vote">Inserisci un Voto</p>
+                <form class="d-flex ps-3" action="" @submit.prevent="sendVotes" method="post">
                   <font-awesome-icon class="stars-vote" 
                   :class="{ 'bg-star-c': key + 1 <= selectedStars }"
                   v-for="(star, key) in 5" 
                   :icon="[key + 1 <= selectedStars ? 'fas' : 'far', 'star']"
                   @click="clickStar(key + 1)" />
-
                   <button v-show="selectedStars" class="send-vote-bt">Invia Voto</button>
                 </form>
                 <div v-show="messageAlertSuccessVote " class="alert alert-success mt-3" role="alert">
@@ -394,7 +394,7 @@ export default {
                 <!-- content -->
                 <textarea name="content" id="reviewsText" class="text-rev-w input-reviews p-1" placeholder="Recensione*" cols="43"
                   rows="4" v-model="formReviews.content"></textarea>
-                <div class="button-reviews ps-2">
+                <div class="button-reviews ps-3">
                 <button class="ms-2 butt-Reviews p-2 ms-3">Invia Recensione</button>
                 </div>
               </form>
@@ -503,6 +503,10 @@ export default {
 .required-fields-text{
   color: rgb(255, 0, 0);
 }
+.message-button{
+  background-color: rgb(15, 118, 106);
+  color: white;
+}
 // form invio reviews
   .review-form-send{
       border-radius: 20px;
@@ -547,10 +551,14 @@ li {
 .stars-vote {
   font-size: 20px;
 }
-
+// testo inserisci un voto accanto a stelle 
+.col-insert-vote{
+  color: rgb(0, 0, 0);
+  font-size: 2rem;
+}
 // button che invia voto
 .send-vote-bt {
-  background-color: #00566e;
+  background-color: rgb(15, 118, 106);
   margin-left: 5px;
   padding: 3px 5px;
   border-radius: 3px;
@@ -572,18 +580,20 @@ li {
   background-color: #eef2f2;
 }
 .button-fix{
-  background-color: #00566e;
+  background-color: rgb(15, 118, 106);
+  // background-color: #00566e;
   color: white;
 }
 .button-detali-doc:hover{
-  background-color: #00566e;
+  background-color: rgb(15, 118, 106);
+  // background-color: #00566e;
   color: white;
 }
 .prestazioni-title, 
 .specializzazioni-title,
 .reviews-list-title,
 .votes-title{
-  background-color: #009798;
+  background-color: rgb(20, 184, 159) ;
     color: white;
     padding: 7px 3px;
     border-radius: 3px;
