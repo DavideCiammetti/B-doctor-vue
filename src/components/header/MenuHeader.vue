@@ -24,7 +24,7 @@ export default {
         <li><a class="dropdown-item" href="#">Centro Assistenza</a></li>
         <li>
           <a class="dropdown-item" href="http://127.0.0.1:8000/register"
-            >registrati</a
+            >Registrati</a
           >
         </li>
         <li>
