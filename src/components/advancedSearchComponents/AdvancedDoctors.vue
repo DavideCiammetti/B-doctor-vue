@@ -1,14 +1,21 @@
 <script>
 import { store } from "../../store.js";
 import axios from "axios";
+import moment from "moment";
+
 export default {
   name: "Main",
   data() {
     return {
       store,
+      currentDate: new Date(),
     };
   },
   methods: {
+    // data corrente
+    formatDate(data) {
+      return moment(data).format();
+    },
     // specializzazioni
     closeParam(parametro) {
       store.filtred.parametri[parametro] = false;
@@ -318,7 +325,10 @@ export default {
       >
         <div
           class="sponsor d-flex align-items-center gap-1 position-absolute py-2 px-3"
-          v-if="new_doctor.sponsorships.length > 0"
+          v-if="
+            new_doctor.sponsorships[new_doctor.sponsorships.length - 1]?.pivot
+              ?.end_date > formatDate(currentDate)
+          "
         >
           <font-awesome-icon :icon="['fas', 'circle-info']" />
           <h6>Sponsorizzato</h6>
