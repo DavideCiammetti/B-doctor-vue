@@ -252,17 +252,20 @@ export default {
                   </div>
                   <div v-if="doctor.sponsorships[doctor.sponsorships.length - 1]?.pivot?.end_date >  sponsorshipsDate(currentDate)" class="d-flex sponsor" >
                     <font-awesome-icon :icon="['fas', 'circle-info']" class="me-1"/>
-                    <h6>Sponsorizzato</h6>
+                    <h6 class="line-he-1">Sponsorizzato</h6>
                 </div>
                 </div>
-                <div class="d-flex flex-column" v-if="doctor.phone_number">
-                  <span>Telefono:</span>
+                <div class="d-flex flex-wrap gap-2" v-if="doctor.phone_number">
+                  <span class="f-style">Telefono:</span>
                   <a :href="'tel:' + doctor.phone_number">{{
                     doctor.phone_number
                   }}</a>
                 </div>
 
-                <h6 class="my-3">Indirizzo: {{ doctor.address }}</h6>
+               <div class="d-flex flex-wrap my-3 gap-2">
+                <h6 class="f-style">Indirizzo:</h6>
+                <span> {{ doctor.address }}</span>
+               </div>
                 <div class="d-flex flex-column gap-2 mt-2 mb-2 pb-4">
                   <div class="stelle d-flex gap-1 mb-2">
                     <font-awesome-icon v-for="star in stars()" :icon="['fas', 'star']" />
@@ -334,7 +337,7 @@ export default {
             <!-- /sicurezza recensioni -->
 
             <!-- lista recensioni -->
-            <h4 class="mt-4 reviews-list-title">Lista recensioni</h4>
+            <h4 class="mt-4 reviews-list-title">Lista Recensioni</h4>
             <div class=" d-flex justify-content-between align-items-center">
               <h4 class="sponsorships-title">Numero di Recensioni: {{ doctor.reviews?.length }}</h4>
             </div>
@@ -362,7 +365,7 @@ export default {
 
             <!-- voto -->
             <div class="p-2">
-              <h4 class="m-0 fs-5 mb-5 votes-title">Invia una Recensione o Dai un Voto</h4>
+              <h4 class="m-0 mb-5 votes-title">Invia una Recensione o Dai un Voto</h4>
               <div class="ps-4">
                   <p class="ms-3 col-insert-vote">Inserisci un Voto</p>
                 <form class="d-flex ps-3" action="" @submit.prevent="sendVotes" method="post">
@@ -485,7 +488,7 @@ export default {
   }
   .w-62-sponsor{
     width: 62%;
-      h6{
+      .line-he-1{
         line-height: 1;
       }
   }
@@ -512,7 +515,10 @@ export default {
       object-fit: cover;
     }
   }
-
+// testo telefono e indirizzo accanto alla foto
+.f-style{
+  font-style: italic;
+}
   .bottom p {
     transition: all 0.5s;
   }
