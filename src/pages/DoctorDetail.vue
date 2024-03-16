@@ -11,6 +11,7 @@ export default {
       activeServices: true,
       activeSpecializations: false,
       activeCv: false,
+      disableOverflow: false,
       // disattiva il colore delle stelle e il numero
       noStarsColor: true,
       doctor: {},
@@ -46,9 +47,15 @@ export default {
       messageAlertSuccessReview: false,
       // alert invio voto
       messageAlertSuccessVote: false,
+      // date management 
+      currentDate: new Date(),
     };
   },
   methods: {
+    // funzione data
+    sponsorshipsDate(data) {
+      return moment(data).format();
+    },
     // invio recenzioni
     sendReviews() {
       const data = {
@@ -162,6 +169,7 @@ export default {
       this.activeServices = false;
       this.activeSpecializations = false;
       this.activeCv = true;
+      this.disableOverflow = true;
     },
     getDoctor() {
       axios
@@ -234,12 +242,18 @@ export default {
               <img v-if="doctor.doctor_img" :src="'http://127.0.0.1:8000/storage/' + doctor.doctor_img"
                 alt="doctor image" class="rounded-4" />
             </div>
-            <div class="d-flex flex-column gap-2">
+            <div class="d-flex flex-column gap-2 w-62-sponsor">
               <div>
-                <div class="name d-flex gap-1">
-                  <h4>Dott.</h4>
-                  <h4>{{ doctor.user?.name }}</h4>
-                  <h4>{{ doctor.user?.surname }}</h4>
+                <div class="name d-flex flex-wrap gap-1 justify-content-between ">
+                  <div class="d-flex gap-1">
+                    <h4>Dott.</h4>
+                    <h4>{{ doctor.user?.name }}</h4>
+                    <h4>{{ doctor.user?.surname }}</h4>
+                  </div>
+                  <div v-if="doctor.sponsorships[doctor.sponsorships.length - 1]?.pivot?.end_date >  sponsorshipsDate(currentDate)" class="d-flex sponsor" >
+                    <font-awesome-icon :icon="['fas', 'circle-info']" class="me-1"/>
+                    <h6>Sponsorizzato</h6>
+                </div>
                 </div>
                 <div class="d-flex flex-column" v-if="doctor.phone_number">
                   <span>Telefono:</span>
@@ -307,13 +321,8 @@ export default {
           </div>
           <!-- /top -->
           <!-- recensioni -->
-          <div class="recensioni d-flex flex-column gap-2">
+          <div class="recensioni d-flex flex-column gap-2 mt-5">
             <!-- top -->
-            <div class=" d-flex justify-content-between align-items-center">
-              <!-- davide -->
-              <h4>{{ doctor.reviews?.length }} Recensioni</h4>
-            </div>
-
             <!-- sicurezza recensioni -->
             <div class=" d-flex align-items-center gap-4 border border-2 py-3 px-4">
               <font-awesome-icon :icon="['fas', 'shield-halved']" />
@@ -326,6 +335,9 @@ export default {
 
             <!-- lista recensioni -->
             <h4 class="mt-4 reviews-list-title">Lista recensioni</h4>
+            <div class=" d-flex justify-content-between align-items-center">
+              <h4 class="sponsorships-title">Numero di Recensioni: {{ doctor.reviews?.length }}</h4>
+            </div>
             <div class=" overflow-auto mb-4 reviews-list-container">
               <ul class="px-5" v-if="doctor.reviews && doctor.reviews.length > 0">
                 <li v-for="review in doctor.reviews" class="cont d-flex flex-column gap-2 mt-5">
@@ -407,7 +419,7 @@ export default {
         <!-- /card -->
         
         <!-- sezioni-->
-        <div class="section rounded-4 px-3 px-md-5 py-4 w50-percento overflow-auto section-width height-tot">
+        <div class="section rounded-4 px-3 px-md-5 py-4 w50-percento section-width height-cv">
           <div>
             <div class="bottom d-flex flex-column flex-md-row justify-content-center gap-3 gap-md-5 mt-5 mb-4">
               <button :class="activeServices === true ? 'button-fix': ''" class="button-detali-doc fs-4 p-2 rounded-3 text-center" @click="services">
@@ -467,7 +479,24 @@ export default {
 .section-width{
   width: 97%;
 }
-
+// sponsoships su card 
+  .sponsor {
+    color: $green-400;
+  }
+  .w-62-sponsor{
+    width: 62%;
+      h6{
+        line-height: 1;
+      }
+  }
+  .sponsorships-title{
+    background-color: rgb(1 136 91 / 10%);
+    border-radius: 4px;
+    width: 97%;
+    padding: 0 5px;
+    padding-top: 3px;
+    color: #006556;
+  }
 /*
   crads
 */
@@ -550,6 +579,7 @@ li {
 
 .stars-vote {
   font-size: 20px;
+  padding: 2px;
 }
 // testo inserisci un voto accanto a stelle 
 .col-insert-vote{
@@ -627,10 +657,9 @@ li {
   responsivity
 */
 @media (min-width: 768px) {
-  .height-tot {
-    height: 600px;
+  .height-cv{
+    height: 50%;
   }
-
   .cv-width {
     width: 500px; 
     height: 600px;
@@ -638,5 +667,8 @@ li {
   .section-width{
   width: 100%;
 }
+.sponsorships-title{
+    width: 45%;
+  }
 }
 </style>
