@@ -1,14 +1,21 @@
 <script>
 import { store } from "../../store.js";
 import axios from "axios";
+import moment from "moment";
+
 export default {
   name: "Main",
   data() {
     return {
       store,
+      currentDate: new Date(),
     };
   },
   methods: {
+    // data corrente
+    formatDate(data) {
+      return moment(data).format();
+    },
     // calcolo stelle
     stars(index) {
       if (store.doctor[index].votes.length > 0) {
@@ -51,6 +58,13 @@ export default {
         class="d-flex align-items-center card-item col-12 col-md-5 position-relative"
         v-for="(new_doctor, index) in this.store.doctor"
       >
+        <div
+          class="sponsor d-flex align-items-center gap-1 position-absolute py-2 px-3"
+          v-if="new_doctor.end_date > formatDate(currentDate)"
+        >
+          <font-awesome-icon :icon="['fas', 'circle-info']" />
+          <h6 class="mb-0">Sponsorizzato</h6>
+        </div>
         <!-- immagine -->
         <div class="img-container">
           <img
@@ -111,6 +125,17 @@ export default {
 
 <style scoped lang="scss">
 @use "../../style/partials/palette.scss" as *;
+
+// sponsorizzazine
+.sponsor {
+  top: 0;
+  right: 0;
+  color: $green-400;
+
+  h6 {
+    font-size: 12px;
+  }
+}
 
 // card
 .card-item {
