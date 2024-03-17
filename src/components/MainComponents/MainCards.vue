@@ -111,7 +111,7 @@ export default {
             </p>
             <!-- recensioni -->
             <p class="m-0 text-white font-s-13 md-1">
-              {{ doctor.reviews.length }} Recensioni
+              {{ doctor.reviews.length }} Recension{{ doctor.reviews.length === 1 ? 'e' : 'i' }}
             </p>
             <!-- dettaglio  -->
             <!-- <p @click="redirectToDoctorDetail(doctor.slug)" class="col-grey dettaglio m-0 font-s-13 md-1">
