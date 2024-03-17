@@ -88,8 +88,9 @@ export default {
         class="doctor-container position-relative">
         <div class="img-container">
           <!-- immagine -->
-          <img :src="`${imgUrl}/${doctor.doctor_img}`" :alt="`${doctor.user.name} ${doctor.user.surname} image`"
+          <img v-if="doctor.doctor_img" :src="`${imgUrl}/${doctor.doctor_img}`" :alt="`${doctor.user.name} ${doctor.user.surname} image`"
             class="round-img" />
+            <img v-else src="../../../public/img/BDoctors.png" alt="avatar"  class="round-img border-avatar">
         </div>
         <div class="position-absolute info-doctor-container d-flex justify-content-center align-items-center p-0">
           <div class="info-doctor text-start width-80">
@@ -170,6 +171,10 @@ export default {
 
 .btn-cstm {
   background-color: #0d9482;
+}
+// avatar
+.border-avatar{
+  border: 1px solid #00ab86;
 }
 
 .doctor-container {

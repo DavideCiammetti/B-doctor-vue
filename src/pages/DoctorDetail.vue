@@ -241,6 +241,7 @@ export default {
             <div class="img">
               <img v-if="doctor.doctor_img" :src="'http://127.0.0.1:8000/storage/' + doctor.doctor_img"
                 alt="doctor image" class="rounded-4" />
+                  <img v-else src="../../public/img/BDoctors.png" class="rounded-4" alt="avatar">
             </div>
             <div class="d-flex flex-column gap-2 w-62-sponsor">
               <div>

@@ -73,6 +73,7 @@ export default {
             class="card-img"
             alt=""
           />
+          <img v-else src="../../../public/img/BDoctors.png" alt="avatar"  class="card-img">
         </div>
         <!-- informazioni -->
         <div class="w-63">
