@@ -64,6 +64,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <!-- titolo  -->
   <div class="mb-3">
@@ -75,11 +76,7 @@ export default {
   <div class="w-100 d-flex justify-content-center align-items-center">
     <!-- div bottone precedente  -->
     <div class="d-block d-md-none px-3">
-      <button
-        @click="prevPage"
-        :disabled="currentPage === 1"
-        class="btn btn-cstm rounded-circle text-white"
-      >
+      <button @click="prevPage" :disabled="currentPage === 1" class="btn btn-cstm rounded-circle text-white">
         <font-awesome-icon icon="fa-solid fa-circle-chevron-left" />
       </button>
     </div>
@@ -87,23 +84,14 @@ export default {
 
     <!-- card docs sponsored  -->
     <div class="d-flex gap-md-5 mt-5 flex-wrap justify-content-center">
-      <div
-        v-for="(doctor, index) in sponsoredDoctors"
-        :key="index"
-        @click="redirectToDoctorDetail(doctor.slug)"
-        class="doctor-container position-relative"
-      >
+      <div v-for="(doctor, index) in sponsoredDoctors" :key="index" @click="redirectToDoctorDetail(doctor.slug)"
+        class="doctor-container position-relative">
         <div class="img-container">
           <!-- immagine -->
-          <img
-            :src="`${imgUrl}/${doctor.doctor_img}`"
-            :alt="`${doctor.user.name} ${doctor.user.surname} image`"
-            class="round-img"
-          />
+          <img :src="`${imgUrl}/${doctor.doctor_img}`" :alt="`${doctor.user.name} ${doctor.user.surname} image`"
+            class="round-img" />
         </div>
-        <div
-          class="position-absolute info-doctor-container d-flex justify-content-center align-items-center p-0"
-        >
+        <div class="position-absolute info-doctor-container d-flex justify-content-center align-items-center p-0">
           <div class="info-doctor text-start width-80">
             <!-- Nome e cognome del dottore -->
             <p class="m-0 text-white font-s-15 fw-medium md-1">
@@ -111,10 +99,7 @@ export default {
             </p>
             <!-- Specializzazioni del dottore -->
             <p class="m-0 text-white font-s-13 md-1">
-              <span
-                v-for="(specialization, index) in doctor.specializations"
-                :key="index"
-              >
+              <span v-for="(specialization, index) in doctor.specializations" :key="index">
                 {{ specialization.title }}
                 <span v-if="index < doctor.specializations.length - 1">, </span>
               </span>
@@ -139,11 +124,7 @@ export default {
 
     <!-- div bottone successivo fontawesome  -->
     <div class="d-block d-md-none px-3">
-      <button
-        @click="nextPage"
-        :disabled="currentPage === totalPages"
-        class="btn btn-cstm rounded-circle text-white"
-      >
+      <button @click="nextPage" :disabled="currentPage === totalPages" class="btn btn-cstm rounded-circle text-white">
         <font-awesome-icon icon="fa-solid fa-circle-chevron-right" />
       </button>
     </div>
@@ -151,57 +132,33 @@ export default {
   </div>
 
   <!-- bottoni prec succ e num page  -->
-  <div
-    class="pagination-container mt-5 d-flex justify-content-center align-items-center gap-2"
-  >
-    <button
-      @click="prevPage"
-      :disabled="currentPage === 1"
-      class="btn btn-cstm text-white d-none d-md-block"
-    >
+  <div class="pagination-container mt-5 d-flex justify-content-center align-items-center gap-2">
+    <button @click="prevPage" :disabled="currentPage === 1" class="btn btn-cstm text-white d-none d-md-block">
       Precedente
     </button>
-    <button
-      @click="goToPage(1)"
-      class="btn text-white"
-      :class="{
-        'btn-cstm': 1 === currentPage,
-        'btn-secondary': 1 !== currentPage,
-      }"
-    >
+    <button @click="goToPage(1)" class="btn text-white" :class="{
+      'btn-cstm': 1 === currentPage,
+      'btn-secondary': 1 !== currentPage,
+    }">
       1
     </button>
     <span v-if="currentPage > 3">...</span>
     <template v-for="page in visiblePages">
-      <button
-        v-if="page !== 1 && page !== totalPages"
-        :key="page"
-        @click="goToPage(page)"
-        class="btn text-white"
-        :class="{
-          'btn-secondary': page !== currentPage,
-          'btn-cstm': page === currentPage,
-        }"
-      >
+      <button v-if="page !== 1 && page !== totalPages" :key="page" @click="goToPage(page)" class="btn text-white" :class="{
+        'btn-secondary': page !== currentPage,
+        'btn-cstm': page === currentPage,
+      }">
         {{ page }}
       </button>
     </template>
     <span v-if="currentPage + 2 < totalPages">...</span>
-    <button
-      @click="goToPage(totalPages)"
-      class="btn text-white"
-      :class="{
-        'btn-cstm': totalPages === currentPage,
-        'btn-secondary': totalPages !== currentPage,
-      }"
-    >
+    <button @click="goToPage(totalPages)" class="btn text-white" :class="{
+      'btn-cstm': totalPages === currentPage,
+      'btn-secondary': totalPages !== currentPage,
+    }">
       {{ totalPages }}
     </button>
-    <button
-      @click="nextPage"
-      :disabled="currentPage === totalPages"
-      class="btn btn-cstm text-white d-none d-md-block"
-    >
+    <button @click="nextPage" :disabled="currentPage === totalPages" class="btn btn-cstm text-white d-none d-md-block">
       Successiva
     </button>
   </div>
@@ -229,6 +186,7 @@ export default {
   .img-container {
     width: 100%;
     height: 100%;
+    overflow: hidden;
 
     .round-img {
       border-radius: 20px;
@@ -287,6 +245,7 @@ export default {
 */
 
 @media screen and (min-width: 768px) {
+
   // contenitore immagini
   .doctor-container {
     width: 300px;
