@@ -137,12 +137,15 @@ export default {
     <button @click="prevPage" :disabled="currentPage === 1" class="btn btn-cstm text-white d-none d-md-block">
       Precedente
     </button>
-    <button @click="goToPage(1)" class="btn text-white" :class="{
-      'btn-cstm': 1 === currentPage,
-      'btn-secondary': 1 !== currentPage,
-    }">
-      1
-    </button>
+    <button v-if="totalPages === 1 && currentPage === 1" class="btn text-white btn-cstm" disabled>1</button>
+    <template v-else>
+      <button @click="goToPage(1)" class="btn text-white" :class="{
+        'btn-cstm': 1 === currentPage,
+        'btn-secondary': 1 !== currentPage,
+      }" v-if="totalPages > 1 || currentPage !== 1">
+        1
+      </button>
+    </template>
     <span v-if="currentPage > 3">...</span>
     <template v-for="page in visiblePages">
       <button v-if="page !== 1 && page !== totalPages" :key="page" @click="goToPage(page)" class="btn text-white" :class="{
@@ -153,7 +156,7 @@ export default {
       </button>
     </template>
     <span v-if="currentPage + 2 < totalPages">...</span>
-    <button @click="goToPage(totalPages)" class="btn text-white" :class="{
+    <button v-if="totalPages > 1" @click="goToPage(totalPages)" class="btn text-white" :class="{
       'btn-cstm': totalPages === currentPage,
       'btn-secondary': totalPages !== currentPage,
     }">
