@@ -246,7 +246,7 @@ export default {
             <div class="d-flex flex-column gap-2 w-62-sponsor">
               <div>
                 <div class="name d-flex flex-wrap gap-1 justify-content-between ">
-                  <div class="d-flex gap-1">
+                  <div class="d-flex flex-wrap gap-1">
                     <h4>Dott.</h4>
                     <h4>{{ doctor.user?.name }}</h4>
                     <h4>{{ doctor.user?.surname }}</h4>
@@ -369,7 +369,7 @@ export default {
               <h4 class="m-0 mb-5 votes-title">Invia una Recensione o Dai un Voto</h4>
               <div class="ps-4">
                   <p class="ms-3 col-insert-vote">Inserisci un Voto</p>
-                <form class="d-flex ps-3" action="" @submit.prevent="sendVotes" method="post">
+                <form class="d-flex ps-3 flex-wrap" action="" @submit.prevent="sendVotes" method="post">
                   <font-awesome-icon class="stars-vote" 
                   :class="{ 'bg-star-c': key + 1 <= selectedStars }"
                   v-for="(star, key) in 5" 
